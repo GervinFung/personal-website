@@ -14,9 +14,9 @@ import {
     allValueValid,
     Data,
 } from './util/contact';
+import { contactInfo } from './config/config';
 import nodemailer from 'nodemailer';
 import path from 'path';
-import dotenv from 'dotenv';
 
 const { static: expressStatic, json, urlencoded } = express;
 const app = express();
@@ -25,7 +25,6 @@ const port = process.env.PORT || 8080;
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true }));
 app.listen(port, () => console.log(`Express listening at port ${port}`));
-dotenv.config();
 
 const returnResponse = async ({
     language,
@@ -90,7 +89,7 @@ app.post('/api/contact', (req, res) => {
         const message = getMessage(body.message);
 
         if (allValueValid(name, email, message)) {
-            const myEmail = process.env.EMAIL;
+            const myEmail = contactInfo.email;
             const options = {
                 from: `${name.value.trim()} <${myEmail}>`,
                 to: `Gervin Fung Da Xuen <${myEmail}>`,
@@ -109,7 +108,7 @@ app.post('/api/contact', (req, res) => {
                     },
                     auth: {
                         user: myEmail,
-                        pass: process.env.PASS,
+                        pass: contactInfo.pass,
                     },
                 })
                 .sendMail(options, (error) => {

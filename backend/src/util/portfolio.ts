@@ -1,6 +1,6 @@
+import { portfolioInfo } from '../config/config';
 import fetch from 'node-fetch';
 import { parseAsString } from 'parse-dont-validate';
-import dotenv from 'dotenv';
 
 export type PortfolioData = {
     readonly name: string;
@@ -16,8 +16,6 @@ export type Data = {
     readonly selectedLanguage: string;
 };
 
-dotenv.config();
-
 const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
     const repositories = await (
         await fetch(
@@ -25,7 +23,7 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
             {
                 method: 'GET',
                 headers: {
-                    Authorization: `token ${process.env.API_KEY}`,
+                    Authorization: `token ${portfolioInfo.apiKey}`,
                 },
             }
         )
@@ -77,7 +75,7 @@ const fetchGithubOrganization = async (): Promise<PortfolioData> => {
         await fetch('https://api.github.com/orgs/P-YNPM/repos', {
             method: 'GET',
             headers: {
-                Authorization: `token ${process.env.API_KEY}`,
+                Authorization: `token ${portfolioInfo.apiKey}`,
             },
         })
     ).json();
@@ -116,7 +114,7 @@ const fetchGithubOrganization = async (): Promise<PortfolioData> => {
             await fetch('https://api.github.com/orgs/P-YNPM', {
                 method: 'GET',
                 headers: {
-                    Authorization: `token ${process.env.API_KEY}`,
+                    Authorization: `token ${portfolioInfo.apiKey}`,
                 },
             })
         ).json();
