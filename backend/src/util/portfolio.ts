@@ -1,74 +1,164 @@
 import fetch from 'node-fetch';
+import { parseAsString } from 'parse-dont-validate';
+import dotenv from 'dotenv';
 
-export interface PortfolioData {
-    readonly path: string;
-    readonly caption: string;
-}
+export type PortfolioData = {
+    readonly name: string;
+    readonly description: string;
+    readonly language: string;
+    readonly url: string;
+};
 
-export interface Data {
+export type Data = {
     readonly numberOfPagesQueried: number;
-    readonly portfolioLanguageQueried: ReadonlyArray<string>;
-    readonly portfolioForPagingQueried: ReadonlyArray<PortfolioData>;
+    readonly portfolioLanguages: ReadonlyArray<string>;
+    readonly portfolioPaginated: ReadonlyArray<PortfolioData>;
     readonly selectedLanguage: string;
-}
+};
 
-const fetchGithubAPI = async () =>
-    (
-        await fetch('https://api.github.com/users/GervinFung/repos?per_page=50')
+dotenv.config();
+
+const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
+    const repositories = await (
+        await fetch(
+            'https://api.github.com/users/GervinFung/repos?per_page=50',
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `token ${process.env.API_KEY}`,
+                },
+            }
+        )
     ).json();
-
-export const queryLanguageSelector = ({
-    all,
-    github,
-    portfolioData,
-}: {
-    readonly all: 'All';
-    readonly github: any;
-    readonly portfolioData: ReadonlyArray<PortfolioData>;
-}): ReadonlyArray<string> => {
-    const languages = portfolioData.flatMap((portfolio) => {
-        const name = portfolio.path;
-        return github.flatMap((repo: any) =>
-            repo.name === name ? [repo.language] : []
-        );
-    });
-    return [all, ...Array.from(new Set(languages))];
-};
-
-export const queryPortfolio = ({
-    all,
-    github,
-    portfolioData,
-    selectedLanguage,
-}: {
-    readonly all: 'All';
-    readonly github: any;
-    readonly portfolioData: ReadonlyArray<PortfolioData>;
-    readonly selectedLanguage: string;
-}): ReadonlyArray<PortfolioData> => {
-    if (selectedLanguage === all) {
-        return portfolioData;
+    if (Array.isArray(repositories)) {
+        return repositories.flatMap((repo) => {
+            const { name, language, html_url, description } = repo;
+            const parsedName = parseAsString(name).orElseThrowError('name');
+            const repoName = [
+                'LibGDX-Chess-Game',
+                'MinimalTicTacToe',
+                'TextEditorFX',
+                'SimpleParallelChessAI',
+                'AndroidSimpleAIChess',
+                'Connect4',
+                'TicTacToe',
+                'TextEditor',
+                'RealTimeMarkdown',
+                'Room',
+                'KnapsackProblem',
+                'SimpleParallelDispatcher',
+            ].find((portfolioName) => parsedName === portfolioName);
+            if (repoName) {
+                return [
+                    {
+                        name: parsedName,
+                        language:
+                            parseAsString(language).orElseThrowError(
+                                'language'
+                            ),
+                        description:
+                            parseAsString(description).orElseThrowError(
+                                'description'
+                            ),
+                        url: parseAsString(html_url).orElseThrowError(
+                            'html_url'
+                        ),
+                    },
+                ];
+            }
+            return [];
+        });
     }
-
-    const portfolioQueried = portfolioData.flatMap((portfolio) => {
-        const name = portfolio.path;
-        return github.flatMap((repo: any) =>
-            repo.name === name && repo.language === selectedLanguage
-                ? [portfolio]
-                : []
-        );
-    });
-
-    return portfolioQueried;
+    throw new Error('Response returned from Github User API is not array type');
 };
 
-export const validatePageQuery = ({
-    numberOfPortfolioPerPage,
-    page,
-}: {
-    readonly page: string;
-    readonly numberOfPortfolioPerPage: number;
-}): number => {
+const fetchGithubOrganization = async (): Promise<PortfolioData> => {
+    const repositories = await (
+        await fetch('https://api.github.com/orgs/P-YNPM/repos', {
+            method: 'GET',
+            headers: {
+                Authorization: `token ${process.env.API_KEY}`,
+            },
+        })
+    ).json();
+    if (Array.isArray(repositories)) {
+        const { language } = Array.from(
+            repositories
+                .reduce((prev: Map<string, number>, repo) => {
+                    const { language } = repo;
+                    const parsedLanguage =
+                        parseAsString(language).orElseThrowError('language');
+                    if (parsedLanguage) {
+                        const prevItem = prev.get(parsedLanguage);
+                        return prev.set(
+                            language,
+                            prevItem === undefined ? 1 : prevItem + 1
+                        );
+                    }
+                    return prev;
+                }, new Map<string, number>())
+                .entries()
+        ).reduce(
+            (prev, [language, count]) => {
+                return prev.count < count
+                    ? {
+                          language,
+                          count,
+                      }
+                    : prev;
+            },
+            {
+                language: '',
+                count: 0,
+            }
+        );
+        const organization: any = await (
+            await fetch('https://api.github.com/orgs/P-YNPM', {
+                method: 'GET',
+                headers: {
+                    Authorization: `token ${process.env.API_KEY}`,
+                },
+            })
+        ).json();
+        const { login, description, html_url } = organization;
+        return {
+            name: parseAsString(login).orElseThrowError('login'),
+            language,
+            description:
+                parseAsString(description).orElseThrowError('description'),
+            url: parseAsString(html_url).orElseThrowError('html_url'),
+        };
+    }
+    throw new Error(
+        'Response returned from Github Organization API is not array type'
+    );
+};
+
+const githubUser = await fetchGithubUser();
+const githubOrganization = await fetchGithubOrganization();
+
+export const fetchRepositories = (): ReadonlyArray<PortfolioData> =>
+    githubUser.concat(githubOrganization);
+
+export const portfolioLanguagesList = (
+    portfolioData: ReadonlyArray<PortfolioData>
+): ReadonlyArray<string> =>
+    Array.from(new Set(portfolioData.map((data) => data.language)))
+        .concat('All')
+        .sort((a, b) => a.localeCompare(b));
+
+export const queryPortfolioFromLanguage = (
+    portfolioData: ReadonlyArray<PortfolioData>,
+    selectedLanguage: string
+): ReadonlyArray<PortfolioData> =>
+    selectedLanguage === 'All'
+        ? portfolioData
+        : portfolioData.filter(({ language }) => language === selectedLanguage);
+
+export const parsePageQuery = (
+    page: string,
+    numberOfPortfolioPerPage: number
+): number => {
     const parsedPage = Number.parseInt(page, 10);
     if (parsedPage >= 0) {
         return parsedPage * numberOfPortfolioPerPage;
@@ -76,109 +166,24 @@ export const validatePageQuery = ({
     return 0;
 };
 
-const processLanguage = (language: string): string => {
-    if (language === 'CPP') {
-        return 'C++';
-    } else if (language === 'C') {
-        return 'C#';
-    }
-    return language;
-};
+export const findLanguageQueried = (
+    portfolioData: ReadonlyArray<PortfolioData>,
+    language: string
+): string | 'All' => {
+    const finalizedLang =
+        language === 'CPP' ? 'C++' : language === 'C' ? 'C#' : language;
 
-export const validatePortfolioLanguageQuery = ({
-    all,
-    github,
-    language,
-}: {
-    readonly github: any;
-    readonly language: string;
-    readonly all: 'All';
-}): string | 'All' => {
-    const finalizedLang = processLanguage(language).toLowerCase();
-    const langFound = github.find(
-        (repo: any) =>
-            repo.language && repo.language.toLowerCase() === finalizedLang
+    return (
+        portfolioData.find((data) => data.language === finalizedLang)
+            ?.language ?? 'All'
     );
-    return langFound === undefined ? all : langFound.language;
 };
 
-export const queryPortfolioForPaging = ({
-    pageNumber,
-    portfolioData,
-}: {
-    readonly pageNumber: number;
-    readonly portfolioData: ReadonlyArray<PortfolioData>;
-}): ReadonlyArray<PortfolioData> =>
+export const queryPortfolioForPaging = (
+    portfolioData: ReadonlyArray<PortfolioData>,
+    pageNumber: number
+): ReadonlyArray<PortfolioData> =>
     portfolioData.flatMap((_, index) => {
         const data = portfolioData[index + pageNumber];
         return index < 9 ? (data ? [data] : []) : [];
     });
-
-export const githubAPI = fetchGithubAPI();
-export const portfolioData = [
-    {
-        path: 'LibGDX-Chess-Game',
-        caption:
-            'A Parallel AI Chess Game made with LibGDX Framework. Choose against AI from Level 1 to Level 10. You can play against your friend as well.',
-    },
-    {
-        path: 'MinimalTicTacToe',
-        caption:
-            'Simple AI TicTacToe made with React + TypeScript and Styled-Components. Choose against AI or human. You can play in 3x3 grid up to 5x5.',
-    },
-    {
-        path: 'TextEditorFX',
-        caption:
-            'A Simple Text Editor similar to NotePad. My first JavaFX project. I wrote this as an upgraded version of the previous TextEditor.',
-    },
-    {
-        path: 'SimpleParallelChessAI',
-        caption:
-            'A Parallel AI Chess Game made with Java Swing. Choose against AI from Level 1 to Level 10. You can play against your friend as well.',
-    },
-    {
-        path: 'AndroidSimpleAIChess',
-        caption:
-            'First Android Project - Parallel AI Chess Game. Choose against AI from Level 1 to Level 10. You can play against your friend as well.',
-    },
-    {
-        path: 'RealTimeMarkdown',
-        caption:
-            'First React Project - A Markdown Editor made with React + TypeScript',
-    },
-    {
-        path: 'Connect4',
-        caption:
-            'A Connect-4 Game written in C# WinForms. This program was written to familiarize myself with C# syntax since C# is very similar to Java.',
-    },
-    {
-        path: 'TicTacToe',
-        caption:
-            'Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human. You can play in 3x3 grid up to 10x10.',
-    },
-    {
-        path: 'TextEditor',
-        caption:
-            'A Simple Text Editor similar to NotePad. I wrote this because the undo option of Notepad can only undo once. But with this software you can undo all of your edit.',
-    },
-    {
-        path: 'reversito',
-        caption:
-            'A NPM package to reverse a string and number and array. Written for fun and to learn to publish NPM package',
-    },
-    {
-        path: 'Room',
-        caption:
-            'A website build with rental information by web scraping from UTAR Accommodation list and build a better website using the information through collaboration with Eugene Yong',
-    },
-    {
-        path: 'KnapsackProblem',
-        caption:
-            'Do you know how to solve the knapsack? Come and find out how to solve Knapsack in 5 different ways.',
-    },
-    {
-        path: 'SimpleParallelDispatcher',
-        caption:
-            'Simple Basic Parallel Program. A Java program that use thread and semaphore to simulate dispatcher.',
-    },
-];

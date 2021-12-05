@@ -24,29 +24,20 @@ import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
 import { contactURL } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
-
-type ContactState = {
-    readonly name: Name;
-    readonly email: Email;
-    readonly message: Message;
-    readonly showFinal: boolean;
-    readonly showWaiting: boolean;
-};
-
 const Contact = (): JSX.Element => {
-    const [state, setState] = React.useState<ContactState>({
+    const [state, setState] = React.useState({
         name: {
             value: '',
             error: '',
-        },
+        } as Name,
         email: {
             value: '',
             error: '',
-        },
+        } as Email,
         message: {
             value: '',
             error: '',
-        },
+        } as Message,
         showFinal: false,
         showWaiting: false,
     });
@@ -73,10 +64,7 @@ const Contact = (): JSX.Element => {
                     message: message.value,
                 }),
             })
-                .then((res) => {
-                    console.log({ res });
-                    return res.json();
-                })
+                .then((res) => res.json())
                 .then((json: Data) => {
                     setShowWaiting(false);
                     showMessage(json);
@@ -97,10 +85,10 @@ const Contact = (): JSX.Element => {
         name,
         showFinal,
     }: {
-        readonly name: ContactState['name'];
-        readonly email: ContactState['email'];
-        readonly message: ContactState['message'];
-        readonly showFinal: ContactState['showFinal'];
+        readonly name: Name;
+        readonly email: Email;
+        readonly message: Message;
+        readonly showFinal: boolean;
     }) => {
         setState((prevState) => ({
             ...prevState,

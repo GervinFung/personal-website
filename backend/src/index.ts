@@ -1,12 +1,11 @@
 import express from 'express';
 import {
-    githubAPI,
-    portfolioData,
-    queryLanguageSelector,
-    queryPortfolioForPaging,
-    queryPortfolio,
-    validatePageQuery,
-    validatePortfolioLanguageQuery,
+    fetchRepositories as getRepositories,
+    portfolioLanguagesList,
+    queryPortfolioForPaging as paginatePortfolio,
+    queryPortfolioFromLanguage as findPortfoliosFromLanguage,
+    parsePageQuery,
+    findLanguageQueried,
 } from './util/portfolio';
 import {
     getName,
@@ -17,6 +16,7 @@ import {
 } from './util/contact';
 import nodemailer from 'nodemailer';
 import path from 'path';
+import dotenv from 'dotenv';
 
 const { static: expressStatic, json, urlencoded } = express;
 const app = express();
@@ -25,67 +25,44 @@ const port = process.env.PORT || 8080;
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true }));
 app.listen(port, () => console.log(`Express listening at port ${port}`));
+dotenv.config();
 
 const returnResponse = async ({
-    all,
     language,
     numberOfPortfolioPerPage,
     pageNumber,
 }: {
     readonly pageNumber: number;
     readonly numberOfPortfolioPerPage: number;
-    readonly all: 'All';
     readonly language: string;
 }) => {
-    const github = await githubAPI;
+    const portfolioData = getRepositories();
 
-    const selectedLanguage = validatePortfolioLanguageQuery({
-        all,
-        github,
-        language,
-    });
-    const portfolioQueried = queryPortfolio({
-        all,
-        github,
+    const selectedLanguage = findLanguageQueried(portfolioData, language);
+    const portfolioQueried = findPortfoliosFromLanguage(
         portfolioData,
-        selectedLanguage,
-    });
-
-    const portfolioForPagingQueried = queryPortfolioForPaging({
-        pageNumber,
-        portfolioData: portfolioQueried,
-    });
-    const numberOfPagesQueried = Math.ceil(
-        portfolioQueried.length / numberOfPortfolioPerPage
+        selectedLanguage
     );
 
-    const portfolioLanguageQueried = queryLanguageSelector({
-        all,
-        github,
-        portfolioData,
-    });
     return {
-        numberOfPagesQueried,
-        portfolioLanguageQueried,
-        portfolioForPagingQueried,
+        numberOfPagesQueried: Math.ceil(
+            portfolioQueried.length / numberOfPortfolioPerPage
+        ),
+        portfolioLanguages: portfolioLanguagesList(portfolioData),
+        portfolioPaginated: paginatePortfolio(portfolioQueried, pageNumber),
         selectedLanguage,
     };
 };
 
 app.get('/api/portfolio', async (req, res) => {
     if (req.method === 'GET') {
-        const all = 'All';
         const numberOfPortfolioPerPage = 9;
         const page = req.query.page;
         const language = req.query.language;
         if (typeof page === 'string' && typeof language === 'string') {
-            const paging = validatePageQuery({
-                numberOfPortfolioPerPage,
-                page,
-            });
+            const paging = parsePageQuery(page, numberOfPortfolioPerPage);
             res.status(200).json(
                 await returnResponse({
-                    all,
                     language,
                     numberOfPortfolioPerPage,
                     pageNumber: paging,
@@ -94,8 +71,7 @@ app.get('/api/portfolio', async (req, res) => {
         } else {
             res.status(200).json(
                 await returnResponse({
-                    all,
-                    language: all,
+                    language: 'All',
                     numberOfPortfolioPerPage,
                     pageNumber: 0,
                 })
@@ -114,12 +90,14 @@ app.post('/api/contact', (req, res) => {
         const message = getMessage(body.message);
 
         if (allValueValid(name, email, message)) {
-            const myEmail = 'poolofdeath201@outlook.com';
+            const myEmail = process.env.EMAIL;
             const options = {
-                from: `${name.value} <${myEmail}>`,
+                from: `${name.value.trim()} <${myEmail}>`,
                 to: `Gervin Fung Da Xuen <${myEmail}>`,
                 subject: 'Personal Website Contact Form',
-                text: `Hello, my name is ${name.value}\n\nYou can reach me at ${email.value}\n\nI would like to ${message.value}`,
+                text: `Hello, my name is ${name.value.trim()}\n\nYou can reach me at ${
+                    email.value
+                }\n\nI would like to ${message.value.trim()}`,
             };
             nodemailer
                 .createTransport({
@@ -131,7 +109,7 @@ app.post('/api/contact', (req, res) => {
                     },
                     auth: {
                         user: myEmail,
-                        pass: 'Qh9ehdDdyzTTRg9a',
+                        pass: process.env.PASS,
                     },
                 })
                 .sendMail(options, (error) => {
