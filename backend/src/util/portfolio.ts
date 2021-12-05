@@ -1,15 +1,15 @@
 import { portfolioInfo } from '../config/config';
 import fetch from 'node-fetch';
-import { parseAsString } from 'parse-dont-validate';
+import { parseAsNumber, parseAsString } from 'parse-dont-validate';
 
-export type PortfolioData = {
+type PortfolioData = {
     readonly name: string;
     readonly description: string;
     readonly language: string;
     readonly url: string;
 };
 
-export type Data = {
+type Data = {
     readonly numberOfPagesQueried: number;
     readonly portfolioLanguages: ReadonlyArray<string>;
     readonly portfolioPaginated: ReadonlyArray<PortfolioData>;
@@ -135,17 +135,14 @@ const fetchGithubOrganization = async (): Promise<PortfolioData> => {
 const githubUser = await fetchGithubUser();
 const githubOrganization = await fetchGithubOrganization();
 
-export const fetchRepositories = (): ReadonlyArray<PortfolioData> =>
-    githubUser.concat(githubOrganization);
-
-export const portfolioLanguagesList = (
+const portfolioLanguagesList = (
     portfolioData: ReadonlyArray<PortfolioData>
 ): ReadonlyArray<string> =>
     Array.from(new Set(portfolioData.map((data) => data.language)))
         .concat('All')
         .sort((a, b) => a.localeCompare(b));
 
-export const queryPortfolioFromLanguage = (
+const findPortfoliosFromLanguage = (
     portfolioData: ReadonlyArray<PortfolioData>,
     selectedLanguage: string
 ): ReadonlyArray<PortfolioData> =>
@@ -153,7 +150,7 @@ export const queryPortfolioFromLanguage = (
         ? portfolioData
         : portfolioData.filter(({ language }) => language === selectedLanguage);
 
-export const parsePageQuery = (
+const parsePageQuery = (
     page: string,
     numberOfPortfolioPerPage: number
 ): number => {
@@ -164,7 +161,7 @@ export const parsePageQuery = (
     return 0;
 };
 
-export const findLanguageQueried = (
+const findLanguageQueried = (
     portfolioData: ReadonlyArray<PortfolioData>,
     language: string
 ): string | 'All' => {
@@ -177,7 +174,7 @@ export const findLanguageQueried = (
     );
 };
 
-export const queryPortfolioForPaging = (
+const paginatePortfolio = (
     portfolioData: ReadonlyArray<PortfolioData>,
     pageNumber: number
 ): ReadonlyArray<PortfolioData> =>
@@ -185,3 +182,33 @@ export const queryPortfolioForPaging = (
         const data = portfolioData[index + pageNumber];
         return index < 9 ? (data ? [data] : []) : [];
     });
+
+export const getSpecifiedResponse = (
+    page: number | string,
+    language: string
+): Data => {
+    const numberOfPortfolioPerPage = 9;
+    const portfolioData = githubUser.concat(githubOrganization);
+
+    const selectedLanguage = findLanguageQueried(portfolioData, language);
+    const portfolioQueried = findPortfoliosFromLanguage(
+        portfolioData,
+        selectedLanguage
+    );
+
+    return {
+        numberOfPagesQueried: Math.ceil(
+            portfolioQueried.length / numberOfPortfolioPerPage
+        ),
+        portfolioLanguages: portfolioLanguagesList(portfolioData),
+        portfolioPaginated: paginatePortfolio(
+            portfolioQueried,
+            parseAsNumber(page, 'PositiveInteger').orElse(
+                parsePageQuery(page as string, numberOfPortfolioPerPage)
+            )
+        ),
+        selectedLanguage,
+    };
+};
+
+export const getUnspecifiedResponse = () => getSpecifiedResponse(0, 'All');

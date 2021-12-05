@@ -61,6 +61,7 @@ export type Data =
       }
     | {
           readonly type: 'failed';
+          readonly error: string;
       };
 
 export const getName = (value: string): Name => ({

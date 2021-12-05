@@ -69,11 +69,16 @@ const Contact = (): JSX.Element => {
                     setShowWaiting(false);
                     showMessage(json);
                 })
-                .catch((err) => {
-                    console.error(err);
+                .catch((error) => {
+                    console.error(error);
                     setShowWaiting(false);
                     alert(
-                        "I am sorry to inform you that there's an error in sending email. Please write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you"
+                        `I am sorry to inform you that there's an error in sending email.\nError: ${JSON.stringify(
+                            error
+                        ).replace(
+                            /"([^"]+)":/g,
+                            '$1:'
+                        )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
                     );
                 });
         }
@@ -111,7 +116,12 @@ const Contact = (): JSX.Element => {
                 break;
             case 'failed':
                 alert(
-                    "I am sorry to inform you that there's an error in sending email. Please write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you"
+                    `I am sorry to inform you that there's an error in sending email.\nError: ${JSON.stringify(
+                        json.error
+                    ).replace(
+                        /"([^"]+)":/g,
+                        '$1:'
+                    )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
                 );
                 break;
         }
