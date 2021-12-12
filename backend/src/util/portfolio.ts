@@ -1,4 +1,3 @@
-import { portfolioInfo } from '../config/config';
 import fetch from 'node-fetch';
 import { parseAsNumber, parseAsString } from 'parse-dont-validate';
 
@@ -18,15 +17,7 @@ type Data = {
 
 const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
     const repositories = await (
-        await fetch(
-            'https://api.github.com/users/GervinFung/repos?per_page=50',
-            {
-                method: 'GET',
-                headers: {
-                    Authorization: `token ${portfolioInfo.apiKey}`,
-                },
-            }
-        )
+        await fetch('https://api.github.com/users/GervinFung/repos?per_page=50')
     ).json();
     if (Array.isArray(repositories)) {
         return repositories.flatMap((repo) => {
@@ -72,12 +63,7 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
 
 const fetchGithubOrganization = async (): Promise<PortfolioData> => {
     const repositories = await (
-        await fetch('https://api.github.com/orgs/P-YNPM/repos', {
-            method: 'GET',
-            headers: {
-                Authorization: `token ${portfolioInfo.apiKey}`,
-            },
-        })
+        await fetch('https://api.github.com/orgs/P-YNPM/repos')
     ).json();
     if (Array.isArray(repositories)) {
         const { language } = Array.from(
@@ -111,12 +97,7 @@ const fetchGithubOrganization = async (): Promise<PortfolioData> => {
             }
         );
         const organization: any = await (
-            await fetch('https://api.github.com/orgs/P-YNPM', {
-                method: 'GET',
-                headers: {
-                    Authorization: `token ${portfolioInfo.apiKey}`,
-                },
-            })
+            await fetch('https://api.github.com/orgs/P-YNPM')
         ).json();
         const { login, description, html_url } = organization;
         return {
