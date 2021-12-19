@@ -113,9 +113,6 @@ const fetchGithubOrganization = async (): Promise<PortfolioData> => {
     );
 };
 
-const githubUser = await fetchGithubUser();
-const githubOrganization = await fetchGithubOrganization();
-
 const portfolioLanguagesList = (
     portfolioData: ReadonlyArray<PortfolioData>
 ): ReadonlyArray<string> =>
@@ -136,10 +133,7 @@ const parsePageQuery = (
     numberOfPortfolioPerPage: number
 ): number => {
     const parsedPage = Number.parseInt(page, 10);
-    if (parsedPage >= 0) {
-        return parsedPage * numberOfPortfolioPerPage;
-    }
-    return 0;
+    return parsedPage >= 0 ? parsedPage * numberOfPortfolioPerPage : 0;
 };
 
 const findLanguageQueried = (
@@ -164,12 +158,15 @@ const paginatePortfolio = (
         return index < 9 ? (data ? [data] : []) : [];
     });
 
+const portfolioData = (await fetchGithubUser()).concat(
+    await fetchGithubOrganization()
+);
+
 export const getSpecifiedResponse = (
     page: number | string,
     language: string
 ): Data => {
     const numberOfPortfolioPerPage = 9;
-    const portfolioData = githubUser.concat(githubOrganization);
 
     const selectedLanguage = findLanguageQueried(portfolioData, language);
     const portfolioQueried = findPortfoliosFromLanguage(

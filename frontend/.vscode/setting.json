@@ -25,5 +25,7 @@
     "errorLens.infoTextColor": "rgba(0,200,0,0.4)",
     "errorLens.warningColor": "rgb(0,0,0,0)",
     "errorLens.warningTextColor": "rgba(180,180,0,0.4)",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active"
 }
