@@ -23,15 +23,13 @@ type GeneralMessage =
 type TicTacToeMessage = 'O Has Won!' | 'X Has Won!' | GeneralMessage;
 type ConnectFourMessage = 'Black Has Won!' | 'Red Has Won!' | GeneralMessage;
 
-interface GameOptionsProps {
-    readonly setGameToConnectFour: () => void;
-    readonly setGameToTicTacToe: () => void;
-}
-
 const GameOptions = ({
     setGameToConnectFour,
     setGameToTicTacToe,
-}: GameOptionsProps) => (
+}: {
+    readonly setGameToConnectFour: () => void;
+    readonly setGameToTicTacToe: () => void;
+}) => (
     <div>
         <ConnectFourGameOptionContainer onClick={setGameToConnectFour}>
             <GameOption>Connect4</GameOption>
@@ -47,149 +45,81 @@ interface GameTileListener {
     readonly board: Board;
 }
 
-interface TileNumber {
-    readonly tileNumber: number;
-}
-
 interface ConnectFourTileProps {
     readonly color: ColorType;
 }
 
-const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
-    const CreateColumns = ({ tileNumber }: TileNumber): JSX.Element => {
-        const Columns = (): JSX.Element => (
+const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => (
+    <tbody>
+        {Array.from({
+            length: 6,
+        }).map((_, tileNumber) => (
             <>
-                {Array.from({ length: 7 }).map((_, i) => {
-                    const index = tileNumber * 7 + i;
-                    const tile = board.tileList[index];
-                    if (!tile) {
-                        throw new Error(`Tile: ${tile} is undefined`);
-                    }
-                    if (tile.isTileOccupied && tile.getPiece) {
-                        const color = isFirstPlayer(tile.getPiece.league)
-                            ? primaryTheme.blackPiece
-                            : primaryTheme.redPiece;
+                <tr>
+                    {Array.from({ length: 7 }).map((_, i) => {
+                        const index = tileNumber * 7 + i;
+                        const tile = board.tileList[index];
+                        if (!tile) {
+                            throw new Error(`Tile: ${tile} is undefined`);
+                        }
                         return (
                             <ConnectFourTile
                                 key={index}
                                 onClick={() => updateBoard(index)}
-                                color={color}
+                                color={
+                                    tile.isTileOccupied && tile.getPiece
+                                        ? isFirstPlayer(tile.getPiece.league)
+                                            ? primaryTheme.blackPiece
+                                            : primaryTheme.redPiece
+                                        : 'transparent'
+                                }
                             />
                         );
-                    }
-                    return (
-                        <ConnectFourTile
-                            key={index}
-                            onClick={() => updateBoard(index)}
-                            color="transparent"
-                        />
-                    );
-                })}
-            </>
-        );
-        return (
-            <>
-                <tr>
-                    <Columns />
+                    })}
                 </tr>
                 <tr />
             </>
-        );
-    };
+        ))}
+    </tbody>
+);
 
-    const CreateRows = (): JSX.Element => {
-        const Rows = (): JSX.Element => (
+const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => (
+    <tbody>
+        {Array.from({
+            length: 3,
+        }).map((_, tileNumber) => (
             <>
-                {Array.from({
-                    length: 6,
-                }).map((_, index) => (
-                    <CreateColumns
-                        key={`${index}${index}`}
-                        tileNumber={index}
-                    />
-                ))}
-            </>
-        );
-        return (
-            <tbody>
-                <Rows />
-            </tbody>
-        );
-    };
-
-    return <CreateRows />;
-};
-
-const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
-    const CreateColumns = ({ tileNumber }: TileNumber): JSX.Element => {
-        const Columns = (): JSX.Element => (
-            <>
-                {Array.from({
-                    length: 3,
-                }).map((_, i) => {
-                    const index = tileNumber * 3 + i;
-                    const tile = board.tileList[index];
-                    if (!tile) {
-                        throw new Error(`Tile: ${tile} is undefined`);
-                    }
-                    if (tile.isTileOccupied && tile.getPiece) {
-                        const word = isFirstPlayer(tile.getPiece.league)
-                            ? 'X'
-                            : 'O';
-                        return (
+                <tr key={tileNumber * tileNumber}>
+                    {Array.from({
+                        length: 3,
+                    }).map((_, i) => {
+                        const index = tileNumber * 3 + i;
+                        const tile = board.tileList[index];
+                        if (!tile) {
+                            throw new Error(`Tile: ${tile} is undefined`);
+                        }
+                        return tile.isTileOccupied && tile.getPiece ? (
                             <TicTacToeTile
                                 key={index}
                                 onClick={() => updateBoard(index)}
                             >
-                                {word}
+                                {isFirstPlayer(tile.getPiece.league)
+                                    ? 'X'
+                                    : 'O'}
                             </TicTacToeTile>
+                        ) : (
+                            <TicTacToeTile
+                                key={index}
+                                onClick={() => updateBoard(index)}
+                            />
                         );
-                    }
-                    return (
-                        <TicTacToeTile
-                            key={index}
-                            onClick={() => updateBoard(index)}
-                        />
-                    );
-                })}
-            </>
-        );
-        return (
-            <>
-                <tr key={tileNumber * tileNumber}>
-                    <Columns />
+                    })}
                 </tr>
                 <tr />
             </>
-        );
-    };
-
-    const CreateRows = (): JSX.Element => {
-        const Rows = (): JSX.Element => (
-            <>
-                {Array.from({
-                    length: 3,
-                }).map((_, index) => (
-                    <CreateColumns
-                        key={`${index}${index}`}
-                        tileNumber={index}
-                    />
-                ))}
-            </>
-        );
-        return (
-            <tbody>
-                <Rows />
-            </tbody>
-        );
-    };
-
-    return <CreateRows />;
-};
-
-interface GameTableProps {
-    readonly gameType: GameType;
-}
+        ))}
+    </tbody>
+);
 
 interface GameSectionProps extends GameTileListener {
     readonly secondPlayerLabel: 'Red' | 'O';
@@ -682,7 +612,7 @@ const BackButton = styled.button`
 `;
 
 const GameTable = styled.table`
-    border-spacing: ${({ gameType }: GameTableProps) =>
+    border-spacing: ${({ gameType }: { readonly gameType: GameType }) =>
         gameType === 1 ? '10px' : '0px'};
 `;
 
