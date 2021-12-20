@@ -8,13 +8,8 @@ import {
 import { checkmate, stalemate } from '../../game/endgame/EndgameChecker';
 import { minimaxMakeMove } from '../../game/minimax/Minimax';
 import { isFirstPlayer } from '../../game/piece/League';
-import { primaryTheme } from '../../util/theme/colorTheme';
 
 type GameType = 0 | 1 | null;
-type ColorType =
-    | typeof primaryTheme.blackPiece
-    | typeof primaryTheme.redPiece
-    | 'transparent';
 type GeneralMessage =
     | 'Game Started...'
     | 'Game Running...'
@@ -46,7 +41,8 @@ interface GameTileListener {
 }
 
 interface ConnectFourTileProps {
-    readonly color: ColorType;
+    readonly transparent: boolean;
+    readonly isFirstPlayer: boolean;
 }
 
 const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => (
@@ -66,13 +62,12 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => (
                             <ConnectFourTile
                                 key={index}
                                 onClick={() => updateBoard(index)}
-                                color={
-                                    tile.isTileOccupied && tile.getPiece
-                                        ? isFirstPlayer(tile.getPiece.league)
-                                            ? primaryTheme.blackPiece
-                                            : primaryTheme.redPiece
-                                        : 'transparent'
-                                }
+                                transparent={!tile.isTileOccupied}
+                                isFirstPlayer={Boolean(
+                                    tile.isTileOccupied &&
+                                        tile.getPiece &&
+                                        isFirstPlayer(tile.getPiece.league)
+                                )}
                             />
                         );
                     })}
@@ -98,20 +93,17 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => (
                         if (!tile) {
                             throw new Error(`Tile: ${tile} is undefined`);
                         }
-                        return tile.isTileOccupied && tile.getPiece ? (
+                        return (
                             <TicTacToeTile
                                 key={index}
                                 onClick={() => updateBoard(index)}
                             >
-                                {isFirstPlayer(tile.getPiece.league)
-                                    ? 'X'
-                                    : 'O'}
+                                {tile.isTileOccupied && tile.getPiece
+                                    ? isFirstPlayer(tile.getPiece.league)
+                                        ? 'X'
+                                        : 'O'
+                                    : ''}
                             </TicTacToeTile>
-                        ) : (
-                            <TicTacToeTile
-                                key={index}
-                                onClick={() => updateBoard(index)}
-                            />
                         );
                     })}
                 </tr>
@@ -622,14 +614,18 @@ const ConnectFourTile = styled.td`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    cursor: ${({ color }: ConnectFourTileProps) =>
-        color === 'transparent' ? 'cursor' : 'default'};
-    background: ${({ color }: ConnectFourTileProps) => color};
+    cursor: ${({ transparent }: ConnectFourTileProps) =>
+        transparent ? 'cursor' : 'default'};
+    background: ${({ transparent, isFirstPlayer }: ConnectFourTileProps) =>
+        transparent
+            ? 'transparent'
+            : ({ theme }) =>
+                  isFirstPlayer ? theme.blackPiece : theme.redPiece};
     &:hover {
-        background-color: ${({ color }: ConnectFourTileProps) =>
-            color === 'transparent'
+        background-color: ${({ transparent }: ConnectFourTileProps) =>
+            transparent
                 ? ({ theme }) => theme.theme.hoverColor
-                : color};
+                : 'transparent'};
     }
     @media (max-width: 506px) {
         width: 40px;
