@@ -1,3 +1,5 @@
+import { parseAsString } from 'parse-dont-validate';
+
 declare global {
     interface String {
         isEmpty: () => boolean;
@@ -21,10 +23,10 @@ String.prototype.hasSufficientLength = function (length: number) {
     );
 };
 
-const regexEmail =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-const validateEmail = (email: string) => regexEmail.test(email);
+const validateEmail = (email: string) =>
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+    );
 
 type EmptyString = '';
 
@@ -38,8 +40,7 @@ export type Name = {
 export type Email = {
     readonly value: string;
     readonly error:
-        | '*Please do not leave email section empty*'
-        | '*Please do not leave email section blank*'
+        | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
         | EmptyString;
 };
@@ -63,6 +64,101 @@ export type Data =
           readonly type: 'failed';
           readonly error: string;
       };
+
+export const parseAsData = (data: any): Data => {
+    if (data) {
+        const { type } = data;
+        const parsedType = parseAsString(type).orElseThrowError('type');
+        switch (parsedType) {
+            case 'input':
+            case 'succeed': {
+                const { message, email, name } = data;
+                return {
+                    type: parsedType,
+                    message: parseAsMessage(message),
+                    email: parseAsEmail(email),
+                    name: parseAsName(name),
+                };
+            }
+            case 'failure': {
+                const { error } = data;
+                return {
+                    type: 'failed',
+                    error: parseAsString(error).orElseThrowError('error'),
+                };
+            }
+        }
+        throw new Error(
+            `type is not of type in Data, it is ${JSON.stringify(
+                type,
+                null,
+                2
+            )}`
+        );
+    }
+    throw new Error(`data is falsy, it is ${JSON.stringify(data, null, 2)}`);
+};
+
+const parseAsInfo = (info: any) => {
+    if (info) {
+        const { value, error } = info;
+        return {
+            value: parseAsString(value).orElseThrowError('value'),
+            error: parseAsString(error).orElseThrowError('error'),
+        };
+    }
+    throw new Error(`info is falsy, it is ${JSON.stringify(info, null, 2)}`);
+};
+
+const parseAsName = (name: any): Name => {
+    const { value, error } = parseAsInfo(name);
+    switch (error) {
+        case '':
+        case '*Please do not leave name section empty*':
+        case '*Please do not leave name section blank*':
+            return {
+                value,
+                error,
+            };
+    }
+    throw new Error(
+        `name is not of type Name, it is ${JSON.stringify(name, null, 2)}`
+    );
+};
+
+const parseAsEmail = (email: any): Email => {
+    const { value, error } = parseAsInfo(email);
+    switch (error) {
+        case '':
+        case '*Please do not leave email section empty*':
+        case '*Please do not leave email section blank*':
+        case '*Please enter valid email format*':
+            return {
+                value,
+                error,
+            };
+    }
+    throw new Error(
+        `email is not of type Email, it is ${JSON.stringify(email, null, 2)}`
+    );
+};
+
+const parseAsMessage = (message: any): Message => {
+    const { value, error } = parseAsInfo(message);
+    switch (error) {
+        case '':
+        case '*Please do not leave message section empty*':
+        case '*Please do not leave message section blank*':
+        case '*At least 10 words are required*':
+            return {
+                value,
+                error,
+            };
+    }
+    throw new Error(
+        `email is not of type Email, it is ${JSON.stringify(message, null, 2)}`
+    );
+};
 
 export const getName = (value: string): Name => ({
     value,

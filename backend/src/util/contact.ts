@@ -42,8 +42,7 @@ type Name = {
 type Email = {
     readonly value: string;
     readonly error:
-        | '*Please do not leave email section empty*'
-        | '*Please do not leave email section blank*'
+        | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
         | EmptyString;
 };

@@ -51,7 +51,7 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => (
             length: 6,
         }).map((_, tileNumber) => (
             <>
-                <tr>
+                <tr key={`${tileNumber}${tileNumber}`}>
                     {Array.from({ length: 7 }).map((_, i) => {
                         const index = tileNumber * 7 + i;
                         const tile = board.tileList[index];
@@ -229,7 +229,7 @@ const Game = (): JSX.Element => {
             board: createStandardTicTacToeBoard(),
             gameMessage: 'Game Running...',
         } as TicTacToeState,
-        gameType: null as GameType | null,
+        gameType: null as GameType,
     });
 
     const { connectFour, gameType, ticTacToe } = state;

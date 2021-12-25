@@ -19,6 +19,7 @@ import {
     Email,
     Message,
     Data,
+    parseAsData,
 } from '../util/contact';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
@@ -65,9 +66,9 @@ const Contact = (): JSX.Element => {
                 }),
             })
                 .then((res) => res.json())
-                .then((json: Data) => {
+                .then((json) => {
                     setShowWaiting(false);
-                    showMessage(json);
+                    showMessage(parseAsData(json));
                 })
                 .catch((error) => {
                     console.error(error);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Data } from '../util/portfolio';
+import { Data, parseAsPortfolioData } from '../util/portfolio';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
 const Surprise = React.lazy(() => import('../components/portfolio/Surprise'));
@@ -17,7 +17,7 @@ const Portfolio = (): JSX.Element => {
     const location = useLocation();
     const dotBreakPoint = 586;
 
-    const processQuery = (search: string | null) => {
+    const processQuery = (search: string) => {
         if (search) {
             const query = new URLSearchParams(search);
             const page = query.get('page');
@@ -44,14 +44,15 @@ const Portfolio = (): JSX.Element => {
         if (!initialLoad) {
             fetch(url)
                 .then((response) => response.json())
-                .then((json: Data) =>
+                .then((json) => {
+                    const portfolio = parseAsPortfolioData(json);
                     setState((prevState) => ({
                         ...prevState,
-                        portfolio: json,
-                        queryLanguage: json.selectedLanguage,
-                    }))
-                )
-                .catch((error) => console.error(error.message));
+                        portfolio,
+                        queryLanguage: portfolio.selectedLanguage,
+                    }));
+                })
+                .catch(console.error);
         }
     }, [url, initialLoad]);
 
@@ -99,11 +100,8 @@ const Portfolio = (): JSX.Element => {
         }
     };
 
-    const ShowPortfolios = (): JSX.Element | null => {
-        if (!portfolio) {
-            return null;
-        }
-        return (
+    const ShowPortfolios = (): JSX.Element | null =>
+        !portfolio ? null : (
             <Container>
                 <PortfolioContainer>
                     {portfolio.portfolioPaginated.map(
@@ -129,7 +127,6 @@ const Portfolio = (): JSX.Element => {
                 </PortfolioContainer>
             </Container>
         );
-    };
 
     const customQueryPortfolio = (page: number) =>
         queryPortfolio(
@@ -147,11 +144,8 @@ const Portfolio = (): JSX.Element => {
         return paging === 0 ? portfolio.numberOfPagesQueried - 1 : paging - 1;
     };
 
-    const Buttons = (): JSX.Element | null => {
-        if (portfolio === undefined || portfolio.numberOfPagesQueried === 1) {
-            return null;
-        }
-        return (
+    const Buttons = (): JSX.Element | null =>
+        !portfolio || portfolio.numberOfPagesQueried === 1 ? null : (
             <div>
                 <LeftButton
                     onClick={() => customQueryPortfolio(getPrevPage(portfolio))}
@@ -165,7 +159,6 @@ const Portfolio = (): JSX.Element => {
                 </RightButton>
             </div>
         );
-    };
 
     const getPagingNumber = () => {
         const url = new URLSearchParams(location.search);
@@ -175,35 +168,26 @@ const Portfolio = (): JSX.Element => {
 
     const DotsNav = (): JSX.Element | null => {
         if (
-            portfolio === undefined ||
+            !portfolio ||
             portfolio.numberOfPagesQueried === 1 ||
             width <= dotBreakPoint
         ) {
             return null;
         }
         const paging = getPagingNumber();
-        const DotList = () => (
-            <>
+        return (
+            <Dots>
                 {Array.from({ length: portfolio.numberOfPagesQueried }).map(
                     (_, i) => {
-                        return paging === i ? (
-                            <ActiveDot
-                                onClick={() => customQueryPortfolio(i)}
-                                key={i}
-                            />
-                        ) : (
-                            <Dot
+                        const Component = paging === i ? ActiveDot : Dot;
+                        return (
+                            <Component
                                 onClick={() => customQueryPortfolio(i)}
                                 key={i}
                             />
                         );
                     }
                 )}
-            </>
-        );
-        return (
-            <Dots>
-                <DotList />
             </Dots>
         );
     };
@@ -217,13 +201,8 @@ const Portfolio = (): JSX.Element => {
         history.push(`/portfolio?page=${page}&language=${queryLanguage}`);
     };
 
-    const LanguageSelector = (): JSX.Element | null => {
-        if (portfolio === undefined) {
-            return null;
-        }
-        const languages = portfolio.portfolioLanguages;
-
-        return (
+    const LanguageSelector = (): JSX.Element | null =>
+        !portfolio ? null : (
             <LanguageChooser>
                 <Languages
                     value={queryLanguage}
@@ -234,14 +213,13 @@ const Portfolio = (): JSX.Element => {
                             Language
                         </option>,
                     ].concat(
-                        languages.map((language) => (
+                        portfolio.portfolioLanguages.map((language) => (
                             <option key={language}>{language}</option>
                         ))
                     )}
                 </Languages>
             </LanguageChooser>
         );
-    };
 
     return (
         <ContentContainer>
