@@ -68,7 +68,7 @@ export type Data =
 export const parseAsData = (data: any): Data => {
     if (data) {
         const { type } = data;
-        const parsedType = parseAsString(type).orElseThrowError('type');
+        const parsedType = parseAsString(type).orElseThrowDefault('type');
         switch (parsedType) {
             case 'input':
             case 'succeed': {
@@ -84,7 +84,7 @@ export const parseAsData = (data: any): Data => {
                 const { error } = data;
                 return {
                     type: 'failed',
-                    error: parseAsString(error).orElseThrowError('error'),
+                    error: parseAsString(error).orElseThrowDefault('error'),
                 };
             }
         }
@@ -103,8 +103,8 @@ const parseAsInfo = (info: any) => {
     if (info) {
         const { value, error } = info;
         return {
-            value: parseAsString(value).orElseThrowError('value'),
-            error: parseAsString(error).orElseThrowError('error'),
+            value: parseAsString(value).orElseThrowDefault('value'),
+            error: parseAsString(error).orElseThrowDefault('error'),
         };
     }
     throw new Error(`info is falsy, it is ${JSON.stringify(info, null, 2)}`);

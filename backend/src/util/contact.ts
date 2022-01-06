@@ -126,13 +126,13 @@ export default ({
     new Promise((resolve) => {
         try {
             const parsedName = getName(
-                parseAsString(name).orElseThrowError('name')
+                parseAsString(name).orElseThrowDefault('name')
             );
             const parsedEmail = getEmail(
-                parseAsString(email).orElseThrowError('email')
+                parseAsString(email).orElseThrowDefault('email')
             );
             const parsedMessage = getMessage(
-                parseAsString(message).orElseThrowError('message')
+                parseAsString(message).orElseThrowDefault('message')
             );
             if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
                 const myEmail = contactInfo.email;

@@ -95,7 +95,7 @@ const Contact = (): JSX.Element => {
         readonly email: Email;
         readonly message: Message;
         readonly showFinal: boolean;
-    }) => {
+    }) =>
         setState((prevState) => ({
             ...prevState,
             name,
@@ -103,7 +103,6 @@ const Contact = (): JSX.Element => {
             message,
             showFinal,
         }));
-    };
 
     const showMessage = (json: Data) => {
         const { type } = json;
