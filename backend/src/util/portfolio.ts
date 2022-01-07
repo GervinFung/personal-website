@@ -1,9 +1,5 @@
 import fetch from 'node-fetch';
-import {
-    parseAsNumber,
-    parseAsReadonlyArray,
-    parseAsString,
-} from 'parse-dont-validate';
+import { parseAsReadonlyArray, parseAsString } from 'parse-dont-validate';
 
 type PortfolioData = {
     readonly name: string;
@@ -123,7 +119,7 @@ const parsePageQuery = (
     page: string,
     numberOfPortfolioPerPage: number
 ): number => {
-    const parsedPage = Number.parseInt(page, 10);
+    const parsedPage = parseInt(page, 10);
     return parsedPage >= 0 ? parsedPage * numberOfPortfolioPerPage : 0;
 };
 
@@ -154,7 +150,7 @@ const portfolioData = (await fetchGithubUser()).concat(
 );
 
 export const getSpecifiedResponse = (
-    page: number | string,
+    page: string | number,
     language: string
 ): {
     readonly numberOfPagesQueried: number;
@@ -177,10 +173,9 @@ export const getSpecifiedResponse = (
         portfolioLanguages: portfolioLanguagesList(portfolioData),
         portfolioPaginated: paginatePortfolio(
             portfolioQueried,
-            parseAsNumber(page)
-                .inRangeOf(0, Number.MAX_SAFE_INTEGER)
-                .orElseGetNull() ??
-                parsePageQuery(page as string, numberOfPortfolioPerPage)
+            typeof page === 'number'
+                ? page
+                : parsePageQuery(page, numberOfPortfolioPerPage)
         ),
         selectedLanguage,
     };

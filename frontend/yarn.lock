@@ -4963,6 +4963,11 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4, 
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.9.tgz#041b05df45755e587a24942279b9d113146e1c96"
   integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
 
+granula-string@^1.0.2, granula-string@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/granula-string/-/granula-string-1.0.3.tgz#fa2622775a613b77168935b3c61fa80c4599580d"
+  integrity sha512-GQsP4ca7+NL5PeLEfY09FOT2tLBC/UdtaMLupFYgGpVBXs7jupbFOEzXZgGXkKsNKSq7Ufduj9lZUezq9on+JA==
+
 gzip-size@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-6.0.0.tgz#065367fd50c239c0671cbcbad5be3e2eeb10e462"
@@ -7074,10 +7079,12 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
-parse-dont-validate@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/parse-dont-validate/-/parse-dont-validate-1.0.0.tgz#9848a3f24928d7c8f4c8f7dd299220df29812498"
-  integrity sha512-KoV0HYrUYQan0O2+w8iUmGG9qXoyWrXf76zi+jEiyy+abmxaBhhhUkK+DSvMaJEF1DCp13qUrL059QpY3yMLUA==
+parse-dont-validate@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/parse-dont-validate/-/parse-dont-validate-1.0.1.tgz#266807f1eb32b74aef3bfe9506cd64c1b1994903"
+  integrity sha512-tEpwfB3K44ZhveB0d2gDuTYJ8vmrAThF+D2gEQ6acRJruD3u1sVPwImi/RSq54cs2z5KmQlCmV1EylJits1UyQ==
+  dependencies:
+    granula-string "^1.0.2"
 
 parse-json@^5.0.0:
   version "5.2.0"

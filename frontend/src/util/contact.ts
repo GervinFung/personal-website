@@ -1,27 +1,5 @@
+import { GranulaString, isEmpty } from 'granula-string';
 import { parseAsString } from 'parse-dont-validate';
-
-declare global {
-    interface String {
-        isEmpty: () => boolean;
-        isBlank: () => boolean;
-        hasSufficientLength: (length: number) => boolean;
-    }
-}
-
-String.prototype.isBlank = function () {
-    return this.split('').filter((char) => ' ' === char).length === this.length;
-};
-
-String.prototype.isEmpty = function () {
-    return this === '';
-};
-
-String.prototype.hasSufficientLength = function (length: number) {
-    return (
-        this.split('').filter((char) => !(char.isBlank() || char.isEmpty()))
-            .length >= length
-    );
-};
 
 const validateEmail = (email: string) =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -31,14 +9,14 @@ const validateEmail = (email: string) =>
 type EmptyString = '';
 
 export type Name = {
-    readonly value: string;
+    readonly value: GranulaString;
     readonly error:
         | `*Please do not leave name section ${'empty' | 'blank'}*`
         | EmptyString;
 };
 
 export type Email = {
-    readonly value: string;
+    readonly value: GranulaString;
     readonly error:
         | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
@@ -46,7 +24,7 @@ export type Email = {
 };
 
 export type Message = {
-    readonly value: string;
+    readonly value: GranulaString;
     readonly error:
         | `*Please do not leave message section ${'empty' | 'blank'}*`
         | '*At least 10 words are required*'
@@ -103,7 +81,9 @@ const parseAsInfo = (info: any) => {
     if (info) {
         const { value, error } = info;
         return {
-            value: parseAsString(value).orElseThrowDefault('value'),
+            value: GranulaString.createFromString(
+                parseAsString(value).orElseThrowDefault('value')
+            ),
             error: parseAsString(error).orElseThrowDefault('error'),
         };
     }
@@ -160,7 +140,7 @@ const parseAsMessage = (message: any): Message => {
     );
 };
 
-export const getName = (value: string): Name => ({
+export const getName = (value: GranulaString): Name => ({
     value,
     error: value.isEmpty()
         ? '*Please do not leave name section empty*'
@@ -169,24 +149,27 @@ export const getName = (value: string): Name => ({
         : '',
 });
 
-export const getEmail = (value: string): Email => ({
+export const getEmail = (value: GranulaString): Email => ({
     value,
     error: value.isEmpty()
         ? '*Please do not leave email section empty*'
         : value.isBlank()
         ? '*Please do not leave email section blank*'
-        : validateEmail(value)
+        : validateEmail(value.valueOf())
         ? ''
         : '*Please enter valid email format*',
 });
 
-export const getMessage = (value: string): Message => ({
+export const getMessage = (value: GranulaString): Message => ({
     value,
     error: value.isEmpty()
         ? '*Please do not leave message section empty*'
         : value.isBlank()
         ? '*Please do not leave message section blank*'
-        : value.hasSufficientLength(10)
+        : value.inRangeOf({
+              min: 10,
+              excludeBlankSpace: true,
+          })
         ? ''
         : '*At least 10 words are required*',
 });
@@ -197,12 +180,16 @@ export const allValueValid = (
     { value: message, error: messageErr }: Message
 ): boolean => {
     const noError =
-        nameErr.isEmpty() && emailErr.isEmpty() && messageErr.isEmpty();
+        isEmpty(nameErr) && isEmpty(emailErr) && isEmpty(messageErr);
     const nameInvalid = name.isBlank() || name.isEmpty();
     const messageInvalid =
         message.isBlank() ||
         message.isEmpty() ||
-        !message.hasSufficientLength(10);
-    const inputValid = messageInvalid && validateEmail(email) && !nameInvalid;
+        !message.inRangeOf({
+            min: 10,
+            excludeBlankSpace: true,
+        });
+    const inputValid =
+        messageInvalid && validateEmail(email.valueOf()) && !nameInvalid;
     return noError && !inputValid;
 };
