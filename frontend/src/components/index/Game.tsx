@@ -557,17 +557,21 @@ const ConnectFourTile = styled.td`
     height: 60px;
     border-radius: 50%;
     cursor: ${({ transparent }: ConnectFourTileProps) =>
-        transparent ? 'cursor' : 'default'};
+        transparent ? 'pointer' : 'default'};
     background: ${({ transparent, isFirstPlayer }: ConnectFourTileProps) =>
         transparent
             ? 'transparent'
             : ({ theme }) =>
                   isFirstPlayer ? theme.blackPiece : theme.redPiece};
     &:hover {
-        background-color: ${({ transparent }: ConnectFourTileProps) =>
+        background-color: ${({
+            transparent,
+            isFirstPlayer,
+        }: ConnectFourTileProps) =>
             transparent
                 ? ({ theme }) => theme.theme.hoverColor
-                : 'transparent'};
+                : ({ theme }) =>
+                      isFirstPlayer ? theme.blackPiece : theme.redPiece};
     }
     @media (max-width: 506px) {
         width: 40px;
