@@ -4,10 +4,10 @@ start-dev:
 start:
 	cd backend && yarn start
 
-build-dev: install-both
+build-dev:
 	cd backend && yarn build-dev & cd frontend && yarn build-dev
 
-build: install-both
+build:
 	cd backend && yarn build & cd frontend && yarn build
 
 clean:
