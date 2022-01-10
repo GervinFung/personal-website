@@ -5,13 +5,14 @@ start:
 	cd backend && yarn start
 
 build-dev:
-	cd backend && yarn build-dev & cd frontend && yarn build-dev
+	cd backend && yarn && yarn build-dev & cd frontend && yarn && yarn build-dev
 
 build:
-	cd backend && yarn build & cd frontend && yarn build
+	cd backend && yarn && yarn build & cd frontend && yarn && yarn build
 
 clean:
 	cd backend && yarn clean & cd frontend && yarn clean
 
-install-both:
-	cd frontend && yarn & cd backend && yarn
+install:
+	cd backend && yarn & cd frontend && yarn
+

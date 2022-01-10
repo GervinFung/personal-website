@@ -6,7 +6,6 @@
     "scripts": {
         "start": "make start",
         "start-dev": "make start-dev",
-        "install": "make install-both",
         "build": "make build"
     }
 }
