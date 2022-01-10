@@ -21,10 +21,10 @@ type ConnectFourMessage = 'Black Has Won!' | 'Red Has Won!' | GeneralMessage;
 const GameOptions = ({
     setGameToConnectFour,
     setGameToTicTacToe,
-}: {
-    readonly setGameToConnectFour: () => void;
-    readonly setGameToTicTacToe: () => void;
-}) => (
+}: Readonly<{
+    setGameToConnectFour: () => void;
+    setGameToTicTacToe: () => void;
+}>) => (
     <div>
         <ConnectFourGameOptionContainer onClick={setGameToConnectFour}>
             <GameOption>Connect4</GameOption>
@@ -72,7 +72,7 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => (
                         );
                     })}
                 </tr>
-                <tr />
+                <tr key={`${tileNumber}${tileNumber}${tileNumber}`} />
             </>
         ))}
     </tbody>
@@ -107,7 +107,7 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => (
                         );
                     })}
                 </tr>
-                <tr />
+                <tr key={tileNumber * tileNumber * tileNumber} />
             </>
         ))}
     </tbody>
@@ -393,7 +393,7 @@ const Game = (): JSX.Element => {
     ) =>
         setState((prev) => {
             const game = prev[type];
-            const playerAI = connectFour[playerType];
+            const playerAI = game[playerType];
             return {
                 ...prev,
                 [type]: {
