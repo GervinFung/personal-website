@@ -291,35 +291,19 @@ const Game = (): JSX.Element => {
             }
             throw new Error(`Tile: ${tile} is undefined`);
         }
-        const newBoard = board.currentPlayer.makeMoveFromTileNumber(
-            tileNumber,
-            board
-        );
-        switch (type) {
-            case 'connectFour':
-                setState((prev) => {
-                    const { connectFour } = prev;
-                    return {
-                        ...prev,
-                        connectFour: {
-                            ...connectFour,
-                            board: newBoard,
-                        },
-                    };
-                });
-                break;
-            case 'ticTacToe':
-                setState((prev) => {
-                    const { ticTacToe } = prev;
-                    return {
-                        ...prev,
-                        ticTacToe: {
-                            ...ticTacToe,
-                            board: newBoard,
-                        },
-                    };
-                });
-        }
+        setState((prev) => {
+            const game = prev[type];
+            return {
+                ...prev,
+                [type]: {
+                    ...game,
+                    board: board.currentPlayer.makeMoveFromTileNumber(
+                        tileNumber,
+                        board
+                    ),
+                },
+            };
+        });
     };
     const updateTicTacToeBoard = (tileNumber: number) =>
         updateBoard({
@@ -403,6 +387,22 @@ const Game = (): JSX.Element => {
             gameType,
         }));
 
+    const changePlayerAI = (
+        type: ConnectFourState['type'] | TicTacToeState['type'],
+        playerType: 'firstPlayerAI' | 'secondPlayerAI'
+    ) =>
+        setState((prev) => {
+            const game = prev[type];
+            const playerAI = connectFour[playerType];
+            return {
+                ...prev,
+                [type]: {
+                    ...game,
+                    [playerType]: !playerAI,
+                },
+            };
+        });
+
     const ShowGame = (): JSX.Element | null =>
         gameType === 1 ? (
             <GameSection
@@ -416,30 +416,10 @@ const Game = (): JSX.Element => {
                 board={connectFour.board}
                 gameMessage={formConnectFourMessage()}
                 changeFirstPlayerAI={() =>
-                    setState((prev) => {
-                        const { connectFour } = prev;
-                        const { firstPlayerAI } = connectFour;
-                        return {
-                            ...prev,
-                            connectFour: {
-                                ...connectFour,
-                                firstPlayerAI: !firstPlayerAI,
-                            },
-                        };
-                    })
+                    changePlayerAI('connectFour', 'firstPlayerAI')
                 }
                 changeSecondPlayerAI={() =>
-                    setState((prev) => {
-                        const { connectFour } = prev;
-                        const { secondPlayerAI } = connectFour;
-                        return {
-                            ...prev,
-                            connectFour: {
-                                ...connectFour,
-                                secondPlayerAI: !secondPlayerAI,
-                            },
-                        };
-                    })
+                    changePlayerAI('connectFour', 'secondPlayerAI')
                 }
                 firstPlayerAI={connectFour.firstPlayerAI}
                 secondPlayerAI={connectFour.secondPlayerAI}
@@ -456,30 +436,10 @@ const Game = (): JSX.Element => {
                 board={ticTacToe.board}
                 gameMessage={formTicTacToeMessage()}
                 changeFirstPlayerAI={() =>
-                    setState((prev) => {
-                        const { ticTacToe } = prev;
-                        const { firstPlayerAI } = ticTacToe;
-                        return {
-                            ...prev,
-                            ticTacToe: {
-                                ...ticTacToe,
-                                firstPlayerAI: !firstPlayerAI,
-                            },
-                        };
-                    })
+                    changePlayerAI('ticTacToe', 'firstPlayerAI')
                 }
                 changeSecondPlayerAI={() =>
-                    setState((prev) => {
-                        const { ticTacToe } = prev;
-                        const { secondPlayerAI } = ticTacToe;
-                        return {
-                            ...prev,
-                            ticTacToe: {
-                                ...ticTacToe,
-                                secondPlayerAI: !secondPlayerAI,
-                            },
-                        };
-                    })
+                    changePlayerAI('ticTacToe', 'secondPlayerAI')
                 }
                 firstPlayerAI={ticTacToe.firstPlayerAI}
                 secondPlayerAI={ticTacToe.secondPlayerAI}
@@ -497,12 +457,12 @@ const Game = (): JSX.Element => {
     return (
         <GameContainer>
             <div>
-                {gameType ? null : (
+                {gameType === null ? (
                     <GameOptions
                         setGameToConnectFour={() => setGameType(1)}
                         setGameToTicTacToe={() => setGameType(0)}
                     />
-                )}
+                ) : null}
                 <ShowGame />
             </div>
         </GameContainer>

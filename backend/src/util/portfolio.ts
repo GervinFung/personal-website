@@ -8,6 +8,13 @@ type PortfolioData = Readonly<{
     url: string;
 }>;
 
+type Data = Readonly<{
+    numberOfPagesQueried: number;
+    portfolioLanguages: ReadonlyArray<string>;
+    portfolioPaginated: ReadonlyArray<PortfolioData>;
+    selectedLanguage: string;
+}>;
+
 const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
     parseAsReadonlyArray(
         await (
@@ -152,12 +159,7 @@ const portfolioData = (await fetchGithubUser()).concat(
 export const getSpecifiedResponse = (
     page: string | number,
     language: string
-): Readonly<{
-    numberOfPagesQueried: number;
-    portfolioLanguages: ReadonlyArray<string>;
-    portfolioPaginated: ReadonlyArray<PortfolioData>;
-    selectedLanguage: string;
-}> => {
+): Data => {
     const numberOfPortfolioPerPage = 9;
 
     const selectedLanguage = findLanguageQueried(portfolioData, language);
