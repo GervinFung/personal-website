@@ -20,10 +20,10 @@ const isLocalhost = Boolean(
         )
 );
 
-type Config = {
-    readonly onSuccess?: (registration: ServiceWorkerRegistration) => void;
-    readonly onUpdate?: (registration: ServiceWorkerRegistration) => void;
-};
+type Config = Readonly<{
+    onSuccess?: (registration: ServiceWorkerRegistration) => void;
+    onUpdate?: (registration: ServiceWorkerRegistration) => void;
+}>;
 
 export const register = (config?: Config) => {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {

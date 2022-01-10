@@ -7,13 +7,10 @@ interface TitleProps {
     readonly content: string;
 }
 
-const Title = ({ title, content }: TitleProps) => {
-    return (
-        <Helmet>
-            <meta charSet="utf-8" name="description" content={content} />
-            <title>{title}</title>
-        </Helmet>
-    );
-};
-
+const Title = ({ title, content }: TitleProps) => (
+    <Helmet>
+        <meta charSet="utf-8" name="description" content={content} />
+        <title>{title}</title>
+    </Helmet>
+);
 export default Title;

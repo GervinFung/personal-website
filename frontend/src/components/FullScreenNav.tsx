@@ -40,14 +40,14 @@ const FullScreen = ({ show, close }: FullScreenProps): JSX.Element | null => {
                     <FullScreenNav slideIn={animate}>
                         <CloseFullScreen
                             close={() => {
-                                setState((prevState) => ({
-                                    ...prevState,
+                                setState((prev) => ({
+                                    ...prev,
                                     animate: false,
                                 }));
                                 setTimeout(() => {
                                     close();
-                                    setState((prevState) => ({
-                                        ...prevState,
+                                    setState((prev) => ({
+                                        ...prev,
                                         load: false,
                                     }));
                                 }, 350);

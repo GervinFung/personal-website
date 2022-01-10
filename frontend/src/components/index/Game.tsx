@@ -197,21 +197,23 @@ const GameSection = ({
     );
 };
 
-type BoardState = {
-    readonly firstPlayerAI: boolean;
-    readonly secondPlayerAI: boolean;
-    readonly board: Board;
-};
+type BoardState = Readonly<{
+    firstPlayerAI: boolean;
+    secondPlayerAI: boolean;
+    board: Board;
+}>;
 
-type TicTacToeState = BoardState & {
-    readonly gameMessage: TicTacToeMessage;
-    readonly type: 'ticTacToe';
-};
+type TicTacToeState = BoardState &
+    Readonly<{
+        gameMessage: TicTacToeMessage;
+        type: 'ticTacToe';
+    }>;
 
-type ConnectFourState = BoardState & {
-    readonly gameMessage: ConnectFourMessage;
-    readonly type: 'connectFour';
-};
+type ConnectFourState = BoardState &
+    Readonly<{
+        gameMessage: ConnectFourMessage;
+        type: 'connectFour';
+    }>;
 
 const Game = (): JSX.Element => {
     const [state, setState] = React.useState({
@@ -237,13 +239,13 @@ const Game = (): JSX.Element => {
     const restartBoard = ({
         ticTacToe,
         connectFour,
-    }: {
-        readonly ticTacToe: TicTacToeState;
-        readonly connectFour: ConnectFourState;
-    }) => {
+    }: Readonly<{
+        ticTacToe: TicTacToeState;
+        connectFour: ConnectFourState;
+    }>) => {
         if (window.confirm('confirmation to restart game')) {
-            setState((prevState) => ({
-                ...prevState,
+            setState((prev) => ({
+                ...prev,
                 ticTacToe,
                 connectFour,
             }));
@@ -277,10 +279,10 @@ const Game = (): JSX.Element => {
     const updateBoard = ({
         tileNumber,
         gameState,
-    }: {
-        readonly tileNumber: number;
-        readonly gameState: TicTacToeState | ConnectFourState;
-    }) => {
+    }: Readonly<{
+        tileNumber: number;
+        gameState: TicTacToeState | ConnectFourState;
+    }>) => {
         const { type, board } = gameState;
         if (checkmate(board) || stalemate(board)) {
             const tile = board.tileList[tileNumber];
@@ -295,10 +297,10 @@ const Game = (): JSX.Element => {
         );
         switch (type) {
             case 'connectFour':
-                setState((prevState) => {
-                    const { connectFour } = prevState;
+                setState((prev) => {
+                    const { connectFour } = prev;
                     return {
-                        ...prevState,
+                        ...prev,
                         connectFour: {
                             ...connectFour,
                             board: newBoard,
@@ -307,10 +309,10 @@ const Game = (): JSX.Element => {
                 });
                 break;
             case 'ticTacToe':
-                setState((prevState) => {
-                    const { ticTacToe } = prevState;
+                setState((prev) => {
+                    const { ticTacToe } = prev;
                     return {
-                        ...prevState,
+                        ...prev,
                         ticTacToe: {
                             ...ticTacToe,
                             board: newBoard,
@@ -363,9 +365,9 @@ const Game = (): JSX.Element => {
             return;
         }
         if (currentPlayerIsAI(board, firstPlayerAI, secondPlayerAI)) {
-            setState((prevState) => {
+            setState((prev) => {
                 return {
-                    ...prevState,
+                    ...prev,
                     connectFour: {
                         ...connectFour,
                         board: minimaxMakeMove(board),
@@ -382,9 +384,9 @@ const Game = (): JSX.Element => {
             return;
         }
         if (currentPlayerIsAI(board, firstPlayerAI, secondPlayerAI)) {
-            setState((prevState) => {
+            setState((prev) => {
                 return {
-                    ...prevState,
+                    ...prev,
                     ticTacToe: {
                         ...ticTacToe,
                         board: minimaxMakeMove(board),
@@ -395,132 +397,112 @@ const Game = (): JSX.Element => {
         }
     }, [ticTacToe]);
 
-    const setGameType = (gameType: GameType) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                gameType,
-            };
-        });
-    };
+    const setGameType = (gameType: GameType) =>
+        setState((prev) => ({
+            ...prev,
+            gameType,
+        }));
 
-    const ShowGame = (): JSX.Element | null => {
-        if (gameType === 1) {
-            return (
-                <GameSection
-                    key="ConnectFour"
-                    secondPlayerLabel="Red"
-                    firstPlayerLabel="Black"
-                    gameType={1}
-                    onBack={() => setGameType(null)}
-                    updateBoard={updateConnectFourBoard}
-                    restartBoard={restartConnectFourBoard}
-                    board={connectFour.board}
-                    gameMessage={formConnectFourMessage()}
-                    changeFirstPlayerAI={() =>
-                        setState((prevState) => {
-                            const { connectFour } = prevState;
-                            const { firstPlayerAI } = connectFour;
-                            return {
-                                ...prevState,
-                                connectFour: {
-                                    ...connectFour,
-                                    firstPlayerAI: !firstPlayerAI,
-                                },
-                            };
-                        })
-                    }
-                    changeSecondPlayerAI={() =>
-                        setState((prevState) => {
-                            const { connectFour } = prevState;
-                            const { secondPlayerAI } = connectFour;
-                            return {
-                                ...prevState,
-                                connectFour: {
-                                    ...connectFour,
-                                    secondPlayerAI: !secondPlayerAI,
-                                },
-                            };
-                        })
-                    }
-                    firstPlayerAI={connectFour.firstPlayerAI}
-                    secondPlayerAI={connectFour.secondPlayerAI}
-                />
-            );
-        } else if (gameType === 0) {
-            return (
-                <GameSection
-                    key="TicTacToe"
-                    secondPlayerLabel="O"
-                    firstPlayerLabel="X"
-                    gameType={0}
-                    onBack={() => setGameType(null)}
-                    updateBoard={updateTicTacToeBoard}
-                    restartBoard={restartTicTacToeBoard}
-                    board={ticTacToe.board}
-                    gameMessage={formTicTacToeMessage()}
-                    changeFirstPlayerAI={() =>
-                        setState((prevState) => {
-                            const { ticTacToe } = prevState;
-                            const { firstPlayerAI } = ticTacToe;
-                            return {
-                                ...prevState,
-                                ticTacToe: {
-                                    ...ticTacToe,
-                                    firstPlayerAI: !firstPlayerAI,
-                                },
-                            };
-                        })
-                    }
-                    changeSecondPlayerAI={() =>
-                        setState((prevState) => {
-                            const { ticTacToe } = prevState;
-                            const { secondPlayerAI } = ticTacToe;
-                            return {
-                                ...prevState,
-                                ticTacToe: {
-                                    ...ticTacToe,
-                                    secondPlayerAI: !secondPlayerAI,
-                                },
-                            };
-                        })
-                    }
-                    firstPlayerAI={ticTacToe.firstPlayerAI}
-                    secondPlayerAI={ticTacToe.secondPlayerAI}
-                />
-            );
-        }
-        return null;
-    };
+    const ShowGame = (): JSX.Element | null =>
+        gameType === 1 ? (
+            <GameSection
+                key="ConnectFour"
+                secondPlayerLabel="Red"
+                firstPlayerLabel="Black"
+                gameType={1}
+                onBack={() => setGameType(null)}
+                updateBoard={updateConnectFourBoard}
+                restartBoard={restartConnectFourBoard}
+                board={connectFour.board}
+                gameMessage={formConnectFourMessage()}
+                changeFirstPlayerAI={() =>
+                    setState((prev) => {
+                        const { connectFour } = prev;
+                        const { firstPlayerAI } = connectFour;
+                        return {
+                            ...prev,
+                            connectFour: {
+                                ...connectFour,
+                                firstPlayerAI: !firstPlayerAI,
+                            },
+                        };
+                    })
+                }
+                changeSecondPlayerAI={() =>
+                    setState((prev) => {
+                        const { connectFour } = prev;
+                        const { secondPlayerAI } = connectFour;
+                        return {
+                            ...prev,
+                            connectFour: {
+                                ...connectFour,
+                                secondPlayerAI: !secondPlayerAI,
+                            },
+                        };
+                    })
+                }
+                firstPlayerAI={connectFour.firstPlayerAI}
+                secondPlayerAI={connectFour.secondPlayerAI}
+            />
+        ) : gameType === 0 ? (
+            <GameSection
+                key="TicTacToe"
+                secondPlayerLabel="O"
+                firstPlayerLabel="X"
+                gameType={0}
+                onBack={() => setGameType(null)}
+                updateBoard={updateTicTacToeBoard}
+                restartBoard={restartTicTacToeBoard}
+                board={ticTacToe.board}
+                gameMessage={formTicTacToeMessage()}
+                changeFirstPlayerAI={() =>
+                    setState((prev) => {
+                        const { ticTacToe } = prev;
+                        const { firstPlayerAI } = ticTacToe;
+                        return {
+                            ...prev,
+                            ticTacToe: {
+                                ...ticTacToe,
+                                firstPlayerAI: !firstPlayerAI,
+                            },
+                        };
+                    })
+                }
+                changeSecondPlayerAI={() =>
+                    setState((prev) => {
+                        const { ticTacToe } = prev;
+                        const { secondPlayerAI } = ticTacToe;
+                        return {
+                            ...prev,
+                            ticTacToe: {
+                                ...ticTacToe,
+                                secondPlayerAI: !secondPlayerAI,
+                            },
+                        };
+                    })
+                }
+                firstPlayerAI={ticTacToe.firstPlayerAI}
+                secondPlayerAI={ticTacToe.secondPlayerAI}
+            />
+        ) : null;
 
     const currentPlayerIsAI = (
         board: Board,
         firstPlayerChecked: boolean,
         secondPlayerChecked: boolean
-    ) => {
-        const first =
-            isFirstPlayer(board.currentPlayer.league) && firstPlayerChecked;
-        const second =
-            !isFirstPlayer(board.currentPlayer.league) && secondPlayerChecked;
-        return first || second;
-    };
-
-    const ShowGameOption = () => {
-        if (gameType === null) {
-            return (
-                <GameOptions
-                    setGameToConnectFour={() => setGameType(1)}
-                    setGameToTicTacToe={() => setGameType(0)}
-                />
-            );
-        }
-        return null;
-    };
+    ) =>
+        (isFirstPlayer(board.currentPlayer.league) && firstPlayerChecked) ||
+        (!isFirstPlayer(board.currentPlayer.league) && secondPlayerChecked);
 
     return (
         <GameContainer>
             <div>
-                <ShowGameOption />
+                {gameType ? null : (
+                    <GameOptions
+                        setGameToConnectFour={() => setGameType(1)}
+                        setGameToTicTacToe={() => setGameType(0)}
+                    />
+                )}
                 <ShowGame />
             </div>
         </GameContainer>

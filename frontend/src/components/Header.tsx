@@ -21,14 +21,14 @@ const BackToTop = ({ scroll }: BackToTopProps) => {
     });
 
     React.useEffect(() => {
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             animate: scroll,
         }));
         setTimeout(
             () =>
-                setState((prevState) => ({
-                    ...prevState,
+                setState((prev) => ({
+                    ...prev,
                     load: scroll,
                 })),
             scroll ? 350 : 0
@@ -69,8 +69,8 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     });
 
     const handlePageOffset = () =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             scroll: window.pageYOffset > 100,
         }));
 
@@ -82,8 +82,8 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     }, []);
 
     const handleResizeWindow = () =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             width: window.innerWidth,
         }));
 
@@ -95,8 +95,8 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     }, []);
 
     const setShow = (show: boolean) =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             show,
         }));
 

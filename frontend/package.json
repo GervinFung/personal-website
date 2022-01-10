@@ -9,7 +9,7 @@
         "build": "yarn build-dev && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove-devDep": "yarn remove @types/react @types/react-dom @types/react-router-dom @types/styled-components typescript @craco/craco craco-esbuild react-scripts",
-        "cleanup": "echo cleaning up frontend && concurrently \"rm -rf src\" \"yarn remove-devDep\""
+        "cleanup": "echo cleaning up frontend && rm -rf src & yarn remove-devDep"
     },
     "dependencies": {
         "@craco/craco": "^6.4.3",
