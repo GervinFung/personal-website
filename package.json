@@ -6,6 +6,6 @@
     "scripts": {
         "start": "make start",
         "start-dev": "make start-dev",
-        "build": "make build"
+        "build": "yarn && make build"
     }
 }
