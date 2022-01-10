@@ -1,0 +1,20 @@
+{
+    "name": "common",
+    "version": "0.0.0",
+    "main": "build/index.js",
+    "license": "MIT",
+    "type": "module",
+    "types": "build/index.d.ts",
+    "scripts": {
+        "build": "rm -rf build && tsc && yarn add-js-extension",
+        "add-js-extension": "ts-add-js-extension add --dir=build --keepComments=true --minify=true"
+    },
+    "dependencies": {
+        "granula-string": "^1.0.3",
+        "parse-dont-validate": "^1.0.1"
+    },
+    "devDependencies": {
+        "ts-add-js-extension": "^0.0.5",
+        "typescript": "^4.5.4"
+    }
+}
