@@ -6,15 +6,15 @@ import { HashLoading, ErrorBoundary } from './HashLoading';
 const NavLinks = React.lazy(() => import('./NavLinks'));
 const FullScreen = React.lazy(() => import('./FullScreenNav'));
 
-interface BackToTopAnimation {
-    readonly slideIn: boolean;
-}
+type BackToTopAnimation = Readonly<{
+    slideIn: boolean;
+}>;
 
-interface BackToTopProps {
-    readonly scroll: boolean;
-}
-
-const BackToTop = ({ scroll }: BackToTopProps) => {
+const BackToTop = ({
+    scroll,
+}: Readonly<{
+    scroll: boolean;
+}>) => {
     const [state, setState] = React.useState({
         animate: scroll,
         load: scroll,
@@ -54,12 +54,13 @@ const BackToTop = ({ scroll }: BackToTopProps) => {
     return null;
 };
 
-interface HeaderProps {
-    readonly theme: DefaultTheme;
-    readonly updateTheme: () => void;
-}
-
-const Header = ({ theme, updateTheme }: HeaderProps) => {
+const Header = ({
+    theme,
+    updateTheme,
+}: Readonly<{
+    theme: DefaultTheme;
+    updateTheme: () => void;
+}>) => {
     const hamburgerBreakPoint = 646;
 
     const [state, setState] = React.useState({

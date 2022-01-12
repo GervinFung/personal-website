@@ -19,13 +19,13 @@ import { portfolioURL, portfolioQuery } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 
-interface PortfolioImageBackgroundProps {
-    readonly backgroundImage: string;
-}
+type PortfolioImageBackgroundProps = Readonly<{
+    backgroundImage: string;
+}>;
 
-interface Portfolio {
-    readonly portfolio: Data;
-}
+type Portfolio = Readonly<{
+    portfolio: Data;
+}>;
 
 const Portfolio = (): JSX.Element => {
     const history = useHistory();

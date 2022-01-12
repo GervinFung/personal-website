@@ -13,7 +13,7 @@
         "start-watch": "nodemon",
         "add-js-extension": "ts-add-js-extension add --dir=build",
         "add-js-extension-prod": "ts-add-js-extension add --dir=build --keepComments=false --minify true",
-        "build-dev": "rm -rf build && tsc && yarn add-js-extension-prod",
+        "build-dev": "rm -rf build && tsc && yarn add-js-extension",
         "build": "yarn build-dev && yarn add-js-extension-prod && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript",
