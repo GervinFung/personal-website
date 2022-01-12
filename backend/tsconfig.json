@@ -31,15 +31,6 @@
         "noUncheckedIndexedAccess": true
         // "emitDeclarationOnly": true
     },
-    // Most ts-node options can be specified here using their programmatic names.
-    "ts-node": {
-        "transpileOnly": false,
-        "files": true,
-        "compilerOptions": {
-            "target": "ESNEXT",
-            "module": "ESNEXT"
-        }
-    },
     "include": ["src/"],
     "exclude": ["node_modules"]
 }
