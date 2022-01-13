@@ -15,7 +15,7 @@
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove:devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript && yarn clear-file",
         "clear-file": "rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json tsconfig.*.json terser.js yarn.lock",
-        "cleanup": "echo cleaning up backend && rm -rf src & yarn remove-devDep"
+        "cleanup": "echo cleaning up backend && rm -rf src & yarn remove:devDep"
     },
     "dependencies": {
         "@types/express": "^4.17.13",
