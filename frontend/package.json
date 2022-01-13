@@ -4,8 +4,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "craco start",
-        "build-dev": "rm -rf build && craco build",
+        "start": "react-scripts start",
+        "build-dev": "rm -rf build && react-scripts build",
         "build": "yarn build-dev && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "clear-file": "rm -rf node_modules && rm -rf .eslintrc .gitattributes .gitignore .prettierrc.json *.json craco.config.js yarn.lock",

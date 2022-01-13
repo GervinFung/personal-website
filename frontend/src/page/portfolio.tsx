@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { Data, parseAsPortfolioData } from '../util/portfolio';
-
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
 const Surprise = React.lazy(() =>
