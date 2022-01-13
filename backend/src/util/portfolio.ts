@@ -1,3 +1,4 @@
+import { LogMeHardNode } from 'log-me-hard';
 import fetch from 'node-fetch';
 import { parseAsReadonlyArray, parseAsString } from 'parse-dont-validate';
 
@@ -167,8 +168,7 @@ export const getSpecifiedResponse = (
         portfolioData,
         selectedLanguage
     );
-
-    return {
+    const obj = {
         numberOfPagesQueried: Math.ceil(
             portfolioQueried.length / numberOfPortfolioPerPage
         ),
@@ -181,6 +181,8 @@ export const getSpecifiedResponse = (
         ),
         selectedLanguage,
     };
+    LogMeHardNode.log(obj).asNormal();
+    return obj;
 };
 
 export const getUnspecifiedResponse = () => getSpecifiedResponse(0, 'All');

@@ -2,6 +2,7 @@ import express from 'express';
 import { getSpecifiedResponse, getUnspecifiedResponse } from './util/portfolio';
 import emailResponse from './util/contact';
 import path from 'path';
+import { LogMeHardNode } from 'log-me-hard';
 
 const { static: expressStatic, json, urlencoded } = express;
 const app = express();
@@ -9,7 +10,10 @@ const port = process.env.PORT || 8080;
 
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true }));
-app.listen(port, () => console.log(`Express listening at port ${port}`));
+LogMeHardNode.turnMeOn();
+app.listen(port, () =>
+    LogMeHardNode.log(`Express listening at port ${port}`).asNormal()
+);
 
 app.get('/api/portfolio', async (req, res) => {
     if (req.method === 'GET') {
@@ -28,13 +32,15 @@ app.get('/api/portfolio', async (req, res) => {
 app.post('/api/contact', async (req, res) => {
     if (req.method === 'POST') {
         const { name, email, message } = req.body;
-        res.status(200).json(
-            await emailResponse({
-                name,
-                email,
-                message,
-            })
-        );
+        const r = await emailResponse({
+            name,
+            email,
+            message,
+        });
+        LogMeHardNode.log(r).asObject({
+            objectName: 'response',
+        });
+        res.status(200).json(r);
     } else {
         throw new Error('Only accept POST request');
     }

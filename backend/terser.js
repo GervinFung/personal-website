@@ -1,11 +1,10 @@
 import { minify } from 'terser';
-
 import fs from 'fs';
 
 const config = {
     compress: {
         dead_code: true,
-        drop_console: true,
+        drop_console: false,
         drop_debugger: true,
         keep_classnames: false,
         keep_fargs: false,

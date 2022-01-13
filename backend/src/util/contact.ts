@@ -1,4 +1,5 @@
 import { GranulaString, isEmpty } from 'granula-string';
+import { LogMeHardNode } from 'log-me-hard';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
 import { contactInfo } from '../config/config';
@@ -110,6 +111,13 @@ export default ({
     message: unknown;
 }>): Promise<Data> =>
     new Promise((resolve) => {
+        LogMeHardNode.log({
+            name,
+            email,
+            message,
+        }).asObject({
+            objectName: 'contact',
+        });
         try {
             const parsedName = getName(
                 GranulaString.createFromString(
