@@ -181,7 +181,12 @@ export const getSpecifiedResponse = (
         ),
         selectedLanguage,
     };
-    LogMeHardNode.log(obj).asNormal();
+    LogMeHardNode.log(obj).asObject({
+        objectName: 'portfolio',
+    });
+    console.log('\n\n\n\n');
+    console.dir(obj);
+    console.log('\n\n\n\n');
     return obj;
 };
 

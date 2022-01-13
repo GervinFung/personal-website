@@ -3,7 +3,6 @@ import {
     parseAsReadonlyArray,
     parseAsString,
 } from 'parse-dont-validate';
-import { LogMeHardWeb } from 'log-me-hard';
 
 type PortfolioData = Readonly<{
     name: string;
@@ -20,10 +19,7 @@ export type Data = Readonly<{
 }>;
 
 export const parseAsPortfolioData = (data: any): Data => {
-    LogMeHardWeb.turnMeOn();
-    LogMeHardWeb.log(data).asObject({
-        objectName: 'data',
-    });
+    console.dir(data);
     return {
         numberOfPagesQueried: parseAsNumber(
             data.numberOfPagesQueried
