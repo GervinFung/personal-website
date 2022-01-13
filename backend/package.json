@@ -10,7 +10,7 @@
         "start": "node build/index.js",
         "start-watch": "nodemon",
         "add-js-extension": "ts-add-js-extension add --dir=build",
-        "build-dev": "rm -rf build && tsc -p tsconfig.prod.json && yarn add-js-extension && node terser.js ",
+        "build-dev": "rm -rf build && tsc -p tsconfig.dev.json && yarn add-js-extension",
         "build": "rm -rf build && tsc -p tsconfig.prod.json && yarn add-js-extension && node terser.js && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript terser nodemon && yarn clear-file",

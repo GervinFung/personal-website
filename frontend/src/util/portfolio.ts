@@ -18,31 +18,27 @@ export type Data = Readonly<{
     selectedLanguage: string;
 }>;
 
-export const parseAsPortfolioData = (data: any): Data => {
-    console.dir(data);
-    return {
-        numberOfPagesQueried: parseAsNumber(
-            data.numberOfPagesQueried
-        ).orElseThrowDefault('numberOfPagesQueried'),
-        portfolioLanguages: parseAsReadonlyArray(
-            data.portfolioLanguages,
-            (val) => parseAsString(val).orElseThrowDefault('portfolioLanguage')
-        ).orElseThrowDefault('portfolioLanguages'),
-        portfolioPaginated: parseAsReadonlyArray(
-            data.portfolioPaginated,
-            (val) => ({
-                name: parseAsString(val.name).orElseThrowDefault('name'),
-                description: parseAsString(val.description).orElseThrowDefault(
-                    'description'
-                ),
-                language: parseAsString(val.language).orElseThrowDefault(
-                    'language'
-                ),
-                url: parseAsString(val.url).orElseThrowDefault('url'),
-            })
-        ).orElseThrowDefault('portfolioPaginated'),
-        selectedLanguage: parseAsString(
-            data.selectedLanguage
-        ).orElseThrowDefault('selectedLanguage'),
-    };
-};
+export const parseAsPortfolioData = (data: any): Data => ({
+    numberOfPagesQueried: parseAsNumber(
+        data.numberOfPagesQueried
+    ).orElseThrowDefault('numberOfPagesQueried'),
+    portfolioLanguages: parseAsReadonlyArray(data.portfolioLanguages, (val) =>
+        parseAsString(val).orElseThrowDefault('portfolioLanguage')
+    ).orElseThrowDefault('portfolioLanguages'),
+    portfolioPaginated: parseAsReadonlyArray(
+        data.portfolioPaginated,
+        (val) => ({
+            name: parseAsString(val.name).orElseThrowDefault('name'),
+            description: parseAsString(val.description).orElseThrowDefault(
+                'description'
+            ),
+            language: parseAsString(val.language).orElseThrowDefault(
+                'language'
+            ),
+            url: parseAsString(val.url).orElseThrowDefault('url'),
+        })
+    ).orElseThrowDefault('portfolioPaginated'),
+    selectedLanguage: parseAsString(data.selectedLanguage).orElseThrowDefault(
+        'selectedLanguage'
+    ),
+});
