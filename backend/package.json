@@ -18,7 +18,7 @@
         "build": "rm -rf build && tsc -p tsconfig.prod.json && yarn add-js-extension-prod & yarn terse && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript terser nodemon && yarn clear-file",
-        "clear-file": "rm -rf .eslintrc .gitattributes .gitignore .prettierrc.json *.json terser.js",
+        "clear-file": "rm -rf .eslintrc .gitattributes .gitignore .prettierrc.json tsconfig.json tsconfig.*.json terser.js yarn.lock",
         "cleanup": "echo cleaning up backend && rm -rf src & yarn remove-devDep"
     },
     "dependencies": {

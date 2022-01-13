@@ -14,7 +14,7 @@
         "build-dev": "yarn install-both && concurrently \"yarn build-dev-frontend\" \"yarn build-dev-backend\"",
         "build-backend": "cd backend && yarn build",
         "build-frontend": "cd frontend && yarn build",
-        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
+        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\" \"rm -rf .git yarn.lock",
         "clean-backend": "cd backend && yarn clean",
         "clean-frontend": "cd frontend && yarn clean",
         "clean": "concurrently \"rm -rf node_modules && yarn\" \"yarn clean-backend\" \"yarn clean-frontend\""
