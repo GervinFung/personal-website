@@ -7,10 +7,6 @@
         // "lib": [],                             /* Specify library files to be included in the compilation. */
         "allowJs": false /* Allow javascript files to be compiled. */,
         "checkJs": false /* Report errors in .js files. */,
-        "declaration": true /* Emit an '.d.ts' definitions files. */,
-        "declarationMap": true /* Generate sourcemap for each corresponding '.d.ts' definitions files. */,
-        "sourceMap": true /* Generate corresponding '.map' files. */,
-        "outDir": "build" /* Redirect output structure to the directory */,
 
         /* Strict Type-Checking Options */
         "strict": true /* Enable all strict type-checking options. */,

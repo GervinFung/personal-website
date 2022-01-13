@@ -13,10 +13,12 @@
         "start-watch": "nodemon",
         "add-js-extension": "ts-add-js-extension add --dir=build",
         "add-js-extension-prod": "ts-add-js-extension add --dir=build --keepComments=false --minify true",
-        "build-dev": "rm -rf build && tsc && yarn add-js-extension",
-        "build": "yarn build-dev && yarn add-js-extension-prod && yarn cleanup",
+        "terse": "node terser.js",
+        "build-dev": "rm -rf build && tsc -p tsconfig.prod.json && yarn add-js-extension",
+        "build": "rm -rf build && tsc -p tsconfig.prod.json && yarn add-js-extension-prod & yarn terse && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
-        "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript",
+        "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript terser nodemon && yarn clear-file",
+        "clear-file": "rm -rf .* *.json terser.js",
         "cleanup": "echo cleaning up backend && rm -rf src & yarn remove-devDep"
     },
     "dependencies": {
@@ -29,6 +31,7 @@
         "node-fetch": "^3.0.0",
         "nodemailer": "^6.6.1",
         "parse-dont-validate": "^1.0.1",
+        "terser": "^5.10.0",
         "ts-add-js-extension": "^0.0.5",
         "typescript": "^4.5.2"
     },
