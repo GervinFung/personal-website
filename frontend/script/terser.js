@@ -1,40 +1,22 @@
-import { minify } from 'terser';
+import { minify } from 'html-minifier-terser';
 import fs from 'fs';
 
 const config = {
-    compress: {
-        dead_code: true,
-        drop_console: false,
-        drop_debugger: true,
-        keep_classnames: false,
-        keep_fargs: false,
-        keep_fnames: false,
-        keep_infinity: false,
-    },
-    mangle: {
-        eval: false,
-        keep_classnames: false,
-        keep_fnames: false,
-        toplevel: false,
-        safari10: false,
-    },
-    module: true,
-    sourceMap: {
-        filename: 'dist/index.js',
-    },
-    output: {
-        comments: false,
-    },
+    removeComments: true,
+    removeCommentsFromCDATA: true,
+    removeCDATASectionsFromCDATA: true,
+    collapseWhitespace: true,
+    collapseBooleanAttributes: true,
 };
 
-const getAllJavaScriptFiles = (dir) =>
+const getAllHTMLFiles = (dir) =>
     fs.readdirSync(dir).flatMap((file) => {
         const path = `${dir}/${file}`;
         if (fs.statSync(path).isDirectory()) {
-            return getAllJavaScriptFiles(path);
+            return getAllHTMLFiles(path);
         }
         const extension = path.split('.').pop();
-        return extension ? (extension === 'js' ? [path] : []) : [];
+        return extension ? (extension === 'html' ? [path] : []) : [];
     });
 
 const readCode = (files) =>
@@ -48,32 +30,32 @@ const readCode = (files) =>
             .on('error', reject);
     });
 
-const getAllJavaScriptCodes = (files) =>
+const getAllHTMLCodes = (files) =>
     files.map(async (file) => ({
         file,
         code: await readCode(file),
     }));
 
 const main = async (dir) => {
-    const files = getAllJavaScriptFiles(dir);
+    const files = getAllHTMLFiles(dir);
     if (files.length === 0) {
-        console.log('No JavaScript file in build folder');
+        console.log('No HTML file in build folder');
         process.exit(0);
     }
     (
-        await getAllJavaScriptCodes(files).reduce(
+        await getAllHTMLCodes(files).reduce(
             async (prev, curr) => (await prev).concat(await curr),
             Promise.resolve([])
         )
     ).forEach(async ({ code, file }) => {
         const minified = await minify(code, config);
-        fs.writeFile(file, minified.code, (err) => {
+        fs.writeFile(file, minified, (err) => {
             if (err) {
                 console.error(err);
             }
         });
     });
-    console.log('Terser done its job!');
+    console.log('Frontend HTML Terser done its job!');
 };
 
 main('build');

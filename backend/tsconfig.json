@@ -24,8 +24,9 @@
         /* Advanced Options */
         "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
         "resolveJsonModule": false /* Allow import of json file. */,
-        "noUncheckedIndexedAccess": true
-        // "emitDeclarationOnly": true
+        "noUncheckedIndexedAccess": true,
+        "pretty": true,
+        "outDir": "build"
     },
     "include": ["src/"],
     "exclude": ["node_modules"]
