@@ -9,7 +9,11 @@ const port = process.env.PORT || 3000;
 
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true }));
-app.listen(port, () => console.log(`Express listening at port ${port}`));
+app.listen(port, () =>
+    console.log(
+        `🚀 Express listening at port ${port} 🚀 at time: ${new Date()}`
+    )
+);
 
 app.get('/api/portfolio', async (req, res) => {
     if (req.method === 'GET') {

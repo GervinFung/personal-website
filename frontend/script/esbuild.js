@@ -1,11 +1,11 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
 
-dotenv.config();
+const { parsed } = dotenv.config({});
 
 const config = {
-    PUBLIC_URL: process.env.PUBLIC_URL,
-    NODE_ENV: process.env.NODE_ENV,
+    PUBLIC_URL: parsed.PUBLIC_URL,
+    NODE_ENV: parsed.NODE_ENV,
 };
 
 const main = ({ entryPoints, outfile, loader }) =>
