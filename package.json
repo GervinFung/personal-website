@@ -5,7 +5,6 @@
     "license": "MIT",
     "scripts": {
         "start": "make start",
-        "install": "make install",
         "build": "make build"
     }
 }
