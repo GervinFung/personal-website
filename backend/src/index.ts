@@ -21,8 +21,8 @@ app.get('/api/portfolio', async (req, res) => {
         const language = req.query.language;
         res.status(200).json(
             typeof page === 'string' && typeof language === 'string'
-                ? getSpecifiedResponse(page, language)
-                : getUnspecifiedResponse()
+                ? await getSpecifiedResponse(page, language)
+                : await getUnspecifiedResponse()
         );
     } else {
         throw new Error('Only accept GET request');

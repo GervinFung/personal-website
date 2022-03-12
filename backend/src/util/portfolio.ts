@@ -161,19 +161,24 @@ const paginatePortfolio = (
         return index < 9 ? (data ? [data] : []) : [];
     });
 
-const portfolioData = (
-    await Promise.all(['Utari-Room', 'P-YNPM'].map(fetchGithubOrganization))
-).concat(await fetchGithubUser());
+const portfolioDataPromise = async () =>
+    (
+        await Promise.all(['Utari-Room', 'P-YNPM'].map(fetchGithubOrganization))
+    ).concat(await fetchGithubUser());
 
-export const getSpecifiedResponse = (
+const portfolioData = portfolioDataPromise();
+
+export const getSpecifiedResponse = async (
     page: string | number,
     language: string
-): Data => {
+): Promise<Data> => {
     const numberOfPortfolioPerPage = 9;
 
-    const selectedLanguage = findLanguageQueried(portfolioData, language);
+    const portfolio = await portfolioData;
+
+    const selectedLanguage = findLanguageQueried(portfolio, language);
     const portfolioQueried = findPortfoliosFromLanguage(
-        portfolioData,
+        portfolio,
         selectedLanguage
     );
 
@@ -181,7 +186,7 @@ export const getSpecifiedResponse = (
         numberOfPagesQueried: Math.ceil(
             portfolioQueried.length / numberOfPortfolioPerPage
         ),
-        portfolioLanguages: portfolioLanguagesList(portfolioData),
+        portfolioLanguages: portfolioLanguagesList(portfolio),
         portfolioPaginated: paginatePortfolio(
             portfolioQueried,
             typeof page === 'number'

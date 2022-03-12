@@ -8,7 +8,7 @@ typecheck:
 
 ## start
 start:
-	(trap 'kill 0' INT; make typecheck & make compile)
+	(trap 'kill 0' INT; make typecheck & make build)
 
 start-watch:
 	node_modules/.bin/nodemon
