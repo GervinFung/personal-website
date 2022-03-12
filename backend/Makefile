@@ -6,7 +6,7 @@ start:
 	node build/index.js
 
 start-watch:
-	./node_modules/.bin/nodemon
+	node_modules/.bin/nodemon
 
 start-dev:
 	make compile && make start
@@ -14,7 +14,7 @@ start-dev:
 ## build
 tsc=./node_modules/.bin/tsc
 add-js-extension:
-	./node_modules/.bin/ts-add-js-extension add --dir=build
+	node_modules/.bin/ts-add-js-extension add --dir=build
 
 build:
 	rm -rf build && \

@@ -2,7 +2,7 @@
 .PHONY: build
 
 ## type check
-tsc=./node_modules/.bin/tsc
+tsc=node_modules/.bin/tsc
 typecheck:
 	$(tsc) --pretty --skipLibCheck --noEmit
 
@@ -11,7 +11,7 @@ start:
 	(trap 'kill 0' INT; make typecheck & make compile)
 
 start-watch:
-	./node_modules/.bin/nodemon
+	node_modules/.bin/nodemon
 
 ## compile
 compile:
