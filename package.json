@@ -5,9 +5,6 @@
     "license": "MIT",
     "scripts": {
         "start": "make start",
-        "build": "yarn && make build"
-    },
-    "engines": {
-        "node": "16.x"
+        "build": "make build"
     }
 }
