@@ -3,6 +3,9 @@
     "name": "my-first-web-frontend",
     "version": "0.0.0",
     "private": true,
+    "scripts": {
+        "build": "yarn && make build"
+    },
     "dependencies": {
         "dotenv": "^11.0.0",
         "granula-string": "^1.0.3",
