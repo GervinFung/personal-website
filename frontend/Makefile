@@ -13,16 +13,15 @@ start:
 start-watch:
 	node_modules/.bin/nodemon
 
-## compile
-compile:
+## build
+build:
 	rm -rf build\
 		&& cp -R public build\
 		&& node script/esbuild.js\
 		&& node script/terser.js
 
-## build
-build:
-	make compile && \
-		rm -rf src script && \
+## clean-up
+clean-up:
+	rm -rf src script && \
 		rm -rf node_modules && \
 		rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json craco.config.js yarn.lock
