@@ -1,12 +1,6 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
-
-const { parsed } = dotenv.config({});
-
-const config = {
-    PUBLIC_URL: parsed.PUBLIC_URL,
-    NODE_ENV: parsed.NODE_ENV,
-};
+dotenv.config();
 
 const main = ({ entryPoints, outfile, loader }) =>
     build({
@@ -17,8 +11,8 @@ const main = ({ entryPoints, outfile, loader }) =>
         minify: true,
         platform: 'browser',
         define: {
-            'process.env.NODE_ENV': `"${config.NODE_ENV}"`,
-            'process.env.PUBLIC_URL': `"${config.PUBLIC_URL}"`,
+            'process.env.NODE_ENV': `"${process.env.PUBLIC_URL}"`,
+            'process.env.PUBLIC_URL': `"${process.env.NODE_ENV}"`,
         },
         logLevel: 'silent',
     })

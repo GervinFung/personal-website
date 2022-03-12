@@ -6,8 +6,5 @@
     "scripts": {
         "start": "make start",
         "build": "make build"
-    },
-    "devDependencies": {
-        "concurrently": "^7.0.0"
     }
 }

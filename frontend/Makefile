@@ -23,5 +23,6 @@ compile:
 ## build
 build:
 	make compile && \
+		rm -rf src script && \
 		rm -rf node_modules && \
 		rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json craco.config.js yarn.lock
