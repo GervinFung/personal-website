@@ -5,4 +5,4 @@ start-watch:
 	(trap 'kill 0' INT; (cd backend && make start-watch) & (cd frontend && make start-watch))
 
 build:
-	./node_modules/bin/concurrently "cd backend && yarn && make build" "cd frontend && yarn && make build"
+	yarn && ./node_modules/bin/concurrently "cd backend && yarn && make build" "cd frontend && yarn && make build"
