@@ -22,6 +22,6 @@ build:
 
 ## clean-up
 clean-up:
-	rm -rf src script && \
+	rm -rf src script public && \
 		rm -rf node_modules && \
 		rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json craco.config.js yarn.lock

@@ -13,7 +13,7 @@ start-dev:
 
 ## build
 clean-up:
-	rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json tsconfig.*.json yarn.lock && \
+	rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json nodemon.json package.json yarn.lock && \
 		rm -rf src script && \
 		rm -rf node_modules
 
