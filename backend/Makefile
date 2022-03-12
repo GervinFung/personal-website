@@ -19,7 +19,7 @@ add-js-extension:
 clean-up:
 	rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json tsconfig.*.json yarn.lock && \
 		rm -rf src script && \
-		rm -rf @types/express @types/node @types/nodemailer ts-add-js-extension typescript
+		yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript
 
 build:
 	rm -rf build && \
