@@ -15,9 +15,8 @@ build:
 
 ## clean-up
 clean-up:
-	rm -rf src script public && \
-		rm -rf node_modules && \
-		rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json yarn.lock
+	rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json package.json yarn.lock && \
+		rm -rf src script node_modules
 
 ## type-check
 typecheck-watch:
