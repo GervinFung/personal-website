@@ -25,5 +25,5 @@ build: pre-build
 
 ## clean-up
 clean-up:
-	rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json package.json workbox-config.cjs yarn.lock && \
+	rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json workbox-config.cjs yarn.lock && \
 		rm -rf src script public node_modules
