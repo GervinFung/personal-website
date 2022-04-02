@@ -4,10 +4,11 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "build": "yarn && make build && make clean-up"
+        "build": "yarn install --production && make build && make clean-up"
     },
     "dependencies": {
         "dotenv": "^11.0.0",
+        "esbuild": "^0.14.30",
         "granula-string": "^1.0.3",
         "parse-dont-validate": "^1.0.1",
         "react": "^17.0.2",
@@ -17,7 +18,8 @@
         "react-router-dom": "^5.3.0",
         "react-spinners": "^0.11.0",
         "styled-components": "^5.3.1",
-        "web-vitals": "^1.0.1"
+        "web-vitals": "^1.0.1",
+        "workbox-cli": "^6.5.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.8",
@@ -27,14 +29,11 @@
         "@types/styled-components": "^5.1.15",
         "@typescript-eslint/eslint-plugin": "^5.17.0",
         "@typescript-eslint/parser": "^5.17.0",
-        "esbuild": "^0.14.11",
         "eslint": "^8.12.0",
         "eslint-plugin-react": "^7.29.4",
         "html-minifier-terser": "^7.0.0-alpha.1",
         "prettier": "^2.6.1",
-        "terser": "^5.10.0",
-        "typescript": "^4.1.2",
-        "workbox-cli": "^6.5.1"
+        "typescript": "^4.1.2"
     },
     "eslintConfig": {
         "extends": [

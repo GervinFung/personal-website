@@ -6,17 +6,17 @@
     "main": "build/index.js",
     "private": true,
     "scripts": {
-        "build": "yarn && make build && make clean-up"
+        "build": "yarn install --production && make build && make clean-up"
     },
     "dependencies": {
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
+        "esbuild": "^0.14.30",
         "express": "^4.16.3",
         "granula-string": "^1.0.5",
         "node-fetch": "^3.0.0",
         "nodemailer": "^6.6.1",
-        "parse-dont-validate": "^1.0.1",
-        "typescript": "^4.5.2"
+        "parse-dont-validate": "^1.0.1"
     },
     "devDependencies": {
         "@types/cors": "^2.8.12",
@@ -25,9 +25,8 @@
         "@types/nodemailer": "^6.4.4",
         "@typescript-eslint/eslint-plugin": "^5.17.0",
         "@typescript-eslint/parser": "^5.17.0",
-        "esbuild": "^0.14.25",
         "eslint": "^8.12.0",
         "prettier": "^2.6.1",
-        "terser": "^5.10.0"
+        "typescript": "^4.6.3"
     }
 }
