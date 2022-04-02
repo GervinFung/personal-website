@@ -7,6 +7,6 @@
     "yarn": "1.22.17"
   },
   "scripts": {
-    "build": "make build"
+    "build": "make build && make clean-up"
   }
 }
