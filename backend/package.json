@@ -6,12 +6,12 @@
     "main": "build/index.js",
     "private": true,
     "scripts": {
-        "build": "yarn install --production && make build && make clean-up"
+        "build": "yarn && make build && make clean-up"
     },
     "dependencies": {
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
-        "esbuild": "^0.14.30",
+        "esbuild": "^0.14.25",
         "express": "^4.16.3",
         "granula-string": "^1.0.5",
         "node-fetch": "^3.0.0",

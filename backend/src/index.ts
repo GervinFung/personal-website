@@ -39,11 +39,12 @@ const { static: expressStatic, json, urlencoded } = express;
             throw new Error('Only accept GET request');
         } else {
             const { query } = req;
-            const page = parseAsString(query.page).orElseLazyGet(() => '0');
-            const language = parseAsString(query.language).orElseLazyGet(
-                () => 'All'
+            res.status(200).json(
+                await getResponse(
+                    parseAsString(query.page).orElseLazyGet(() => '0'),
+                    parseAsString(query.language).orElseLazyGet(() => 'All')
+                )
             );
-            res.status(200).json(await getResponse(page, language));
         }
     });
 

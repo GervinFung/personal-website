@@ -4,13 +4,13 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "build": "yarn install --production && make build && make clean-up"
+        "build": "yarn && make build && make clean-up"
     },
     "dependencies": {
         "dotenv": "^11.0.0",
-        "esbuild": "^0.14.30",
+        "esbuild": "^0.14.11",
         "granula-string": "^1.0.3",
-        "html-minifier-terser": "^7.0.0-alpha.2",
+        "html-minifier-terser": "^7.0.0-alpha.1",
         "parse-dont-validate": "^1.0.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
@@ -20,7 +20,7 @@
         "react-spinners": "^0.11.0",
         "styled-components": "^5.3.1",
         "web-vitals": "^1.0.1",
-        "workbox-cli": "^6.5.2"
+        "workbox-cli": "^6.5.1"
     },
     "devDependencies": {
         "@types/node": "^17.0.8",
