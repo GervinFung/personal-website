@@ -1,19 +1,6 @@
 import fetch from 'node-fetch';
 import { parseAsReadonlyArray, parseAsString } from 'parse-dont-validate';
-
-type PortfolioData = Readonly<{
-    name: string;
-    description: string;
-    language: string;
-    url: string;
-}>;
-
-type Data = Readonly<{
-    page: number;
-    languages: ReadonlyArray<string>;
-    portfolios: ReadonlyArray<PortfolioData>;
-    language: string;
-}>;
+import { PortfolioData } from '../../../common/src/portfolio';
 
 const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
     parseAsReadonlyArray(
@@ -169,26 +156,11 @@ const portfolioDataPromise = async () =>
 
 const portfolioData = portfolioDataPromise();
 
-const getResponse = async (page: string, language: string): Promise<Data> => {
-    const numberOfPortfolioPerPage = 9;
-
-    const portfolio = await portfolioData;
-
-    const selectedLanguage = findLanguageQueried(portfolio, language);
-    const portfolioQueried = findPortfoliosFromLanguage(
-        portfolio,
-        selectedLanguage
-    );
-
-    return {
-        page: Math.ceil(portfolioQueried.length / numberOfPortfolioPerPage),
-        languages: portfolioLanguages(portfolio),
-        portfolios: paginatePortfolio(
-            portfolioQueried,
-            parsePageQuery(page, numberOfPortfolioPerPage)
-        ),
-        language: selectedLanguage,
-    };
+export {
+    portfolioData,
+    findLanguageQueried,
+    parsePageQuery,
+    portfolioLanguages,
+    findPortfoliosFromLanguage,
+    paginatePortfolio,
 };
-
-export default getResponse;

@@ -14,7 +14,7 @@ import {
 } from '../../../common/src/contact';
 import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
-import { contactURL } from '../util/url';
+import { contactURL } from '../url';
 import { GranulaString } from 'granula-string';
 import parseAsData from '../parser/contact';
 
