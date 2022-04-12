@@ -1,9 +1,9 @@
 import express from 'express';
 import getResponse from './util/portfolio';
-import emailResponse from './util/contact';
 import path from 'path';
 import cors from 'cors';
 import { parseAsString } from 'parse-dont-validate';
+import contactRouter from './router/contact';
 
 const { static: expressStatic, json, urlencoded } = express;
 
@@ -48,13 +48,7 @@ const { static: expressStatic, json, urlencoded } = express;
         }
     });
 
-    app.post('/api/contact', async (req, res) => {
-        if (req.method !== 'POST') {
-            throw new Error('Only accept POST request');
-        } else {
-            res.status(200).json(await emailResponse(req.body));
-        }
-    });
+    contactRouter(app).sendEmail();
 
     app.get('*', (_, res) => res.sendFile(path.resolve(build, 'index.html')));
 })();

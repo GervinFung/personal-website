@@ -16,6 +16,8 @@ const isDev = process.env.NODE_ENV === 'DEVELOPMENT';
         platform: 'node',
         define: {
             'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
+            'process.env.EMAIL': `"${process.env.EMAIL}"`,
+            'process.env.PASS': `"${process.env.PASS}"`,
         },
         logLevel: 'silent',
         target: 'node16.13.1',
