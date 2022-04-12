@@ -2,8 +2,11 @@
 .PHONY: test
 
 ## typecheck
+typecheck:
+	node_modules/.bin/tsc -p tsconfig.json $(arguments) 
+
 typecheck-watch:
-	node_modules/.bin/tsc -p tsconfig.json --w
+	make typecheck arguments=--w
 
 ## lint
 lint:

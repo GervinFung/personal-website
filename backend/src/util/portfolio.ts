@@ -131,8 +131,7 @@ const findLanguageQueried = (
     portfolioData: ReadonlyArray<PortfolioData>,
     language: string
 ): string | 'All' => {
-    const finalizedLang =
-        language === 'CPP' ? 'C++' : language === 'C' ? 'C#' : language;
+    const finalizedLang = language === 'C' ? 'C#' : language;
 
     return (
         portfolioData.find((data) => data.language === finalizedLang)
@@ -154,13 +153,14 @@ const portfolioDataPromise = async () =>
         await Promise.all(['Utari-Room', 'P-YNPM'].map(fetchGithubOrganization))
     ).concat(await fetchGithubUser());
 
-const portfolioData = portfolioDataPromise();
+const numberOfPortfolioPerPage = 9;
 
 export {
-    portfolioData,
+    portfolioDataPromise,
     findLanguageQueried,
     parsePageQuery,
     portfolioLanguages,
     findPortfoliosFromLanguage,
     paginatePortfolio,
+    numberOfPortfolioPerPage,
 };
