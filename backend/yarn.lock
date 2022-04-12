@@ -1385,6 +1385,10 @@ esbuild-darwin-arm64@0.14.25:
   resolved "https://registry.yarnpkg.com/esbuild-darwin-arm64/-/esbuild-darwin-arm64-0.14.25.tgz#28e080da4ea0cfe9498071e7f8060498caee1a95"
   integrity sha512-oTcDgdm0MDVEmw2DWu8BV68pYuImpFgvWREPErBZmNA4MYKGuBRaCiJqq6jZmBR1x+3y1DWCjez+5uLtuAm6mw==
 
+"esbuild-env-parsing@https://github.com/GervinFung/EsbuildEnvParsing.git":
+  version "0.0.1"
+  resolved "https://github.com/GervinFung/EsbuildEnvParsing.git#e65f51b07f83b0b6a88d988a223f3c7b834c8e28"
+
 esbuild-freebsd-64@0.14.25:
   version "0.14.25"
   resolved "https://registry.yarnpkg.com/esbuild-freebsd-64/-/esbuild-freebsd-64-0.14.25.tgz#200d3664a3b945bc9fdcba73614b49a11ebd1cfa"
