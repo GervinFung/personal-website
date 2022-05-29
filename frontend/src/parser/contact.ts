@@ -1,4 +1,3 @@
-import { GranulaString } from 'granula-string';
 import {
     parseAsCustomType,
     parseAsReadonlyObject,
