@@ -34,9 +34,7 @@ const parseAsData = (data: any): Data => {
 
 const parseAsInfo = (info: unknown) =>
     parseAsReadonlyObject(info, (info) => ({
-        value: GranulaString.createFromString(
-            parseAsString(info.value).orElseThrowDefault('value')
-        ),
+        value: parseAsString(info.value).orElseThrowDefault('value'),
         error: parseAsString(info.error).orElseThrowDefault('error'),
     })).orElseThrowDefault(`info: ${info}`);
 
