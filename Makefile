@@ -73,5 +73,5 @@ sub-clean-up:
 	mkdir temp-$(dir) && cd $(dir) && mv build Makefile ../temp-$(dir) && cd ../ && rm -rf $(dir) && mv temp-$(dir) $(dir) && rm -rf temp-$(dir)
 
 clean-up:
-	(trap 'kill 0' INT; (make sub-clean-up dir=backend) & (make sub-clean-up dir=frontend) & (rm -rf common .git* .prettierrc  *.json yarn.lock LICENSE README.md docs))
+	(trap 'kill 0' INT; (make sub-clean-up dir=backend) & (make sub-clean-up dir=frontend) & (rm -rf node_modules common .git* .prettierrc  *.json yarn.lock LICENSE README.md docs))
 	
