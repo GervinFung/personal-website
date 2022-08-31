@@ -1,10 +1,6 @@
 name: my-web-ci-cd
 
 on: [push, pull_request]
-env:
-    ORIGIN: http://localhost:3000
-    EMAIL: ${{ secrets.EMAIL }}
-    PASS: ${{ secrets.PASS }}
 
 jobs:
     all:
@@ -34,6 +30,10 @@ jobs:
               run: make format-check
 
             - name: Run Tests
+              env:
+                  ORIGIN: http://localhost:3000
+                  EMAIL: ${{ secrets.EMAIL }}
+                  PASS: ${{ secrets.PASS }}
               run: |
                   make test
                   rm -rf __tests__
