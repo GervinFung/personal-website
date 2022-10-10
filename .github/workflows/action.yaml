@@ -32,6 +32,7 @@ jobs:
             - name: Run Tests
               env:
                   ORIGIN: http://localhost:3000
+                  NEXT_PUBLIC_ORIGIN: http://localhost:3000
                   EMAIL: ${{ secrets.EMAIL }}
                   PASS: ${{ secrets.PASS }}
               run: |

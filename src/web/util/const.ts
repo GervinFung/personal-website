@@ -1,7 +1,7 @@
 import { parseAsStringEnv } from 'esbuild-env-parsing';
 
 const url = parseAsStringEnv({
-    name: 'ORIGIN',
+    name: 'NEXT_PUBLIC_ORIGIN',
     env: process.env.NEXT_PUBLIC_ORIGIN,
 });
 
