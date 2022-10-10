@@ -40,4 +40,6 @@ jobs:
                   rm -rf __tests__
 
             - name: Run Build
+              env:
+                  NEXT_PUBLIC_ORIGIN: http://localhost:3000
               run: make build
