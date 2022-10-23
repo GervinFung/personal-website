@@ -1,9 +1,10 @@
-import { DeepReadonly } from '../../../common/type';
-import { Board } from '../board/Board';
+import type { DeepReadonly } from '../../../common/type';
+import type { Board } from '../board/Board';
 import { instanceOfTicTacToe } from '../board/BoardUtil';
 import { checkmate, stalemate } from '../endgame/EndgameChecker';
-import { Move } from '../move/Move';
-import { League, isFirstPlayer } from '../piece/League';
+import type { Move } from '../move/Move';
+import type { League } from '../piece/League';
+import { isFirstPlayer } from '../piece/League';
 import evaluateConnectFourBoard from './connectFourEval/ConnectFourEvaluator';
 
 type Minimax = Readonly<{

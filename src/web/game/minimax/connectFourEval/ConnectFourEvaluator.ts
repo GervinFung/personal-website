@@ -1,7 +1,7 @@
 import { League, isFirstPlayer } from '../../piece/League';
 import { connectFour } from '../../board/BoardUtil';
-import { Board } from '../../board/Board';
-import { DeepReadonly } from '../../../../common/type';
+import type { Board } from '../../board/Board';
+import type { DeepReadonly } from '../../../../common/type';
 
 type Rows = DeepReadonly<(League | undefined)[][]>;
 

@@ -1,9 +1,9 @@
 import { createConnectFourMove, createTicTacToeMove, Move } from '../move/Move';
 import { League, isFirstPlayer } from '../piece/League';
-import { Tile } from '../board/Tile';
-import { Board } from '../board/Board';
+import type { Tile } from '../board/Tile';
+import type { Board } from '../board/Board';
 import { connectFour } from '../board/BoardUtil';
-import { DeepReadonly } from '../../../common/type';
+import type { DeepReadonly } from '../../../common/type';
 
 type Player = DeepReadonly<{
     legalMoves: Move[];

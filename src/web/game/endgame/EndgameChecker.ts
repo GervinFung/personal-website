@@ -1,4 +1,4 @@
-import { Board } from '../board/Board';
+import type { Board } from '../board/Board';
 import {
     connectFour,
     instanceOfTicTacToe,

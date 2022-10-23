@@ -1,5 +1,5 @@
 {
-    "entry": ["pages/api/**/*.ts", "pages/**/*.tsx"],
+    "entry": ["pages/api/**/*.ts", "pages/**/*.tsx", "test/**/*.ts"],
     "ignoreUnresolved": ["./Theme"],
     "ignorePatterns": [
         "**/node_modules/**",

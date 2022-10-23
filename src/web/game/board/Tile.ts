@@ -1,4 +1,4 @@
-import { Piece } from '../piece/Piece';
+import type { Piece } from '../piece/Piece';
 
 type Tile = Readonly<{
     index: number;
