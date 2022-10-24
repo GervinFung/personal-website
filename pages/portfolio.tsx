@@ -23,6 +23,11 @@ type PortfolioImageBackgroundProps = Readonly<{
 const getServerSideProps = async (
     context: Parameters<GetServerSideProps>[number]
 ) => {
+    context.res.setHeader(
+        'Cache-Control',
+        ['immutable', `s-maxage=${24 * 60 * 60 * 10}`].join(', ')
+    );
+
     const getResponse = () => {
         try {
             return {
