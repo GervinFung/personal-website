@@ -44,16 +44,21 @@ vercel-production: production
 development:
 	cp .env.development .env
 
-clear-cache: development
+clear-cache:
 	rm -rf .next && make generate
 
-dev: clear-cache
+pre-dev: development clear-cache
+
+dev: pre-dev
 	$(next) dev
 
-pre-build: clear-cache check-portfolio-image-asset production
+pre-build: check-portfolio-image-asset
 
 ## build
 build: pre-build
+	$(next) build
+
+build-dev: pre-dev pre-build production
 	$(next) build
 
 ## start
