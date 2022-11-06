@@ -156,7 +156,14 @@ const Portfolio = (
     }, [searchUrl]);
 
     const customQueryPortfolio = (page: number) =>
-        queryPortfolio(page, parseAsString(query.language).elseGet('all'));
+        queryPortfolio(
+            page,
+            parseAsString({
+                string: query.language,
+                ifParsingFailThen: 'get',
+                alternativeValue: 'all',
+            })
+        );
 
     const getNextPage = (data: Data): number => {
         const { page } = queryParams;

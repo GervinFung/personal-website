@@ -11,7 +11,7 @@
         "next": "^12.3.2",
         "next-seo": "^5.14.0",
         "nodemailer": "^6.8.0",
-        "parse-dont-validate": "^3.0.1",
+        "parse-dont-validate": "^4.0.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.6.0",
