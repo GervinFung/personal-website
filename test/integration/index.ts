@@ -16,11 +16,9 @@ const testIntegration = () => {
     });
     describe('Integration Test', () => {
         it('should ensure that all requests can be sent and all response can be parsed', async () => {
-            await new Promise<undefined>((resolve) =>
-                setTimeout(() => {
-                    resolve(undefined);
-                }, 5000)
-            );
+            await server.wait({
+                seconds: 5,
+            });
             testCases({
                 tests: [[testPortfolioQuery], [testContactPost]],
             });
