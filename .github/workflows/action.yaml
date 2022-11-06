@@ -40,6 +40,7 @@ jobs:
                   NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
                   EMAIL: ${{ secrets.EMAIL }}
                   PASS: ${{ secrets.PASS }}
+                  NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: hi
               run: |
                   make test
                   rm -rf __tests__
@@ -47,5 +48,5 @@ jobs:
             - name: Run Build
               env:
                   NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
-                  NODE_ENV: ci
+                  NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: hi
               run: make build
