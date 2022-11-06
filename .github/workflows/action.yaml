@@ -36,8 +36,8 @@ jobs:
 
             - name: Run Tests
               env:
-                  ORIGIN: http://localhost:3000
-                  NEXT_PUBLIC_ORIGIN: http://localhost:3000
+                  ORIGIN: http://0.0.0.0:3000
+                  NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
                   EMAIL: ${{ secrets.EMAIL }}
                   PASS: ${{ secrets.PASS }}
               run: |
@@ -46,5 +46,6 @@ jobs:
 
             - name: Run Build
               env:
-                  NEXT_PUBLIC_ORIGIN: http://localhost:3000
+                  NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
+                  NODE_ENV: ci
               run: make build
