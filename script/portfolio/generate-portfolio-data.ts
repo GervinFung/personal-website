@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 import {
     parseAsReadonlyArray,
     parseAsReadonlyObject,
@@ -10,10 +10,10 @@ import fs from 'fs';
 const fetchGithubUserRepo = async (): Promise<Portfolios> =>
     parseAsReadonlyArray(
         await (
-            await fetch(
+            await axios.get(
                 'https://api.github.com/users/GervinFung/repos?per_page=50'
             )
-        ).json(),
+        ).data,
         (repo) => {
             const name = parseAsString(repo.name).elseThrow(
                 'name is not a string'
@@ -57,10 +57,10 @@ const fetchGithubOrganization = async (
         new Set(
             parseAsReadonlyArray(
                 await (
-                    await fetch(
+                    await axios.get(
                         `https://api.github.com/orgs/${organizationName}/repos`
                     )
-                ).json(),
+                ).data,
                 (repo) =>
                     !repo.language
                         ? []
@@ -77,8 +77,8 @@ const fetchGithubOrganization = async (
 
     return parseAsReadonlyObject(
         await (
-            await fetch(`https://api.github.com/orgs/${organizationName}`)
-        ).json(),
+            await axios.get(`https://api.github.com/orgs/${organizationName}`)
+        ).data,
         (organization) => ({
             languages,
             name: parseAsString(organization.login).elseThrow(

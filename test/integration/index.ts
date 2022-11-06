@@ -2,18 +2,33 @@ import child from 'child_process';
 import testContactPost from './contact';
 import testPortfolioQuery from './portfolio';
 import testCases from 'cases-of-test';
+import SpawnDetachedChildProcess from 'spawn-detached-child-process';
+import { beforeAll, afterAll, describe, it } from 'vitest';
 
 const testIntegration = () => {
+    const server = SpawnDetachedChildProcess.create({
+        command: 'make',
+        args: ['start'],
+    });
     beforeAll(() => {
         child.execSync('make build');
-        child.exec('make start');
+        server.start();
     });
     describe('Integration Test', () => {
-        testCases({
-            tests: [[testPortfolioQuery], [testContactPost]],
+        it('should ensure that all requests can be sent and all response can be parsed', async () => {
+            await new Promise<undefined>((resolve) =>
+                setTimeout(() => {
+                    resolve(undefined);
+                }, 5000)
+            );
+            testCases({
+                tests: [[testPortfolioQuery], [testContactPost]],
+            });
         });
     });
-    afterAll(() => child.exec('kill $(lsof -t -i:3000)'));
+    afterAll(() => {
+        server.terminate();
+    });
 };
 
 export default testIntegration;

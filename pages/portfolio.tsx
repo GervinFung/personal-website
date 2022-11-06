@@ -129,7 +129,7 @@ const Portfolio = (
                     render: ({ data }) => data as any,
                 },
                 error: {
-                    render: ({ data }) => data,
+                    render: ({ data }) => data as any,
                 },
             });
         } else {
@@ -139,7 +139,7 @@ const Portfolio = (
                         success: undefined,
                         pending: undefined,
                         error: {
-                            render: ({ data }) => data,
+                            render: ({ data }) => data as any,
                         },
                         promise: new Promise<string>((_, reject) =>
                             reject(error)
