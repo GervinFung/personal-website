@@ -15,7 +15,7 @@ install:
 	pnpm i --frozen-lockfile
 
 install-mongo:
-	node script/mongo-setup/install.js
+	$(NODE_BIN)vite-node script/mongo-setup
 
 setup-mongo:
 	sudo systemctl unmask mongod
