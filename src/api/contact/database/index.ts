@@ -32,6 +32,10 @@ export default class Database {
             throw new Error('Port or SRV are not defined');
         };
 
+        console.log({
+            env: process.env,
+        });
+
         return new this(createURL(), config);
     };
 
