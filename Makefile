@@ -32,9 +32,9 @@ generate-portfolio-data:
 
 generate-resume:
 	git clone https://github.com/GervinFung/resume.git --depth 1 &&\
-		cd resume && make install &&\
-		mv dist/GervinFungDaXuen-Résumé.pdf ../public/files/GervinFungDaXuen-Résumé.pdf &&\
-		cd ../ && rm -rf resume
+		cd resume && make install && cd ../ &&\
+		mv resume/dist/GervinFungDaXuen-Résumé.pdf public/files/GervinFungDaXuen-Résumé.pdf &&\
+		rm -rf resume
 
 generate-portfolio-data-force:
 	make generate-portfolio-data arguments="-- --f"
