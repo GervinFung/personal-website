@@ -31,13 +31,7 @@ generate-portfolio-data:
 	$(NODE_BIN)vite-node script/projects/generate-data.ts ${arguments}
 
 generate-resume:
-	git clone https://github.com/GervinFung/resume.git --depth 1 &&\
-		cd resume && make install && cd ../ &&\
-		ls resume/dist &&\
-		ls public &&\
-		ls public/files &&\
-		mv resume/dist/GervinFungDaXuen-Résumé.pdf public/files/GervinFungDaXuen-Résumé.pdf &&\
-		rm -rf resume
+	$(NODE_BIN)vite-node script/resume/generate.ts
 
 generate-portfolio-data-force:
 	make generate-portfolio-data arguments="-- --f"
