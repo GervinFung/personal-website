@@ -32,7 +32,7 @@ generate-portfolio-data:
 
 generate-resume:
 	git clone https://github.com/GervinFung/resume.git --depth 1 &&\
-		cd resume && make install && cd ../ &&\
+		cd resume && make install && cd ../ && ls &&\
 		mv resume/dist/GervinFungDaXuen-Résumé.pdf public/files/GervinFungDaXuen-Résumé.pdf &&\
 		rm -rf resume
 
