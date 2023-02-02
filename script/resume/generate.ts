@@ -9,9 +9,8 @@ const run = (command: string) => {
 const main = () => {
     run('git clone https://github.com/GervinFung/resume.git --depth 1');
     run('cd resume && make install');
-    run('cd public');
 
-    const assetFiles = 'files';
+    const assetFiles = 'public/files';
     if (!fs.existsSync(assetFiles)) {
         fs.mkdirSync(assetFiles);
     }
