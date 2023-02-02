@@ -25,6 +25,3 @@ cache
 
 # vercel
 .vercel
-
-# test
-test/e2e/result/*
