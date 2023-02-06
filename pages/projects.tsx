@@ -1,140 +1,75 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-    FullScreenContainer,
-    GlobalContainer,
-} from '../src/web/theme/global-theme';
+import { GlobalContainer } from '../src/web/theme/global-theme';
 import Seo from '../src/web/components/seo';
 import Image from 'next/image';
 import projects from '../src/web/data/projects';
-import CloseFullScreen from '../src/web/components/common/close-full-screen';
-import SurpriseGif from '../public/images/others/surprised.gif';
+import useWordScramble from '../src/web/hook/word-scramble';
 
 type ProjectImageBackgroundProps = Readonly<{
     backgroundImage: string;
 }>;
 
-const Surprise = ({
-    seconds,
-    shownPopup,
-    onCloseMessage,
-}: Readonly<{
-    seconds: string;
-    shownPopup: boolean;
-    onCloseMessage: () => void;
-}>) =>
-    shownPopup ? null : (
-        <SurpriseContainer>
-            <CloseFullScreen color="black" close={onCloseMessage} />
-            <Content>
-                <img src={SurpriseGif.src} alt="surprised.gif" />
-                <HeaderMessage>WOW</HeaderMessage>
-                <ParagraphMessage>
-                    You have seen my project for more than {seconds} seconds,
-                    Thank You!
-                </ParagraphMessage>
-            </Content>
-        </SurpriseContainer>
-    );
+const Project = () => (
+    <GlobalContainer>
+        <Seo
+            title="Projects"
+            keywords={['Project', 'Software Engineer']}
+            content="Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
+        />
+        <ProjectContainer>
+            {projects.map(({ name, description, url }) => {
+                const path = 'images/projects';
 
-const Project = () => {
-    const popUpWaitDuration = 8000;
-    const popUpShownKey = 'shown';
+                const wordScrambleState = useWordScramble({
+                    count: 10,
+                    timeOut: 10,
+                    content: description,
+                });
 
-    const [state, setState] = React.useState({
-        shownPopup: true,
-    });
-
-    const { shownPopup } = state;
-
-    React.useEffect(() => {
-        const item = localStorage.getItem(popUpShownKey);
-        const surprise =
-            item && JSON.parse(item)
-                ? undefined
-                : setTimeout(() => {
-                      setState((prev) => ({
-                          ...prev,
-                          shownPopup: false,
-                      }));
-                      localStorage.setItem(popUpShownKey, JSON.stringify(true));
-                  }, popUpWaitDuration + 500);
-        return () => clearTimeout(surprise);
-    }, []);
-
-    return (
-        <GlobalContainer>
-            <Seo
-                title="Projects"
-                keywords={['Project', 'Software Engineer']}
-                content="Every side projects deemed important/useful will be shown here as projects. All side projects is available as repositories/organization on Github"
-            />
-            <Surprise
-                shownPopup={shownPopup}
-                seconds={(popUpWaitDuration / 1000).toFixed(1)}
-                onCloseMessage={() =>
-                    setState((prev) => ({
-                        ...prev,
-                        shownPopup: true,
-                    }))
-                }
-            />
-            <ProjectContainer>
-                {projects.map(({ name, description, url }) => {
-                    const path = 'images/projects';
-                    return (
-                        <ProjectItemContainer key={name}>
-                            <ProjectItemBackground
-                                backgroundImage={`${path}/background/${name}.webp`}
-                            />
-                            <ImageTextContainer>
-                                <ProjectLogoContainer>
-                                    <a
-                                        href={url}
-                                        target="blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <Image
-                                            width={90}
-                                            alt={`${name}.webp`}
-                                            src={require(`../public/${path}/logo/${name}.webp`)}
-                                        />
-                                    </a>
-                                </ProjectLogoContainer>
-                                <Caption>{description}</Caption>
-                            </ImageTextContainer>
-                        </ProjectItemContainer>
-                    );
-                })}
-            </ProjectContainer>
-        </GlobalContainer>
-    );
-};
-
-const SurpriseContainer = styled(FullScreenContainer)`
-    background-color: #fff44f;
-`;
-
-const Content = styled.div`
-    text-align: center;
-`;
-
-const HeaderMessage = styled.h1`
-    color: black;
-    font-size: 5em;
-`;
-
-const ParagraphMessage = styled.p`
-    color: black;
-    font-size: 1.25em;
-`;
+                return (
+                    <ProjectItemContainer
+                        key={name}
+                        onMouseOver={wordScrambleState.start}
+                        onMouseOut={wordScrambleState.stop}
+                    >
+                        <ProjectItemBackground
+                            backgroundImage={`${path}/background/${name}.webp`}
+                        />
+                        <ImageTextContainer>
+                            <ProjectLogoContainer>
+                                <a
+                                    href={url}
+                                    target="blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Image
+                                        width={90}
+                                        alt={`${name}.webp`}
+                                        src={require(`../public/${path}/logo/${name}.webp`)}
+                                    />
+                                </a>
+                            </ProjectLogoContainer>
+                            <Caption>{wordScrambleState.word()}</Caption>
+                        </ImageTextContainer>
+                    </ProjectItemContainer>
+                );
+            })}
+        </ProjectContainer>
+    </GlobalContainer>
+);
 
 const ProjectContainer = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: auto auto auto auto;
-    animation: fadeIn ease 0.5s;
+    @media (max-width: 1100px) {
+        grid-template-columns: auto auto auto;
+    }
     @media (max-width: 877px) {
+        grid-template-columns: auto auto;
+    }
+    @media (max-width: 530px) {
         grid-template-columns: auto;
     }
 `;
@@ -167,13 +102,13 @@ const ProjectItemContainer = styled.div`
 `;
 
 const Caption = styled.div`
-    width: 25vw;
     transition: 1s;
     font-size: 0.9em;
     font-weight: 600;
     color: transparent;
     padding: 0 8px;
     box-sizing: border-box;
+    word-break: break-word;
     @media (max-width: 877px) {
         width: 50vw;
     }

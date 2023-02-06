@@ -6,16 +6,17 @@ all:
 		make typecheck &&\
 		make format-check &&\
 		make test &&\
-		make build
 
 NODE_BIN=node_modules/.bin/
+VITE_NODE=$(NODE_BIN)vite-node
+NEXT=$(NODE_BIN)next
 
 ## install
 install:
 	pnpm i --frozen-lockfile
 
 install-mongo:
-	node script/mongo-setup/install.js
+	$(VITE_NODE) script/mongo-setup
 
 setup-mongo:
 	sudo systemctl unmask mongod
@@ -28,35 +29,38 @@ setup-mongo:
 generate: generate-portfolio-data generate-resume
 
 generate-portfolio-data:
-	$(NODE_BIN)vite-node script/projects/generate-data.ts ${arguments}
+	$(VITE_NODE) script/projects/generate-data.ts ${arguments}
 
 generate-resume:
-	git clone https://github.com/GervinFung/resume.git --depth 1 &&\
-		cd resume && make install &&\
-		mv dist/GervinFungDaXuen-Résumé.pdf ../public/files/GervinFungDaXuen-Résumé.pdf &&\
-		cd ../ && rm -rf resume
+	$(VITE_NODE) script/resume/generate.ts
 
 generate-portfolio-data-force:
 	make generate-portfolio-data arguments="-- --f"
 
-check-projects-image-asset:
-	$(NODE_BIN)vite-node script/projects/ensure-background-has-logo-vice-versa.ts
+generate-webmanifest:
+	$(VITE_NODE) script/site/webmanifest.ts
 
-## dev
-next=$(NODE_BIN)next
+generate-sitemap:
+	$(NODE_BIN)next-sitemap
+
+check-projects-image-asset:
+	$(VITE_NODE) script/projects/ensure-background-has-logo-vice-versa.ts
 
 ## env
+copy-env:
+	$(VITE_NODE) script/env/copy.ts ${arguments}
+
 development:
-	cp .env.development .env
+	make copy-env arguments="-- --development"
 
 staging:
-	cp .env.staging .env
+	make copy-env arguments="-- --staging"
 
 production:
-	cp .env.productions .env
+	make copy-env arguments="-- --productions"
 
 testing:
-	cp .env.testing .env
+	make copy-env arguments="-- --testing"
 
 ## deployment
 deploy-staging: build-staging
@@ -69,30 +73,31 @@ clear-cache:
 	rm -rf .next
 
 start-development: development clear-cache
-	$(next) dev
+	$(NEXT) dev
 
 start-staging: staging clear-cache start
 
 start-production: production clear-cache start
 
 ## build
-build-production: clear-cache check-projects-image-asset production
-	$(next) build
+build-development: clear-cache check-projects-image-asset development build
 
-build-staging: clear-cache check-projects-image-asset staging
-	$(next) build
+build-production: clear-cache check-projects-image-asset production build
 
-build-testing: clear-cache check-projects-image-asset testing
-	$(next) build
+build-staging: clear-cache check-projects-image-asset staging build
+
+build-testing: clear-cache check-projects-image-asset testing build
+
+build:
+	$(NEXT) build && make generate-sitemap && make generate-webmanifest
 
 ## start
 start:
-	$(next) start $(arguments)
+	$(NEXT) start $(arguments)
 
 ## format
-prettier=$(NODE_BIN)prettier
 prettify:
-	$(prettier) --ignore-path .gitignore  --$(type) src/ test/
+	$(NODE_BIN)prettier --ignore-path .gitignore  --$(type) src/ test/
 
 format-check:
 	make prettify type=check
