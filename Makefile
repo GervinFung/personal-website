@@ -26,16 +26,10 @@ setup-mongo:
 	mongosh < script/mongo-setup/document.js
 
 ## generate
-generate: generate-portfolio-data generate-resume
-
-generate-portfolio-data:
-	$(VITE_NODE) script/projects/generate-data.ts ${arguments}
+generate: generate-resume
 
 generate-resume:
 	$(VITE_NODE) script/resume/generate.ts
-
-generate-portfolio-data-force:
-	make generate-portfolio-data arguments="-- --f"
 
 generate-webmanifest:
 	$(VITE_NODE) script/site/webmanifest.ts
@@ -130,15 +124,15 @@ typecheck-watch:
 
 ## test
 test-type:
-	$(NODE_BIN)vitest test/$(path)/**.test.ts
+	$(NODE_BIN)vitest test/$(path)/**.test.ts $(arguments)
 
 test-unit:
-	make test-type path="unit"
+	make test-type path="unit" arguments="$(arguments)"
 
 test-integration:
-	make build-testing && make test-type path="integration"
+	make build-testing && make test-type path="integration" arguments="$(arguments)"
 
 test-snapshots:
-	make build-testing && make test-type path="snapshots"
+	make build-testing && make test-type path="snapshots" arguments="$(arguments)"
 
 test: test-unit test-integration test-snapshots
