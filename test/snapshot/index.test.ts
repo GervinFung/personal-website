@@ -22,10 +22,12 @@ const testSnapshot = () => {
 
         it.each(
             (['pc', 'tablet', 'mobile'] as const).flatMap((platform) =>
-                (['home', 'error'] as const).map((link) => ({
-                    platform,
-                    link,
-                }))
+                (['home', 'projects', 'contact', 'error'] as const).map(
+                    (link) => ({
+                        platform,
+                        link,
+                    })
+                )
             )
         )(
             'should detect that layout of $link looks decent on $platform',

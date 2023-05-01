@@ -1,6 +1,7 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import Box from '@mui/material/Box';
 
 const Projects: NextPage = () => {
     const router = useRouter();
@@ -9,7 +10,7 @@ const Projects: NextPage = () => {
         router.replace('/?part=projects');
     }, []);
 
-    return null;
+    return <Box sx={{ height: '100vh', width: '100vw' }} />;
 };
 
 export default Projects;
