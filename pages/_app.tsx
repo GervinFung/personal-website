@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
     createTheme,
     responsiveFontSizes,
@@ -10,9 +11,16 @@ import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
+import '../src/web/typing/mui.d.ts';
 
 const App = (props: AppProps) => {
     const { fontFamily } = consts;
+
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const [mode, setMode] = React.useState(
+        prefersDarkMode ? 'dark' : ('light' as 'dark' | 'light')
+    );
 
     const theme = React.useMemo(
         () =>
@@ -22,7 +30,13 @@ const App = (props: AppProps) => {
                         fontFamily,
                     },
                     palette: {
-                        mode: 'dark',
+                        mode,
+                        background: {
+                            default:
+                                mode === 'dark'
+                                    ? colorTheme.contrast.black
+                                    : colorTheme.contrast.white,
+                        },
                         primary: {
                             main: colorTheme.blue.light,
                         },
@@ -31,6 +45,14 @@ const App = (props: AppProps) => {
                         },
                         custom: {
                             ...colorTheme,
+                            default:
+                                mode === 'dark'
+                                    ? colorTheme.contrast.black
+                                    : colorTheme.contrast.white,
+                            opposite:
+                                mode === 'light'
+                                    ? colorTheme.contrast.black
+                                    : colorTheme.contrast.white,
                         },
                     },
                     components: {
@@ -54,13 +76,18 @@ const App = (props: AppProps) => {
                     },
                 })
             ),
-        []
+        [mode]
     );
 
     return (
         <ThemeProvider theme={theme}>
             <ErrorBoundary>
-                <Layout>
+                <Layout
+                    isDarkMode={mode === 'dark'}
+                    setMode={() =>
+                        setMode((mode) => (mode === 'dark' ? 'light' : 'dark'))
+                    }
+                >
                     <main>
                         <props.Component {...props.pageProps} />
                     </main>

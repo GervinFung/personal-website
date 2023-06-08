@@ -13,8 +13,8 @@ const main = () => {
             src: `/images/icons/icon-${dimension}x${dimension}.png`,
             type: 'image/png',
         })),
-        theme_color: colorTheme.black,
-        background_color: colorTheme.black,
+        theme_color: colorTheme.contrast.black,
+        background_color: colorTheme.contrast.black,
         display: 'standalone',
     };
 

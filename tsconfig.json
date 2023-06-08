@@ -26,6 +26,6 @@
         "allowJs": false,
         "verbatimModuleSyntax": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/.tsx"],
+    "include": ["**.ts", "**/*.ts", "**/.tsx"],
     "exclude": ["node_modules"]
 }

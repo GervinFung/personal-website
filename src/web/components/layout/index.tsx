@@ -1,10 +1,16 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import Footer from '../common/footer';
+import Header from '../header';
+import Footer from '../footer';
 
-const Layout = (props: Readonly<{ children: React.ReactNode }>) => (
+const Layout = (
+    props: Readonly<
+        { children: React.ReactNode } & Parameters<typeof Header>[0]
+    >
+) => (
     <>
+        <Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
         <CssBaseline />
         <GlobalStyles
             styles={`

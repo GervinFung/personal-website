@@ -7,16 +7,17 @@ NEXT=$(NODE_BIN)next
 
 ## install
 install:
-	pnpm i --frozen-lockfile
+	pnpm i
 
 install-mongo:
 	$(VITE_NODE) script/mongo-setup/install.ts
 
 start-mongo:
-	sudo systemctl unmask mongod
-	sudo systemctl start mongod
-	sudo systemctl stop mongod
-	sudo systemctl restart mongod
+	sudo service mongod stop 
+	sudo rm /var/lib/mongodb/mongod.lock 
+	sudo mongod --repair --dbpath /var/lib/mongodb 
+	sudo mongod --fork --logpath /var/lib/mongodb/mongodb.log --dbpath /var/lib/mongodb 
+	sudo service mongod start
 
 migrate-mongo:
 	mongosh < script/mongo-setup/document.js
@@ -34,6 +35,9 @@ generate-sitemap:
 	$(NODE_BIN)next-sitemap
 
 ## env
+generate-environment-type-definition:
+	$(VITE_NODE) script/env/type-def.ts
+
 copy-env:
 	$(VITE_NODE) script/env/copy.ts ${arguments}
 

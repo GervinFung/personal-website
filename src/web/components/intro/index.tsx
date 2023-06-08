@@ -1,7 +1,6 @@
 import React from 'react';
 import Typography, { type TypographyProps } from '@mui/material/Typography';
 import Holder from '../common/holder';
-import type { ID } from '../header';
 import consts from '../../const';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 
@@ -18,7 +17,7 @@ const Content = (props: TypographyProps) => (
     />
 );
 
-const Intro = ({ id }: ID) => {
+const Intro = () => {
     const [time, setTime] = React.useState(Date.now());
 
     React.useEffect(() => {
@@ -34,11 +33,11 @@ const Intro = ({ id }: ID) => {
     const breakPoint = useBreakpoint();
 
     return (
-        <Holder id={id}>
+        <Holder>
             <Typography
                 variant={!breakPoint ? 'h2' : breakPoint === 'xs' ? 'h1' : 'h2'}
                 sx={({ palette }) => ({
-                    my: '16px',
+                    mb: '16px',
                     textShadow: [
                         `4px 1px ${palette.custom.striking.green}`,
                         `-4px 1px ${palette.custom.striking.red}`,
@@ -47,7 +46,7 @@ const Intro = ({ id }: ID) => {
             >
                 GERVIN
             </Typography>
-            <Holder sx={{ width: consts.width }}>
+            <Holder sx={{ width: consts.width.others[breakPoint ?? 'xl'] }}>
                 <Content sx={{ color: 'text.primary', mt: 3 }}>
                     {isDay() ? 'Bonjour' : 'Bonsoir'}! Je vous remercie de votre
                     visite!

@@ -1,178 +1,224 @@
-import resume from 'resume';
-import { guard } from '../../common/type';
-
-const projectUtil = {
-    subProjectIndicator: '->',
-} as const;
-
-const projects = () => {
-    const { openSourceProjects } = resume;
-
-    const gitignored = openSourceProjects.gitignored();
-    const npmPackages = openSourceProjects.npmPackages();
-    const utari = openSourceProjects.utari();
-
-    const replacePresentWithNow =
-        (index: number) => (strings: ReadonlyArray<string>) =>
-            guard({
-                error: () =>
-                    new Error(
-                        `replacePresentWithNow has no element at index ${index}`
-                    ),
-                value: strings
-                    .map((string) => string.replace('Present', 'Now'))
-                    .at(index),
-            });
-
-    const replacePresentWithNowFirst = replacePresentWithNow(0);
-
-    return (
-        [
+const projects = [
+    {
+        category: 'Gitignored',
+        projects: [
             {
-                name: gitignored.project,
-                brief: 'Blazingly fast development tools to generate useful gitignore templates',
-                date: replacePresentWithNowFirst(
-                    gitignored.aboutAndDateList.map((param) => param.date)
-                ),
-                tags: [
-                    'Command-line Interfaces',
-                    'Development Tools',
-                    'Web Scrap',
-                    'Developer Experience',
-                ],
-                imagesName: ['main', 'templates', 'more-templates', 'cli'],
-                externalLinks: {
-                    github: 'https://github.com/Gitignored-App',
-                    homePage: 'https://gitignored.vercel.app',
-                },
-                description: gitignored.descriptions.flatMap(
-                    (param) => param.descriptions
-                ),
+                name: 'Web',
+                description: 'The Web Application that is UI/UX friendly',
+                githubLink: 'https://github.com/Gitignored-App/web',
+                imagePath: '/gitignored/web',
             },
             {
-                name: 'parse-dont-validate',
-                brief: 'Validating data acts as a gatekeeper, parsing them into meaningful data types adds valuable information to raw data',
-                date: replacePresentWithNowFirst(
-                    npmPackages.aboutAndDateList.map((param) => param.date)
-                ),
-                tags: [
-                    'Open Source',
-                    'Data Validation',
-                    'Immutable Data',
-                    'NPM package',
-                ],
-                imagesName: ['main'],
-                externalLinks: {
-                    github: 'https://github.com/GervinFung/parse-dont-validate',
-                    homePage:
-                        'https://www.npmjs.com/package/parse-dont-validate',
-                },
-                description: [
-                    ...npmPackages.descriptions.flatMap((param) =>
-                        param.title.includes('denoify')
-                            ? []
-                            : `${guard({
-                                  value: param.title.split(' - ').at(0),
-                                  error: () =>
-                                      new Error(
-                                          'Title do not have first element'
-                                      ),
-                              })} ${projectUtil.subProjectIndicator} ${
-                                  param.descriptions
-                              }`
-                    ),
-                ],
+                name: 'Terminal',
+                description:
+                    'The CLI Application that cache and with distinctive colors for commands/arguments',
+                githubLink: 'https://github.com/Gitignored-App/cli',
+                imagePath: '/gitignored/terminal',
             },
-            {
-                name: 'ts-add-js-extension',
-                brief: 'Append the JavaScript extension to a relative import/export statement without relying on the TypeScript compiler',
-                date: replacePresentWithNowFirst(
-                    npmPackages.aboutAndDateList.map((param) => param.date)
-                ),
-                tags: ['Open Source', 'NPM package'],
-                imagesName: ['main'],
-                externalLinks: {
-                    github: 'https://github.com/GervinFung/ts-add-js-extension',
-                    homePage:
-                        'https://www.npmjs.com/package/ts-add-js-extension',
-                },
-                description: [
-                    [
-                        `ts-add-js-extension ${projectUtil.subProjectIndicator} This package automates the process of adding a file extension to transpiled JavaScript code in ESM format`,
-                        'The absence of a file extension in the transpiled files can prevent successful importing and exporting of the code, thus affecting execution of the code',
-                        'The package searches for the transpiled files and adds the specified JavaScript file extension to resolve the issue',
-                    ].join('. '),
-                ],
-            },
-            {
-                name: 'UTARi',
-                brief: 'Final Year Project - an application to help UTAR students look for accommodations around UTAR area',
-                date: replacePresentWithNowFirst(
-                    utari.aboutAndDateList.map((param) => param.date)
-                ),
-                tags: [
-                    'Final Year Project',
-                    'Pet Project',
-                    'Web Scrap',
-                    'Data Validation',
-                ],
-                imagesName: [
-                    'home',
-                    'general-unit',
-                    'detailed-unit',
-                    'how-it-works',
-                ],
-                externalLinks: {
-                    github: 'https://github.com/UTARi-Accommodation',
-                },
-                description: utari.descriptions.flatMap(
-                    (param) => param.descriptions
-                ),
-            },
+        ],
+    },
+    {
+        category: 'Games',
+        projects: [
             {
                 name: 'LibGDX-Chess-Game',
-                brief: 'A LibGDX based Parallel AI Chess Game playable on many devices from Level 1 to Level 10',
-                date: 'Feb 2021 - Jun 2021',
-                tags: [
-                    'Indie Game',
-                    'Pet Project',
-                    'Immutable Data Structure',
-                    'AI',
-                    'Algorithm',
-                ],
-                imagesName: ['welcome', 'about', 'normal', 'yellow', 'blue'],
-                externalLinks: {
-                    github: 'https://github.com/GervinFung/LibGDX-Chess-Game',
-                },
-                description: [
-                    'Developed a Chess Titan alternative using Java Swing, Android UI, and later libGDX frameworks to enable efficient maintenance and mobile deployment, incorporating features such as move highlighting, adjustable AI levels, move history, available moves display, undo functionality and more. Acquired proficiency in both object-oriented and functional programming, as well as data structures, algorithms, and multithreading. Recognized with 9 developer stars and 3 forks',
-                ],
+                description:
+                    'A LibGDX AI Multithreaded Chess Game playable on many devices from Level 1 to Level 10',
+                githubLink: 'https://github.com/GervinFung/LibGDX-Chess-Game',
+                imagePath: '/games/libgdx-chess-game',
             },
             {
-                name: 'TextEditorFX',
-                brief: 'Fist JavaFX project - an upgraded version of the previous Text Editor',
-                date: 'May 2021 - Jun 2021',
-                tags: [
-                    'Notepad Alternative',
-                    'Pet Project',
-                    'State Management',
-                ],
-                imagesName: ['home', 'feature'],
-                externalLinks: {
-                    github: 'https://github.com/GervinFung/TextEditorFX',
-                },
-                description: [
-                    `To address the issue of Notepad's problematic undo functionality which reverts to unintended third edit instead of the first, I created a more reliable alternative editor that encompasses all the essential features of Notepad, but with proper undo capability. This editor has potential for future enhancements. A peer developer has acknowledged its success with a star`,
-                ],
+                name: 'AndroidSimpleAIChess',
+                description:
+                    'First Android Project - Parallel AI Chess Game with 10 different levels',
+                githubLink:
+                    'https://github.com/GervinFung/AndroidSimpleAIChess',
+                imagePath: '/games/androidsimpleaichess',
             },
-        ] as const
-    ).map(
-        (project) =>
-            ({
-                id: project.name.toLowerCase(),
-                ...project,
-            } as const)
-    );
-};
+            {
+                name: 'SimpleParallelChessAI',
+                description:
+                    'A Parallel AI Chess Game from Level 1 to Level 10 made with Java Swing',
+                githubLink:
+                    'https://github.com/GervinFung/SimpleParallelChessAI',
+                imagePath: '/games/simpleparallelchessai',
+            },
+            {
+                name: 'TicTacToe',
+                description:
+                    'AI Tic-Tac-Toe Game made with Java Swing. Play in 3x3 grid up to 10x10',
+                githubLink: 'https://github.com/GervinFung/TicTacToe',
+                imagePath: '/games/tictactoe',
+            },
+            {
+                name: 'Connect4',
+                description: 'A Connect-4 Game written in C# WinForm',
+                githubLink: 'https://github.com/GervinFung/Connect4',
+                imagePath: '/games/connect4',
+            },
+            {
+                name: 'MinimalTicTacToe',
+                description:
+                    'AI TicTacToe made with React, TypeScript and Styled-Components for fun. Play in 3x3 grid up to 5x5',
+                githubLink: 'https://github.com/GervinFung/MinimalTicTacToe',
+                imagePath: '/games/minimaltictactoe',
+            },
+        ],
+    },
+    {
+        category: 'TypeScript',
+        projects: [
+            {
+                name: 'Gen Env Type Def',
+                description:
+                    'Generate type definitions for environment variables from different environment files with support for both import.meta.env and process.env',
+                githubLink: 'https://github.com/GervinFung/gen-env-type-def',
+                imagePath: '/typescript/gen-env-type-def',
+            },
+            {
+                name: 'Ts Add Js Extension',
+                description:
+                    'Add .js extension to each relative import/export statement in JavaScript file',
+                githubLink: 'https://github.com/GervinFung/ts-add-js-extension',
+                imagePath: '/typescript/ts-add-js-extension',
+            },
+        ],
+    },
+    {
+        category: 'Deno',
+        projects: [
+            {
+                name: 'Denoify',
+                description:
+                    'For NPM module authors that would like to support Deno but do not want to write and maintain a port',
+                githubLink: 'https://github.com/garronej/denoify',
+                imagePath: '/deno/denoify',
+            },
+        ],
+    },
+    {
+        category: 'Configurations',
+        projects: [
+            {
+                name: 'Dotfiles',
+                description: 'My dotfiles that are XDG_CONFIG_HOME compliant',
+                githubLink: 'https://github.com/GervinFung/.config',
+                imagePath: '/configurations/dotfiles',
+            },
+            {
+                name: 'Eslint Config PoolOfDeath20',
+                description: 'My ESLint shareable config',
+                githubLink:
+                    'https://github.com/GervinFung/eslint-config-poolofdeath20',
+                imagePath: '/configurations/eslint-config-poolofdeath20',
+            },
+        ],
+    },
+    {
+        category: 'Starter Templates',
+        projects: [
+            {
+                name: 'NPM Package',
+                description: 'NPM Package Starter Template',
+                githubLink: 'https://github.com/GervinFung/npm-package-starter',
+                imagePath: '/starter-templates/npm-package',
+            },
+        ],
+    },
+    {
+        category: 'Text Editor',
+        projects: [
+            {
+                name: 'Notepad',
+                description:
+                    'Text Editor similar to NotePad that can undo all of your edit',
+                githubLink: 'https://github.com/GervinFung/TextEditor',
+                imagePath: '/texteditor/notepad',
+            },
+            {
+                name: 'Notepad FX',
+                description:
+                    'Fist JavaFX project - an upgraded version of the previous Notepad Text Editor',
+                githubLink: 'https://github.com/GervinFung/TextEditorFX',
+                imagePath: '/texteditor/notepadfx',
+            },
+        ],
+    },
+    {
+        category: 'Blog',
+        projects: [
+            {
+                name: 'Adonis OS',
+                description: 'The abandoned blog',
+                githubLink: 'https://github.com/GervinFung/adonis-os-blog',
+                imagePath: '/blog/adonis-os',
+            },
+            {
+                name: 'Adonix',
+                description: 'Blog - Remake of Adonis OS Blog',
+                githubLink: 'https://github.com/GervinFung/adonix-blog',
+                imagePath: '/blog/adonix',
+            },
+        ],
+    },
+    {
+        category: 'UTARi',
+        projects: [
+            {
+                name: 'Web',
+                description: 'The web application of UTARi',
+                githubLink: 'https://github.com/UTARi-Accommodation/web',
+                imagePath: '/utari/web',
+            },
+            {
+                name: 'Server',
+                description: 'The server of UTARi',
+                githubLink: 'https://github.com/UTARi-Accommodation/server',
+                imagePath: '/utari/server',
+            },
+            {
+                name: 'Desktop',
+                description: 'The desktop application of UTARi',
+                githubLink: 'https://github.com/UTARi-Accommodation/desktop',
+                imagePath: '/utari/desktop',
+            },
+            {
+                name: 'Common',
+                description: 'All commonly used functions and typings',
+                githubLink: 'https://github.com/UTARi-Accommodation/common',
+                imagePath: '/utari/common',
+            },
+        ],
+    },
+    {
+        category: 'Bots',
+        projects: [
+            {
+                name: 'JKLM bot',
+                description: 'A JKLM bot written for fun',
+                githubLink: 'https://github.com/GervinFung/jklm-bot',
+                imagePath: '/bots/jklm-bot',
+            },
+        ],
+    },
+    {
+        category: 'Toys',
+        projects: [
+            {
+                name: 'React Unix Terminal',
+                description:
+                    'A customizable unix terminal emulator for React on web, with customizable command',
+                githubLink: 'https://github.com/GervinFung/react-unix-terminal',
+                imagePath: '/toys/react-unix-terminal',
+            },
+            {
+                name: 'Guard Data',
+                description: 'Safely guard JSON data as intended type',
+                githubLink: 'https://github.com/GervinFung/guard-data',
+                imagePath: '/toys/guard-data',
+            },
+        ],
+    },
+];
 
-export { projectUtil, projects };
+export { projects };

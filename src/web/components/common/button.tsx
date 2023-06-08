@@ -17,7 +17,7 @@ const SecondaryMainButton = (
             variant="contained"
             sx={(theme) => ({
                 width: 'fit-content',
-                color: 'custom.white',
+                color: 'custom.contrast.white',
                 backgroundColor: 'secondary.main',
                 fontSize: '1em',
                 '&:hover': {

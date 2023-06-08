@@ -1,5 +1,5 @@
 import mongoose, { type ObjectId } from 'mongoose';
-import mongodbConfig from './config';
+import config from './config';
 import { contactFormMessageSchema } from './schema';
 
 type ContactFormMessage = Readonly<{
@@ -10,28 +10,20 @@ type ContactFormMessage = Readonly<{
 
 export default class Database {
     private readonly client: ReturnType<typeof mongoose.connect>;
-    private readonly contactFormMessage: string;
+    private readonly collections: typeof config.collections;
 
     private static readonly create = async () => {
-        const config = mongodbConfig();
         const createURL = () => {
-            const {
-                auth: { user, password },
-                dbName,
-                port,
-                address,
-                srv,
-            } = config;
-            if (srv) {
-                return `mongodb${srv}://${user}:${password}@${address}/${dbName}?authSource=admin&retryWrites=true&w=majority`;
+            if (config.srv) {
+                return `mongodb${config.srv}://${config.auth.user}:${config.auth.password}@${config.address}/${config.dbName}?authSource=admin&retryWrites=true&w=majority`;
             }
-            if (port) {
-                return `mongodb://${user}:${password}@${address}:${port}/${dbName}?authSource=admin&retryWrites=true&w=majority`;
+            if (config.port) {
+                return `mongodb://${config.auth.user}:${config.auth.password}@${config.address}:${config.port}/${config.dbName}?authSource=admin&retryWrites=true&w=majority`;
             }
             throw new Error('Port or SRV are not defined');
         };
 
-        return new this(createURL(), config);
+        return new this(createURL(), config.collections);
     };
 
     private static database: Promise<Database> | undefined = undefined;
@@ -45,9 +37,9 @@ export default class Database {
         return this.database;
     };
 
-    private constructor(url: string, config: ReturnType<typeof mongodbConfig>) {
+    private constructor(url: string, collections: typeof config.collections) {
         this.client = mongoose.connect(url);
-        this.contactFormMessage = config.collections.contactFormMessage;
+        this.collections = collections;
     }
 
     // testing purpose only
@@ -95,7 +87,10 @@ export default class Database {
     };
 
     private readonly getContactFormMessage = () =>
-        mongoose.model(this.contactFormMessage, contactFormMessageSchema);
+        mongoose.model(
+            this.collections.contactFormMessage,
+            contactFormMessageSchema
+        );
 
     readonly insertContactFormMessage = async (
         formMessage: ContactFormMessage

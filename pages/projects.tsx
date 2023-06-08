@@ -1,16 +1,18 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import Box from '@mui/material/Box';
+import Projects from '../src/web/components/projects';
+import Seo from '../src/web/components/seo';
+import { BlurryClusterHoverEffect } from '../src/web/components/common/hover-effect';
 
-const Projects: NextPage = () => {
-    const router = useRouter();
+const Index: NextPage = () => (
+    <BlurryClusterHoverEffect>
+        <Seo
+            title="Projects"
+            keywords={['Personal Website']}
+            description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
+        />
+        <Projects />
+    </BlurryClusterHoverEffect>
+);
 
-    React.useEffect(() => {
-        router.replace('/?part=projects');
-    }, []);
-
-    return <Box sx={{ height: '100vh', width: '100vw' }} />;
-};
-
-export default Projects;
+export default Index;

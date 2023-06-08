@@ -16,9 +16,9 @@ import Holder from '../common/holder';
 import Section from '../common/section';
 import sendMessage from './send-message';
 import { Error, Success, Info } from '../common/alert';
-import type { ID } from '../header';
 import consts from '../../const';
 import { capitalize } from '../../utils';
+import useBreakpoint from '../../hooks/use-breakpoint-value';
 
 const TextFieldInput = (
     props: Readonly<{
@@ -57,7 +57,7 @@ const TextFieldInput = (
     );
 };
 
-const Contact = ({ id }: ID) => {
+const Contact = () => {
     const defaultContactInfo = {
         name: defaultValue as Name,
         email: defaultValue as Email,
@@ -83,6 +83,8 @@ const Contact = ({ id }: ID) => {
                   message: string;
               }
     );
+
+    const breakPoint = useBreakpoint();
 
     const hiddenLabel =
         React.useRef() as React.MutableRefObject<HTMLLabelElement>;
@@ -113,12 +115,7 @@ const Contact = ({ id }: ID) => {
     }, [messageResult]);
 
     return (
-        <Holder
-            id={id}
-            sx={{
-                mt: 16,
-            }}
-        >
+        <Holder>
             <Section
                 elevation={0}
                 sx={({ palette }) => ({
@@ -127,7 +124,8 @@ const Contact = ({ id }: ID) => {
                         `-5px 5px ${palette.custom.striking.green}`,
                         `5px -5px ${palette.custom.striking.red}`,
                     ].join(' ,'),
-                    width: consts.width,
+                    width: consts.width.others[breakPoint ?? 'xl'],
+                    backgroundColor: 'background.default',
                 })}
             >
                 {messageResult?.status !== 'failed' ? null : (
@@ -158,13 +156,13 @@ const Contact = ({ id }: ID) => {
                             px: 4,
                             borderRadius: 0,
                             textAlign: 'center',
-                            backgroundColor: 'custom.white',
+                            backgroundColor: 'custom.opposite',
                         }}
                     >
                         <Typography
                             sx={{
                                 fontWeight: 'bold',
-                                color: 'custom.black',
+                                color: 'custom.default',
                             }}
                         >
                             Alright, you want to contact me?
@@ -172,7 +170,7 @@ const Contact = ({ id }: ID) => {
                         <Typography
                             sx={{
                                 fontWeight: 'bold',
-                                color: 'custom.black',
+                                color: 'custom.default',
                             }}
                         >
                             Just drop me a line! I will do my best to respond if
@@ -259,18 +257,22 @@ const Contact = ({ id }: ID) => {
                                 sx={({ palette }) => ({
                                     width: 'fit-content',
                                     color: 'custom.striking.red',
-                                    backgroundColor: 'custom.white',
+                                    border:
+                                        palette.mode === 'dark'
+                                            ? 'none'
+                                            : `1px solid ${palette.custom.striking.red}`,
+                                    backgroundColor: 'custom.contrast.white',
                                     background: [
                                         `linear-gradient(to right`,
                                         `${palette.custom.striking.red} 50%`,
-                                        `${palette.custom.white} 50%)`,
+                                        `${palette.custom.contrast.white} 50%)`,
                                     ].join(','),
                                     backgroundSize: '300% 100%',
                                     backgroundPosition: 'right bottom',
                                     transition: 'all 0.2s ease-out',
                                     fontSize: '1em',
                                     '&:hover': {
-                                        color: 'custom.white',
+                                        color: 'custom.contrast.white',
                                         backgroundColor: 'custom.striking.red',
                                         backgroundPosition: 'left bottom',
                                     },
@@ -323,7 +325,7 @@ const Contact = ({ id }: ID) => {
                                         });
                                 }}
                             >
-                                Send
+                                SEND
                             </Button>
                         </Box>
                     </FormControl>
