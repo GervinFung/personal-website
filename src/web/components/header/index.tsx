@@ -53,7 +53,7 @@ const CustomLink = (
                 >
                     <Typography
                         sx={({ palette }) => ({
-                            fontWeight: props.isActive ? 'bold' : undefined,
+                            fontWeight: props.isActive ? 'bolder' : undefined,
                             color: !props.isActive
                                 ? palette.text.secondary
                                 : palette.text.primary,

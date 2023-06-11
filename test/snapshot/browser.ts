@@ -6,6 +6,7 @@ const getWebSnapshot = async (
         port: number;
         browser: Browser;
         platform: 'pc' | 'tablet' | 'mobile';
+        mode: 'dark' | 'light';
     }>
 ) => {
     const page = await param.browser.newPage();
@@ -22,9 +23,6 @@ const getWebSnapshot = async (
                   height: 667,
               }
     );
-    await page.emulateMediaFeatures([
-        { name: 'prefers-color-scheme', value: 'dark' },
-    ]);
 
     await page.goto(
         `http://0.0.0.0:${param.port}/${
@@ -32,12 +30,47 @@ const getWebSnapshot = async (
         }`
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+    await page.evaluate(
+        (mode) => localStorage.setItem('mode', mode),
+        param.mode
+    );
 
-    return {
-        link: param.link,
-        image: await page.screenshot(),
-    } as const;
+    await page.reload({
+        waitUntil: 'networkidle0',
+    });
+
+    await page.evaluate(() => {
+        window.scrollTo(0, window.document.body.scrollHeight);
+    });
+
+    const allImagesLoadResult = await page.evaluate(() =>
+        Promise.all<'completed' | 'loaded' | 'failed'>(
+            Array.from(document.querySelectorAll('img')).map((image) => {
+                if (image.complete) {
+                    return Promise.resolve('completed');
+                }
+                return new Promise((resolve) => {
+                    image.addEventListener('load', () => resolve('loaded'));
+                    image.addEventListener('error', () => resolve('failed'));
+                });
+            })
+        )
+    );
+
+    console.log({ allImagesLoadResult });
+
+    if (
+        allImagesLoadResult.length !==
+        allImagesLoadResult.filter((result) => result !== 'failed').length
+    ) {
+        throw new Error('There are images that failed to load');
+    }
+
+    const image = await page.screenshot({ fullPage: true });
+
+    await page.close();
+
+    return image;
 };
 
 export { getWebSnapshot };

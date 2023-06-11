@@ -4,8 +4,11 @@ import { toMatchImageSnapshot } from 'jest-image-snapshot';
 import Server from '../server';
 import { getWebSnapshot } from './browser';
 
-const testSnapshot = () => {
-    const server = Server.create();
+const testSnapshot = ({
+    port,
+    mode,
+}: Readonly<{ mode: 'dark' | 'light'; port: number }>) => {
+    const server = Server.of(port);
     let browser: undefined | puppeteer.Browser = undefined;
 
     beforeAll(async () => {
@@ -17,7 +20,7 @@ const testSnapshot = () => {
         });
     });
 
-    describe('Snapshot Test', () => {
+    describe(`Snapshot test of ${mode} mode snapshot`, () => {
         expect.extend({ toMatchImageSnapshot });
 
         it.each(
@@ -36,8 +39,9 @@ const testSnapshot = () => {
                     throw new TypeError('browser is undefined');
                 }
 
-                const dir = `${__dirname}/snapshot-images/${platform}`;
-                const { image } = await getWebSnapshot({
+                const dir = `${__dirname}/snapshot-images/${platform}/${mode}`;
+                const image = await getWebSnapshot({
+                    mode,
                     link,
                     browser,
                     platform,
@@ -53,10 +57,17 @@ const testSnapshot = () => {
         );
     });
 
-    afterAll(() => {
+    afterAll(async () => {
         server.kill();
-        browser?.close();
+        await browser?.close();
     });
 };
 
-testSnapshot();
+testSnapshot({
+    port: 8080,
+    mode: 'dark',
+});
+testSnapshot({
+    port: 8081,
+    mode: 'light',
+});

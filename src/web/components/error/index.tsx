@@ -62,15 +62,13 @@ const ClickRefresh = (
     />
 );
 
-const ErrorContainer = ({
-    type,
-    messages,
-    statusCode,
-}: Readonly<{
-    type: 'reload' | 'replace';
-    statusCode?: number;
-    messages: ReadonlyArray<string>;
-}>) => {
+const ErrorContainer = (
+    props: Readonly<{
+        type: 'reload' | 'replace';
+        statusCode?: number;
+        messages: ReadonlyArray<string>;
+    }>
+) => {
     const router = useRouter();
 
     const home = '/';
@@ -81,7 +79,7 @@ const ErrorContainer = ({
 
     React.useEffect(() => {
         if (!countDown) {
-            type === 'reload' ? router.reload() : router.replace(home);
+            props.type === 'reload' ? router.reload() : router.replace(home);
         }
         if (process.env.NEXT_PUBLIC_NODE_ENV === 'test') {
             return;
@@ -103,7 +101,7 @@ const ErrorContainer = ({
             }}
         >
             <Title
-                title={`${statusCode ?? ''} Error`}
+                title={`${props.statusCode ?? ''} Error`}
                 content="You took the wrong turn and came here"
             />
             <Box
@@ -118,11 +116,11 @@ const ErrorContainer = ({
                             fontWeight: 'bold',
                         }}
                     >
-                        {statusCode}
+                        {props.statusCode}
                     </Typography>
                 </MarginTopBox>
                 <MarginTopBox>
-                    {messages.map((message, index) => (
+                    {props.messages.map((message, index) => (
                         <Typography
                             key={message}
                             variant={!index ? 'h3' : 'inherit'}
@@ -138,8 +136,10 @@ const ErrorContainer = ({
                 </MarginTopBox>
                 <MarginTopBox>
                     <Typography>
-                        {type === 'reload' ? 'Auto Reload' : 'Back to Home'} in:
-                        00:00:
+                        {props.type === 'reload'
+                            ? 'Auto Reload'
+                            : 'Back to Home'}{' '}
+                        in: 00:00:
                         {`${countDown >= 10 ? '' : 0}${countDown}`}
                     </Typography>
                     <Typography
@@ -160,7 +160,7 @@ const ErrorContainer = ({
                             whiteSpace: 'pre',
                         }}
                     >
-                        {type === 'reload' ? (
+                        {props.type === 'reload' ? (
                             <>
                                 Quickly{' '}
                                 <Box

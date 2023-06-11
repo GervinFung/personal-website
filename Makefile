@@ -63,8 +63,9 @@ deploy-production: build-production
 clear-cache:
 	rm -rf .next
 
-start-development: copy-env-development clear-cache
-	$(NEXT) dev
+start-development: copy-env-development clear-cache dev
+
+start-testing: copy-env-testing clear-cache dev
 
 start-staging: copy-env-staging clear-cache start
 
@@ -85,6 +86,10 @@ build:
 ## start
 start:
 	$(NEXT) start $(arguments)
+
+## dev
+dev:
+	$(NEXT) dev
 
 ## format
 prettify:
@@ -130,4 +135,4 @@ test-integration:
 test-snapshot:
 	make test-type path="snapshot" arguments="$(arguments)"
 
-test: test-unit build-testing test-integration test-snapshot
+test: test-unit test-integration test-snapshot

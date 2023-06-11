@@ -16,11 +16,28 @@ import '../src/web/typing/mui.d.ts';
 const App = (props: AppProps) => {
     const { fontFamily } = consts;
 
+    const modeKey = 'mode';
+
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-    const [mode, setMode] = React.useState(
-        prefersDarkMode ? 'dark' : ('light' as 'dark' | 'light')
-    );
+    const [mode, setMode] = React.useState('dark' as 'dark' | 'light');
+
+    React.useEffect(() => {
+        const value = localStorage.getItem(modeKey);
+        setMode(
+            value === 'dark' || value === 'light'
+                ? value
+                : prefersDarkMode
+                ? 'dark'
+                : 'light'
+        );
+    }, []);
+
+    React.useEffect(() => {
+        if (mode) {
+            localStorage.setItem(modeKey, mode);
+        }
+    }, [mode]);
 
     const theme = React.useMemo(
         () =>

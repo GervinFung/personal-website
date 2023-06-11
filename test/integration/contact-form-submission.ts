@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import Database from '../../src/api/database';
-import sendMessage from '../../src/web/components/contact/send-message';
+import { sendMessage } from '../../src/web/api-functions/contact';
 
 const testContactFormSubmissionPost = () =>
     describe('Api contact submission post test', () => {
@@ -25,8 +25,9 @@ const testContactFormSubmissionPost = () =>
                 ...dummy,
                 isHoneyPot: true,
             });
-            const result = await instance.getAllContactFormMessages();
             expect(response.type).toBe('succeed');
+
+            const result = await instance.getAllContactFormMessages();
             expect(result.result).toBe('succeed');
             if (result.result !== 'succeed') {
                 throw new Error(
@@ -45,13 +46,12 @@ const testContactFormSubmissionPost = () =>
                 output: {
                     type: 'input',
                     name: {
-                        value: '',
-                        error: '*Please do not leave name section empty*',
+                        status: 'error',
+                        reason: 'Please do not leave name section empty',
                     },
-                    email: { error: '', value: dummy.email },
+                    email: { status: 'clean' },
                     message: {
-                        error: '',
-                        value: dummy.message,
+                        status: 'clean',
                     },
                 },
             },
@@ -62,14 +62,13 @@ const testContactFormSubmissionPost = () =>
                 },
                 output: {
                     type: 'input',
-                    name: { value: dummy.name, error: '' },
+                    name: { status: 'clean' },
                     email: {
-                        value: '',
-                        error: '*Please do not leave email section empty*',
+                        status: 'error',
+                        reason: 'Please do not leave email section empty',
                     },
                     message: {
-                        value: dummy.message,
-                        error: '',
+                        status: 'clean',
                     },
                 },
             },
@@ -80,14 +79,13 @@ const testContactFormSubmissionPost = () =>
                 },
                 output: {
                     type: 'input',
-                    name: { error: '', value: dummy.name },
+                    name: { status: 'clean' },
                     email: {
-                        error: '',
-                        value: dummy.email,
+                        status: 'clean',
                     },
                     message: {
-                        value: '',
-                        error: '*Please do not leave message section empty*',
+                        status: 'error',
+                        reason: 'Please do not leave message section empty',
                     },
                 },
             },
@@ -95,7 +93,7 @@ const testContactFormSubmissionPost = () =>
             'should return input status if input of "%p" had not pass the validation',
             async ({ input, output }) => {
                 const response = await sendMessage(input);
-                return expect(response).toStrictEqual(output);
+                expect(response).toStrictEqual(output);
             }
         );
     });

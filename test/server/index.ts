@@ -1,22 +1,17 @@
 import child from 'child_process';
-import config from '../config';
 
 export default class Server {
-    private readonly port: number;
+    private constructor(private readonly port: number) {}
 
-    private constructor() {
-        this.port = config().port;
-    }
+    static readonly of = (port: number) => new this(port);
 
-    static create = () => new this();
+    readonly getPort = () => this.port;
 
-    getPort = () => this.port;
-
-    kill = () => {
+    readonly kill = () => {
         child.exec(`kill $(lsof -t -i:${this.port})`);
     };
 
-    start = async () => {
+    readonly start = async () => {
         const server = child
             .exec(`make start arguments="-p ${this.port}"`)
             .on('spawn', () => console.log('spawned server'))
