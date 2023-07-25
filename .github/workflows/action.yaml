@@ -2,6 +2,17 @@ name: my-web-ci-cd
 
 on: [push, pull_request]
 
+env:
+    ORIGIN: http://0.0.0.0:8080
+    NEXT_PUBLIC_ORIGIN: http://0.0.0.0:8080
+    NEXT_PUBLIC_NODE_ENV: test
+    MONGO_DB: test-my-web
+    MONGO_COLLECTION_CONTACT_FORM_MESSAEG: contact-form-message
+    MONGO_ADDRESS: localhost
+    MONGO_PORT: 27017
+    MONGO_USER: runner
+    MONGO_PASSWORD: mongodb
+
 jobs:
     all:
         runs-on: ubuntu-latest
@@ -19,19 +30,19 @@ jobs:
                   sudo apt install npm
                   npm i --location=global pnpm@8
 
+            - name: Install MongoDB
+              uses: supercharge/mongodb-github-action@1.8.0
+              with:
+                  mongodb-version: 6.0
+
+            - name: Ping MongoDB
+              run: make echo-mongo
+
             - name: Install Depedencies
               run: make install
 
-            - name: Install MongoDB
-              run: make install-mongo
-
-            - name: Start MongoDB
-              run: make start-mongo
-
-            - name: Migrate Document
-              run: |
-                  sleep 1.5
-                  make migrate-mongo
+            - name: MongoDB Migration
+              run: make migrate-mongo
 
             - name: Run Code Generation
               run: make generate
@@ -46,20 +57,7 @@ jobs:
               run: make format-check
 
             - name: Run Tests
-              env:
-                  ORIGIN: http://0.0.0.0:3000
-                  NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
-                  NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: hi
-                  MONGO_DB: myWeb
-                  MONGO_COLLECTION_CONTACT_FORM_MESSAEG: contactFormMessage
-                  MONGO_ADDRESS: localhost
-                  MONGO_PORT: 27017
-                  MONGO_USER: runner
-                  MONGO_PASSWORD: mongodb
               run: make test
 
             - name: Run Build
-              env:
-                  NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
-                  NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: hi
               run: make build
