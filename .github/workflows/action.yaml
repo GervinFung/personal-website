@@ -38,6 +38,13 @@ jobs:
                   echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
                   sudo apt-get update
                   sudo apt-get install -y mongodb-mongosh
+            - name: Start Mongo
+              run: |
+                  sudo service mongod stop 
+                  sudo rm /var/lib/mongodb/mongod.lock 
+                  sudo mongod --repair --dbpath /var/lib/mongodb 
+                  sudo mongod --fork --logpath /var/lib/mongodb/mongodb.log --dbpath /var/lib/mongodb 
+                  sudo service mongod start
 
             - name: Ping Mongosh
               run: make echo-mongo

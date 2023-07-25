@@ -12,6 +12,13 @@ install:
 install-mongo:
 	$(VITE_NODE) script/mongo-setup/install.ts
 
+start-mongo:
+	sudo service mongod stop 
+	sudo rm /var/lib/mongodb/mongod.lock 
+	sudo mongod --repair --dbpath /var/lib/mongodb 
+	sudo mongod --fork --logpath /var/lib/mongodb/mongodb.log --dbpath /var/lib/mongodb 
+	sudo service mongod start
+
 migrate-mongo:
 	mongosh < script/mongo-setup/document.js
 
