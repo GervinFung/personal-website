@@ -30,12 +30,16 @@ jobs:
                   sudo apt install npm
                   npm i --location=global pnpm@8
 
-            - name: Install MongoDB
-              uses: supercharge/mongodb-github-action@1.8.0
-              with:
-                  mongodb-version: 6.0
+            - name: Install Mongosh
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y wget gnupg
+                  wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+                  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+                  sudo apt-get update
+                  sudo apt-get install -y mongodb-mongosh
 
-            - name: Ping MongoDB
+            - name: Ping Mongosh
               run: make echo-mongo
 
             - name: Install Depedencies
