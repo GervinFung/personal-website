@@ -57,8 +57,6 @@ const getWebSnapshot = async (
         )
     );
 
-    console.log({ allImagesLoadResult });
-
     if (
         allImagesLoadResult.length !==
         allImagesLoadResult.filter((result) => result !== 'failed').length

@@ -219,6 +219,13 @@ const projects = [
         category: 'Toys',
         projects: [
             {
+                name: 'Brainfuck',
+                description:
+                    'Partial optimized Brainfuck implementation in TypeScript',
+                githubLink: 'https://github.com/GervinFung/brainfuck',
+                imagePath: '/toys/brainfuck',
+            },
+            {
                 name: 'React Unix Terminal',
                 description:
                     'A customizable unix terminal emulator for React on web, with customizable command',
@@ -369,8 +376,8 @@ const Projects: NextPage = () => {
                                             <Grid
                                                 item
                                                 key={project.name}
-                                                xs={12}
-                                                sm={6}
+                                                sm={12}
+                                                xm={6}
                                             >
                                                 <Item {...project} />
                                             </Grid>

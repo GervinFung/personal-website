@@ -27,7 +27,7 @@ export default defineConfig(() => {
                               ...prev,
                               [guard({
                                   value: key,
-                                  error: () => new Error('key is undefined'),
+                                  error: new Error('key is undefined'),
                               })]: value,
                           };
                       }, {}),

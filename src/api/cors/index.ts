@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
 import type { Response } from '../endpoint';
-import { guard } from '../../common/type';
 
 const initMiddleware =
     <T>(
@@ -22,13 +21,7 @@ const cors = <T>() =>
     initMiddleware<Response<T>>(
         Cors({
             credentials: true,
-            origin: guard({
-                value: process.env.ORIGIN,
-                error: () =>
-                    new Error(
-                        'There is no environment variable calle "ORIGIN"'
-                    ),
-            }),
+            origin: process.env.ORIGIN,
         })
     );
 

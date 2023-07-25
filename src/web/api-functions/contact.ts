@@ -10,7 +10,7 @@ const sendMessage = (
     }>
 ) =>
     axios
-        .post('/api/contact', values, {
+        .post(`${process.env.ORIGIN}/api/contact`, values, {
             headers: {
                 'Content-Type': 'application/json',
             },

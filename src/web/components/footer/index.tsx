@@ -1,126 +1,74 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import FacebookSharpIcon from '@mui/icons-material/FacebookSharp';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import CopyrightIcon from '@mui/icons-material/Copyright';
 import Holder from '../common/holder';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import links from '../../links';
+import useBreakpoint from '../../hooks/use-breakpoint-value';
 
-const SocialLink = (
-    props: Readonly<{
-        href: string;
-        background: string;
-        backgroundColor?: string;
-        children: React.ReactNode;
-    }>
-) => (
-    <Link
-        href={props.href}
-        target="_blank"
-        rel="noopener"
-        underline="none"
-        sx={{
-            p: 1,
-            backgroundColor: props.backgroundColor ?? props.background,
-            background: props.background,
-            display: 'flex',
-            alignItems: 'center',
-            borderRadius: '50%',
-            border: 'none',
-        }}
-    >
-        {props.children}
-    </Link>
-);
+const Footer = () => {
+    const breakPoint = useBreakpoint();
 
-const Footer = () => (
-    <Holder
-        sx={{
-            m: 0,
-            mt: 8,
-        }}
-    >
-        <Box
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <CopyrightIcon fontSize="small" />
-            <Typography>2020 - {new Date().getFullYear()}</Typography>
-        </Box>
-        <Box
+    const isMobile = breakPoint === 'xs';
+
+    return (
+        <Holder
             sx={{
                 m: 0,
-                mt: 4,
-                mb: 2,
-                width: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gridGap: 24,
+                mt: 8,
+                mb: isMobile ? 8 : 0,
             }}
         >
-            <SocialLink href={links.github} background="#282A36">
-                <GitHubIcon
-                    fontSize="large"
-                    style={{
-                        backgroundColor: '#282A36',
-                        color: 'white',
-                    }}
-                />
-            </SocialLink>
-            <SocialLink href={links.linkedin} background="#1877F2">
-                <LinkedInIcon
-                    fontSize="large"
-                    style={{
-                        backgroundColor: '#1877F2',
-                        color: 'white',
-                    }}
-                />
-            </SocialLink>
-            <SocialLink
-                href={links.instagram}
-                backgroundColor="#F09433"
-                background={`linear-gradient(45deg, ${[
-                    '#F09433 0%',
-                    '#E6683C 25%',
-                    '#DC2743 50%',
-                    '#CC2366 75%',
-                    '#CC2366 75%',
-                ].join(',')})`}
+            <Box
+                sx={{
+                    mb: 4,
+                    whiteSpace: 'pre-wrap',
+                    ...(!isMobile
+                        ? {
+                              display: 'flex',
+                          }
+                        : {
+                              display: 'grid',
+                              placeItems: 'center',
+                              gridGap: 8,
+                          }),
+                }}
             >
-                <InstagramIcon
-                    fontSize="large"
-                    style={{
-                        backgroundColor: '#F09433',
-                        background: `linear-gradient(45deg, ${[
-                            '#F09433 0%',
-                            '#E6683C 25%',
-                            '#DC2743 50%',
-                            '#CC2366 75%',
-                            '#CC2366 75%',
-                        ].join(',')})`,
-                        color: 'white',
-                    }}
-                />
-            </SocialLink>
-            <SocialLink href={links.facebook} background="#3B5998">
-                <FacebookSharpIcon
-                    fontSize="large"
-                    style={{
-                        backgroundColor: '#3B5998',
-                        color: 'white',
-                    }}
-                />
-            </SocialLink>
-        </Box>
-    </Holder>
-);
+                <Box>
+                    <Typography
+                        sx={{
+                            color: 'text.secondary',
+                        }}
+                    >
+                        <Link
+                            href="https://creativecommons.org/licenses/by-nc-sa/4.0"
+                            target="_blank"
+                            rel="noopener"
+                            sx={{
+                                textDecoration: 'underline',
+                                color: 'text.secondary',
+                                textDecorationColor: 'text.secondary',
+                                '&:hover': {
+                                    color: 'text.primary',
+                                    textDecorationColor: 'text.primary',
+                                },
+                            }}
+                        >
+                            CC BY-NC-SA 4.0
+                        </Link>{' '}
+                    </Typography>
+                </Box>
+                <Box>
+                    <Typography
+                        sx={{
+                            color: 'text.secondary',
+                        }}
+                    >
+                        2022 - Present © Gervin Fung
+                    </Typography>
+                </Box>
+            </Box>
+        </Holder>
+    );
+};
 
 export default Footer;

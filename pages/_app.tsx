@@ -1,6 +1,5 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import {
     createTheme,
     responsiveFontSizes,
@@ -18,8 +17,6 @@ const App = (props: AppProps) => {
 
     const modeKey = 'mode';
 
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
     const [mode, setMode] = React.useState('dark' as 'dark' | 'light');
 
     React.useEffect(() => {
@@ -27,16 +24,14 @@ const App = (props: AppProps) => {
         setMode(
             value === 'dark' || value === 'light'
                 ? value
-                : prefersDarkMode
+                : window.matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark'
                 : 'light'
         );
     }, []);
 
     React.useEffect(() => {
-        if (mode) {
-            localStorage.setItem(modeKey, mode);
-        }
+        localStorage.setItem(modeKey, mode);
     }, [mode]);
 
     const theme = React.useMemo(
