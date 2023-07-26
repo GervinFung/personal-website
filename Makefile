@@ -12,13 +12,6 @@ install:
 install-mongo:
 	$(VITE_NODE) script/mongo-setup/install.ts
 
-start-mongo:
-	sudo service mongod stop 
-	sudo rm /var/lib/mongodb/mongod.lock 
-	sudo mongod --repair --dbpath /var/lib/mongodb 
-	sudo mongod --fork --logpath /var/lib/mongodb/mongodb.log --dbpath /var/lib/mongodb 
-	sudo service mongod start
-
 migrate-mongo:
 	mongosh < script/mongo-setup/document.js
 
@@ -26,7 +19,7 @@ echo-mongo:
 	echo 'db.runCommand("ping").ok' | mongosh --quiet
 
 ## generate
-generate: generate-webmanifest generate-sitemap
+generate: generate-webmanifest generate-sitemap generate-environment-type-definition
 
 generate-webmanifest:
 	$(VITE_NODE) script/site/webmanifest.ts
@@ -135,4 +128,4 @@ test-integration:
 test-snapshot:
 	make test-type path="snapshot" arguments="$(arguments)"
 
-test: test-unit test-integration test-snapshot
+test: build-testing test-unit test-integration test-snapshot
