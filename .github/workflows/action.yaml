@@ -43,9 +43,6 @@ jobs:
             - name: Start Mongo
               run: |
                   sudo service mongod stop 
-                  sudo rm /var/lib/mongodb/mongod.lock 
-                  sudo mongod --repair --dbpath /var/lib/mongodb 
-                  sudo mongod --fork --logpath /var/lib/mongodb/mongodb.log --dbpath /var/lib/mongodb 
                   sudo service mongod start
 
             - name: Ping Mongosh
