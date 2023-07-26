@@ -36,9 +36,6 @@ jobs:
             - name: Install Depedencies
               run: make install
 
-            - name: MongoDB Migration
-              run: make migrate-mongo
-
             - name: Run Code Generation
               run: make generate
 
