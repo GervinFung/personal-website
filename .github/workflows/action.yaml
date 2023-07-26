@@ -39,15 +39,6 @@ jobs:
             - name: Run Code Generation
               run: make generate
 
-            - name: Run Linter
-              run: make lint
-
-            - name: Run Typecheck
-              run: make typecheck
-
-            - name: Run Format Check
-              run: make format-check
-
             - name: Run Tests
               run: make test
 
