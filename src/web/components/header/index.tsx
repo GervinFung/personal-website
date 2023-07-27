@@ -21,6 +21,7 @@ import useWordScramble from '../../hooks/use-word-scramble';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 import { capitalize } from '../../utils';
 import links from '../../links';
+import '../../../../env.d.ts';
 
 const ids = ['home', 'projects', 'contact'] as const;
 

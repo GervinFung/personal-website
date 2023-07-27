@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
 import type { Response } from '../endpoint';
+import { parseProcessEnv } from '../../common/string';
 
 const initMiddleware =
     <T>(
@@ -21,7 +22,10 @@ const cors = <T>() =>
     initMiddleware<Response<T>>(
         Cors({
             credentials: true,
-            origin: process.env.ORIGIN,
+            origin: parseProcessEnv({
+                name: 'ORIGIN',
+                value: process.env.ORIGIN,
+            }),
         })
     );
 

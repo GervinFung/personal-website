@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { Data } from '../../common/contact';
+import { parseProcessEnv } from '../../common/string';
 
 const sendMessage = (
     values: Readonly<{
@@ -10,11 +11,18 @@ const sendMessage = (
     }>
 ) =>
     axios
-        .post(`${process.env.ORIGIN}/api/contact`, values, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        .post(
+            `${parseProcessEnv({
+                name: 'ORIGIN',
+                value: process.env.ORIGIN,
+            })}/api/contact`,
+            values,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
         .then(({ data }) => data as Data)
         .catch(() => {
             throw new Error(
