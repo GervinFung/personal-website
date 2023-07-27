@@ -1,7 +1,6 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import Schema from './schema';
-import { parseProcessEnv } from '../../../common/string';
 
 const Seo = (
     props: Readonly<{
@@ -10,10 +9,8 @@ const Seo = (
         keywords: ReadonlyArray<string>;
     }>
 ) => {
-    const url = parseProcessEnv({
-        name: 'ORIGIN',
-        value: process.env.ORIGIN,
-    });
+    const url = process.env.NEXT_PUBLIC_ORIGIN;
+
     const iconPath = '/images/icons';
     const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
 

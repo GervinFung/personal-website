@@ -1,6 +1,5 @@
 import axios from 'axios';
 import type { Data } from '../../common/contact';
-import { parseProcessEnv } from '../../common/string';
 
 const sendMessage = (
     values: Readonly<{
@@ -11,20 +10,14 @@ const sendMessage = (
     }>
 ) =>
     axios
-        .post(
-            `${parseProcessEnv({
-                name: 'ORIGIN',
-                value: process.env.ORIGIN,
-            })}/api/contact`,
-            values,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
+        .post(`${process.env.NEXT_PUBLIC_ORIGIN}/api/contact`, values, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
         .then(({ data }) => data as Data)
-        .catch(() => {
+        .catch((error) => {
+            console.error(error);
             throw new Error(
                 `Oops! I can't send your email as there is an issue`
             );

@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { keyframes } from '@emotion/react';
 import Title from '../common/title';
 import { SecondaryMainButton } from '../common/button';
-import { parseProcessEnv } from '../../../common/string';
 
 const chargeHomeButton = keyframes`
     0% {
@@ -82,12 +81,7 @@ const ErrorContainer = (
         if (!countDown) {
             props.type === 'reload' ? router.reload() : router.replace(home);
         }
-        if (
-            parseProcessEnv({
-                name: 'NEXT_PUBLIC_NODE_ENV',
-                value: process.env.NEXT_PUBLIC_NODE_ENV,
-            }) === 'test'
-        ) {
+        if (process.env.NEXT_PUBLIC_NODE_ENV === 'test') {
             return;
         }
         const goTo = setTimeout(

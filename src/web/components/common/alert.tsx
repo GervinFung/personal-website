@@ -3,16 +3,16 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
 
-type AlertParams = Readonly<{
+type AlertProps = Readonly<{
     onClose: () => void;
     children: React.ReactNode;
 }>;
 
-const Container = ({
-    children,
-}: Readonly<{
-    children: ReturnType<typeof Alert>;
-}>) => (
+const Container = (
+    props: Readonly<{
+        children: ReturnType<typeof Alert>;
+    }>
+) => (
     <Snackbar
         open
         anchorOrigin={{
@@ -20,41 +20,42 @@ const Container = ({
             horizontal: 'center',
         }}
     >
-        {children}
+        {props.children}
     </Snackbar>
 );
 
-const Error = ({ children, onClose }: AlertParams) => (
+const Error = (props: AlertProps) => (
     <Container>
-        <Alert severity="error" onClose={onClose}>
+        <Alert severity="error" onClose={props.onClose}>
             <AlertTitle>Error</AlertTitle>
-            {children}
+            {props.children}
         </Alert>
     </Container>
 );
-const Warning = ({ children, onClose }: AlertParams) => (
+
+const Warning = (props: AlertProps) => (
     <Container>
-        <Alert severity="warning" onClose={onClose}>
+        <Alert severity="warning" onClose={props.onClose}>
             <AlertTitle>Warning</AlertTitle>
-            {children}
+            {props.children}
         </Alert>
     </Container>
 );
 
-const Info = ({ children, onClose }: AlertParams) => (
+const Info = (props: AlertProps) => (
     <Container>
-        <Alert severity="info" onClose={onClose}>
+        <Alert severity="info" onClose={props.onClose}>
             <AlertTitle>Info</AlertTitle>
-            {children}
+            {props.children}
         </Alert>
     </Container>
 );
 
-const Success = ({ children, onClose }: AlertParams) => (
+const Success = (props: AlertProps) => (
     <Container>
-        <Alert severity="success" onClose={onClose}>
+        <Alert severity="success" onClose={props.onClose}>
             <AlertTitle>Success</AlertTitle>
-            {children}
+            {props.children}
         </Alert>
     </Container>
 );
