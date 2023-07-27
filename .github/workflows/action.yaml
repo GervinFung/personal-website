@@ -36,11 +36,18 @@ jobs:
             - name: Install Depedencies
               run: make install
 
-            - name: Run Code Generation
-              run: make generate
+            - name: Run Linter
+              run: make lint
+
+            - name: Run Typecheck
+              run: make typecheck
+
+            - name: Run Format Check
+              run: make format-check
 
             - name: Run Tests
+              # running test will also execute `build`
               run: make test
 
-            - name: Run Build
-              run: make build
+            - name: Run Code Generation
+              run: make generate
