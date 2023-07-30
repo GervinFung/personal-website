@@ -18,8 +18,12 @@ migrate-mongo:
 echo-mongo:
 	echo 'db.runCommand("ping").ok' | mongosh --quiet
 
+## telemetry
+opt-out-telemetry:
+	pnpm next telemetry disable
+
 ## generate
-generate: generate-webmanifest generate-sitemap generate-environment-type-definition
+generate: generate-webmanifest generate-sitemap
 
 generate-webmanifest:
 	$(VITE_NODE) script/site/webmanifest.ts
@@ -60,9 +64,9 @@ start-development: copy-env-development clear-cache dev
 
 start-testing: copy-env-testing clear-cache dev
 
-start-staging: copy-env-staging clear-cache start
+start-staging: copy-env-staging clear-cache dev
 
-start-production: copy-env-production clear-cache start
+start-production: copy-env-production clear-cache dev
 
 ## build
 build-development: clear-cache copy-env-development build

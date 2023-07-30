@@ -133,6 +133,11 @@ const Contact: NextPage = () => {
                         backgroundColor: 'background.default',
                     })}
                 >
+                    {messageResult?.status !== 'failed' ? null : (
+                        <Error onClose={setMessageResultToUndefined}>
+                            {messageResult.reason}
+                        </Error>
+                    )}
                     {messageResult?.status !== 'sending' ? null : (
                         <Info onClose={setMessageResultToUndefined}>
                             Sending your message...

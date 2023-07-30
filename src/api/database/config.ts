@@ -2,7 +2,7 @@ const environment = process.env.NEXT_PUBLIC_NODE_ENV;
 
 const mongodbConfig = {
     srv:
-        environment === 'test' || environment === 'development'
+        environment === 'testing' || environment === 'development'
             ? undefined
             : process.env.MONGO_SRV,
     port:

@@ -1,17 +1,11 @@
-const config = () => {
-    const url = process.env.NEXT_PUBLIC_ORIGIN;
+const url = process.env.NEXT_PUBLIC_ORIGIN;
 
-    /** @type {import('next-sitemap').IConfig} */
-    const config = {
-        siteUrl: url,
-        generateRobotsTxt: true, // (optional)
-        exclude: ['/server-sitemap.xml'],
-        robotsTxtOptions: {
-            additionalSitemaps: [`${url}/server-sitemap.xml`],
-        },
-    };
-
-    return config;
+/** @type {import('next-sitemap').IConfig} */
+module.exports = {
+    siteUrl: url,
+    generateRobotsTxt: true, // (optional)
+    exclude: ['/server-sitemap.xml'],
+    robotsTxtOptions: {
+        additionalSitemaps: [`${url}/server-sitemap.xml`],
+    },
 };
-
-module.exports = config();

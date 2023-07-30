@@ -30,4 +30,7 @@ env.d.ts
 # sitemap
 public/sitemap*.xml
 public/site.webmanifest
+public/manifest.json
+public/service-worker.js
+public/workbox-*.js
 public/robots.txt
