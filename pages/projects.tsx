@@ -265,7 +265,7 @@ const Item = (project: (typeof projects)[0]['projects'][0]) => (
                 key={project.name}
                 href={project.githubLink}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 underline="none"
             >
                 <Box
@@ -376,8 +376,8 @@ const Projects: NextPage = () => {
                                             <Grid
                                                 item
                                                 key={project.name}
-                                                sm={12}
-                                                xm={6}
+                                                xm={12}
+                                                md={6}
                                             >
                                                 <Item {...project} />
                                             </Grid>

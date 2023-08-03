@@ -2,9 +2,11 @@ import React from 'react';
 import type { NextPage } from 'next';
 import Seo from '../src/web/components/seo';
 import Typography, { type TypographyProps } from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Holder from '../src/web/components/common/holder';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
+import Link from 'next/link';
 
 const Content = (props: TypographyProps) => (
     <Typography
@@ -14,6 +16,7 @@ const Content = (props: TypographyProps) => (
             mt: 3,
             textAlign: 'justify',
             color: 'text.secondary',
+            whiteSpace: 'pre-wrap',
             ...props.sx,
         }}
     />
@@ -22,17 +25,17 @@ const Content = (props: TypographyProps) => (
 const Index: NextPage = () => {
     const [time, setTime] = React.useState(Date.now());
 
+    const breakPoint = useBreakpoint();
+
     React.useEffect(() => {
-        const timer = setTimeout(() => setTime(Date.now()), 1000);
-        return () => clearTimeout(timer);
-    }, [time]);
+        const timer = setInterval(() => setTime(Date.now()), 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     const isDay = () => {
         const hours = new Date(time).getHours();
         return hours >= 6 && hours < 18;
     };
-
-    const breakPoint = useBreakpoint();
 
     return (
         <>
@@ -66,7 +69,7 @@ const Index: NextPage = () => {
                         software both for fun and for a living. I am passionate
                         about open-source software, and I build websites,
                         desktop applications, mobile applications, and
-                        development tools.
+                        development tools
                     </Content>
                     <Content>
                         I have been coding since 2021, and it all started when I
@@ -75,7 +78,7 @@ const Index: NextPage = () => {
                         applicant test, I broadened my skillset to include
                         TypeScript and began making web and mobile applications.
                         After some time, I began using Rust to create terminal
-                        applications.
+                        applications
                     </Content>
                     <Content>
                         TypeScript, Java, and Rust are my primary languages in
@@ -83,7 +86,28 @@ const Index: NextPage = () => {
                         using other languages as well, aside from PHP. My
                         passion lies in the ability to work on web applications,
                         mobile applications, and development tools. You can find
-                        my full projects list online.
+                        my full projects list{' '}
+                        <Box
+                            style={{
+                                display: 'inline-block',
+                            }}
+                        >
+                            <Link
+                                href="/projects"
+                                style={{
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        color: 'text.primary',
+                                        textDecoration: 'underline',
+                                    }}
+                                >
+                                    here
+                                </Box>
+                            </Link>
+                        </Box>
                     </Content>
                     <Content>
                         Outside of programming, I enjoy reading interesting

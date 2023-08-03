@@ -31,6 +31,6 @@ env.d.ts
 public/sitemap*.xml
 public/site.webmanifest
 public/manifest.json
-public/service-worker.js
-public/workbox-*.js
+public/service-worker.js*
+public/workbox-*.js*
 public/robots.txt

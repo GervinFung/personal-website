@@ -22,6 +22,7 @@ import useBreakpoint from '../../hooks/use-breakpoint-value';
 import { capitalize } from '../../utils';
 import links from '../../links';
 import '../../../../env.d.ts';
+import consts from '../../const';
 
 const ids = ['home', 'projects', 'contact'] as const;
 
@@ -36,7 +37,7 @@ const SocialButton = (
     <MuiLink.default
         href={props.href}
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         underline="none"
         sx={{
             display: 'flex',
@@ -96,58 +97,87 @@ const CustomLink = (
 };
 
 const EssentialIcons = {
-    Projects: () => (
-        <Link
-            href="/projects"
-            style={{
-                textDecoration: 'none',
-            }}
-        >
-            <IconButton sx={{ p: 0, m: 0 }}>
+    Projects: (props: Readonly<{ dontUseLink?: true }>) => {
+        const Icon = (
+            <IconButton>
                 <LightbulbIcon
                     sx={{
                         color: 'text.secondary',
                     }}
                 />
             </IconButton>
-        </Link>
-    ),
-    Contact: () => (
-        <Link
-            href="/contact"
-            style={{
-                textDecoration: 'none',
-
-                color: 'text.secondary',
-            }}
-        >
-            <IconButton sx={{ p: 0, m: 0 }}>
+        );
+        return props.dontUseLink ? (
+            Icon
+        ) : (
+            <Link
+                href="/projects"
+                style={{
+                    textDecoration: 'none',
+                }}
+            >
+                {Icon}
+            </Link>
+        );
+    },
+    Contact: (props: Readonly<{ dontUseLink?: true }>) => {
+        const Icon = (
+            <IconButton>
                 <EmailIcon
                     sx={{
                         color: 'text.secondary',
                     }}
                 />
             </IconButton>
-        </Link>
-    ),
-    Github: () => (
-        <SocialButton href={links.github}>
-            <GitHubIcon
-                sx={{
+        );
+        return props.dontUseLink ? (
+            Icon
+        ) : (
+            <Link
+                href="/contact"
+                style={{
+                    textDecoration: 'none',
+
                     color: 'text.secondary',
                 }}
-            />
-        </SocialButton>
-    ),
-    LinkedIn: () => (
-        <SocialButton href={links.linkedin}>
-            <LinkedInIcon
-                sx={{
-                    color: 'text.secondary',
-                }}
-            />
-        </SocialButton>
-    ),
+            >
+                {Icon}
+            </Link>
+        );
+    },
+    Github: (props: Readonly<{ dontUseLink?: true }>) => {
+        const Icon = (
+            <IconButton>
+                <GitHubIcon
+                    sx={{
+                        color: 'text.secondary',
+                    }}
+                />
+            </IconButton>
+        );
+        return props.dontUseLink ? (
+            Icon
+        ) : (
+            <SocialButton href={links.github}>{Icon}</SocialButton>
+        );
+    },
+    LinkedIn: (props: Readonly<{ dontUseLink?: true }>) => {
+        const Icon = (
+            <IconButton>
+                <LinkedInIcon
+                    sx={{
+                        color: 'text.secondary',
+                    }}
+                />
+            </IconButton>
+        );
+
+        return props.dontUseLink ? (
+            Icon
+        ) : (
+            <SocialButton href={links.linkedin}>{Icon}</SocialButton>
+        );
+    },
 };
 
 const Header = (
@@ -160,15 +190,13 @@ const Header = (
     const route = router.route.replace('/', '');
 
     const breakPoint = useBreakpoint();
-    const allShouldUseIcon = breakPoint === 'sm';
+    const allShouldUseIcon = breakPoint === 'xm' || breakPoint === 'sm';
     const shouldUseBottonNavigation = breakPoint === 'xs';
 
     return (
         <Holder
             sx={{
-                mb: shouldUseBottonNavigation ? 0 : 8,
-                width: '100%',
-                padding: '16px 24px !important',
+                mb: shouldUseBottonNavigation ? 0 : 16,
                 boxSizing: 'border-box',
             }}
         >
@@ -183,27 +211,67 @@ const Header = (
                 >
                     <BottomNavigation
                         showLabels
+                        value={
+                            ids
+                                .map((id, index) => ({
+                                    id,
+                                    index: !index ? undefined : index - 1,
+                                }))
+                                .find(({ id }) => id === route)?.index
+                        }
                         sx={{
                             width: '100%',
                             backgroundColor: 'transparent',
                             backdropFilter: 'blur(50px)',
                         }}
+                        onChange={(_, value) => {
+                            const open = (link: string) =>
+                                window.open(
+                                    link,
+                                    '_blank',
+                                    'noopener noreferrer'
+                                );
+                            if (value === 2) {
+                                return open(links.github);
+                            }
+                            if (value === 3) {
+                                return open(links.linkedin);
+                            }
+                            const id = ids.at(value + 1);
+                            if (id) {
+                                return router.push(id, undefined, {
+                                    shallow: true,
+                                });
+                            }
+                        }}
                     >
                         <BottomNavigationAction
                             label="Projects"
-                            icon={<EssentialIcons.Projects />}
+                            icon={<EssentialIcons.Projects dontUseLink />}
+                            sx={({ palette }) => ({
+                                color:
+                                    route === ids[1]
+                                        ? `${palette.text.primary} !important`
+                                        : undefined,
+                            })}
                         />
                         <BottomNavigationAction
                             label="Contact"
-                            icon={<EssentialIcons.Contact />}
+                            icon={<EssentialIcons.Contact dontUseLink />}
+                            sx={({ palette }) => ({
+                                color:
+                                    route === ids[2]
+                                        ? `${palette.text.primary} !important`
+                                        : undefined,
+                            })}
                         />
                         <BottomNavigationAction
                             label="Github"
-                            icon={<EssentialIcons.Github />}
+                            icon={<EssentialIcons.Github dontUseLink />}
                         />
                         <BottomNavigationAction
                             label="LinkedIn"
-                            icon={<EssentialIcons.LinkedIn />}
+                            icon={<EssentialIcons.LinkedIn dontUseLink />}
                         />
                     </BottomNavigation>
                 </Box>
@@ -218,12 +286,16 @@ const Header = (
                     elevation={0}
                     sx={{
                         backgroundColor: 'transparent',
+                        display: 'grid',
+                        placeItems: 'center',
+                        backdropFilter: 'blur(50px)',
                     }}
                 >
                     <Toolbar
                         sx={{
-                            width: '100%',
-                            backdropFilter: 'blur(50px)',
+                            py: 3,
+                            px: `0px !important`,
+                            width: consts.width.projects[breakPoint ?? 'xl'],
                             ...(shouldUseBottonNavigation
                                 ? {
                                       display: 'flex',
@@ -251,10 +323,7 @@ const Header = (
                         </Box>
                         {!shouldUseBottonNavigation ? null : (
                             <Box>
-                                <IconButton
-                                    onClick={props.setMode}
-                                    sx={{ p: 0 }}
-                                >
+                                <IconButton onClick={props.setMode}>
                                     {props.isDarkMode ? (
                                         <LightModeIcon
                                             sx={{
@@ -312,17 +381,15 @@ const Header = (
                                     <EssentialIcons.Github />
                                     <EssentialIcons.LinkedIn />
                                     <SocialButton href={links.instagram}>
-                                        <InstagramIcon
-                                            sx={{
-                                                color: 'text.secondary',
-                                            }}
-                                        />
+                                        <IconButton>
+                                            <InstagramIcon
+                                                sx={{
+                                                    color: 'text.secondary',
+                                                }}
+                                            />
+                                        </IconButton>
                                     </SocialButton>
-
-                                    <IconButton
-                                        onClick={props.setMode}
-                                        sx={{ p: 0 }}
-                                    >
+                                    <IconButton onClick={props.setMode}>
                                         {props.isDarkMode ? (
                                             <LightModeIcon
                                                 sx={{

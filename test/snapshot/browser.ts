@@ -30,6 +30,10 @@ const getWebSnapshot = async (
         }`
     );
 
+    await page.emulateMediaFeatures([
+        { name: 'prefers-color-scheme', value: param.mode },
+    ]);
+
     await page.evaluate(
         (mode) => localStorage.setItem('mode', mode),
         param.mode

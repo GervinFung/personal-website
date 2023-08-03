@@ -42,7 +42,7 @@ const Footer = () => {
                         <Link
                             href="https://creativecommons.org/licenses/by-nc-sa/4.0"
                             target="_blank"
-                            rel="noopener"
+                            rel="noopener noreferrer"
                             sx={{
                                 textDecoration: 'underline',
                                 color: 'text.secondary',
