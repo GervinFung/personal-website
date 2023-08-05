@@ -94,16 +94,18 @@ const App = (props: AppProps) => {
     return (
         <ThemeProvider theme={theme}>
             <ErrorBoundary>
-                <Layout
-                    isDarkMode={mode === 'dark'}
-                    setMode={() =>
-                        setMode((mode) => (mode === 'dark' ? 'light' : 'dark'))
-                    }
-                >
-                    <main>
+                <main>
+                    <Layout
+                        isDarkMode={mode === 'dark'}
+                        setMode={() =>
+                            setMode((mode) =>
+                                mode === 'dark' ? 'light' : 'dark'
+                            )
+                        }
+                    >
                         <props.Component {...props.pageProps} />
-                    </main>
-                </Layout>
+                    </Layout>
+                </main>
             </ErrorBoundary>
         </ThemeProvider>
     );

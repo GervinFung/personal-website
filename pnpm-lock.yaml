@@ -38,9 +38,6 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
-  typescript:
-    specifier: ^5.1.6
-    version: 5.1.6
 
 devDependencies:
   '@ducanh2912/next-pwa':
@@ -100,6 +97,9 @@ devDependencies:
   puppeteer:
     specifier: ^20.9.0
     version: 20.9.0(typescript@5.1.6)
+  typescript:
+    specifier: ^5.1.6
+    version: 5.1.6
   unimported:
     specifier: ^1.29.2
     version: 1.29.2(eslint@8.46.0)
@@ -109,9 +109,6 @@ devDependencies:
   vitest:
     specifier: ^0.31.4
     version: 0.31.4
-  webpack:
-    specifier: ^5.88.2
-    version: 5.88.2
 
 packages:
 
@@ -6453,6 +6450,7 @@ packages:
     resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
 
   /ufo@1.2.0:
     resolution: {integrity: sha512-RsPyTbqORDNDxqAdQPQBpgqhWle1VcTSou/FraClYlHf6TZnQcGslpLcAphNR+sQW4q5lLWLbOsRlh9j24baQg==}

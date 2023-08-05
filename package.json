@@ -15,8 +15,7 @@
         "next": "^13.4.12",
         "next-seo": "^6.1.0",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "typescript": "^5.1.6"
+        "react-dom": "^18.2.0"
     },
     "devDependencies": {
         "@ducanh2912/next-pwa": "^9.4.0",
@@ -38,9 +37,9 @@
         "next-sitemap": "^4.1.8",
         "prettier": "^2.8.8",
         "puppeteer": "^20.9.0",
+        "typescript": "^5.1.6",
         "unimported": "^1.29.2",
         "vite-node": "^0.31.4",
-        "vitest": "^0.31.4",
-        "webpack": "^5.88.2"
+        "vitest": "^0.31.4"
     }
 }
