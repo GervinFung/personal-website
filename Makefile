@@ -1,16 +1,12 @@
 .PHONY: build test
 MAKEFLAGS += --silent
 
-NODE_BIN=node_modules/.bin/
-VITE_NODE=$(NODE_BIN)vite-node
-NEXT=$(NODE_BIN)next
-
 ## install
 install:
 	pnpm i
 
 install-mongo:
-	$(VITE_NODE) script/mongo-setup/install.ts
+	pnpm vite-node script/mongo-setup/install.ts
 
 migrate-mongo:
 	mongosh < script/mongo-setup/document.js
@@ -26,17 +22,17 @@ opt-out-telemetry:
 generate: generate-webmanifest generate-sitemap
 
 generate-webmanifest:
-	$(VITE_NODE) script/site/webmanifest.ts
+	pnpm vite-node script/site/webmanifest.ts
 
 generate-sitemap:
-	$(NODE_BIN)next-sitemap
+	pnpm next-sitemap
 
 ## env
 generate-environment-type-definition:
-	$(VITE_NODE) script/env/type-def.ts
+	pnm vite-node script/env/type-def.ts
 
 copy-env:
-	$(VITE_NODE) script/env/copy.ts ${arguments}
+	pnpm vite-node script/env/copy.ts ${arguments}
 
 copy-env-development:
 	make copy-env arguments="-- --development"
@@ -78,19 +74,19 @@ build-staging: clear-cache copy-env-staging build
 build-testing: clear-cache copy-env-testing build
 
 build:
-	$(NEXT) build
+	pnpm next build
 
 ## start
 start:
-	$(NEXT) start $(arguments)
+	pnpm next start $(arguments)
 
 ## dev
 dev:
-	$(NEXT) dev
+	pnppm next dev
 
 ## format
 prettify:
-	$(NODE_BIN)prettier --ignore-path .gitignore  --$(type) src/ test/ script/
+	pnpm prettier --ignore-path .gitignore  --$(type) src/ test/ script/
 
 format-check:
 	make prettify type=check
@@ -100,28 +96,18 @@ format:
 
 ## lint
 lint:
-	$(NODE_BIN)eslint src/ test/ -f='stylish' --color &&\
-		make find-unused-exports &&\
-		make find-unimported-files
-
-## find unused exports
-find-unused-exports:
-	$(NODE_BIN)find-unused-exports
-
-## find unimported files
-find-unimported-files:
-	$(NODE_BIN)unimported
+	pnpm eslint src test -f='stylish' --color && pnpm knip
 
 ## typecheck
 typecheck:
-	$(NODE_BIN)tsc -p tsconfig.json $(arguments) 
+	pnpm tsc -p tsconfig.json $(arguments) 
 
 typecheck-watch:
 	make typecheck arguments=--w
 
 ## test
 test-type:
-	$(NODE_BIN)vitest test/$(path)/**.test.ts $(arguments)
+	pnpm vitest test/$(path)/**.test.ts $(arguments)
 
 test-unit:
 	make test-type path="unit" arguments="$(arguments)"
