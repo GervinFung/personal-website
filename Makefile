@@ -86,12 +86,12 @@ dev:
 
 ## format
 prettify:
-	pnpm prettier --ignore-path .gitignore  --$(type) src/ test/ script/
+	pnpm prettier --ignore-path .gitignore --$(type) **/*.{mjs,tsx,ts,json,md}
 
 format-check:
 	make prettify type=check
 
-format:
+format-write:
 	make prettify type=write
 
 ## lint

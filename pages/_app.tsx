@@ -1,9 +1,9 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
 import {
-    createTheme,
-    responsiveFontSizes,
-    ThemeProvider,
+	createTheme,
+	responsiveFontSizes,
+	ThemeProvider,
 } from '@mui/material/styles';
 import { colorTheme } from '../src/web/theme';
 import ErrorBoundary from '../src/web/components/error/boundary';
@@ -13,102 +13,102 @@ import '../src/web/css/font.css';
 import '../src/web/typing/mui.d.ts';
 
 const App = (props: AppProps) => {
-    const { fontFamily } = consts;
+	const { fontFamily } = consts;
 
-    const modeKey = 'mode';
+	const modeKey = 'mode';
 
-    const [mode, setMode] = React.useState('dark' as 'dark' | 'light');
+	const [mode, setMode] = React.useState('dark' as 'dark' | 'light');
 
-    React.useEffect(() => {
-        const value = localStorage.getItem(modeKey);
-        setMode(
-            value === 'dark' || value === 'light'
-                ? value
-                : window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light'
-        );
-    }, []);
+	React.useEffect(() => {
+		const value = localStorage.getItem(modeKey);
+		setMode(
+			value === 'dark' || value === 'light'
+				? value
+				: window.matchMedia('(prefers-color-scheme: dark)').matches
+				? 'dark'
+				: 'light'
+		);
+	}, []);
 
-    React.useEffect(() => {
-        localStorage.setItem(modeKey, mode);
-    }, [mode]);
+	React.useEffect(() => {
+		localStorage.setItem(modeKey, mode);
+	}, [mode]);
 
-    const theme = React.useMemo(
-        () =>
-            responsiveFontSizes(
-                createTheme({
-                    typography: {
-                        fontFamily,
-                    },
-                    palette: {
-                        mode,
-                        background: {
-                            default:
-                                mode === 'dark'
-                                    ? colorTheme.contrast.black
-                                    : colorTheme.contrast.white,
-                        },
-                        primary: {
-                            main: colorTheme.blue.light,
-                        },
-                        secondary: {
-                            main: colorTheme.green.dark,
-                        },
-                        custom: {
-                            ...colorTheme,
-                            default:
-                                mode === 'dark'
-                                    ? colorTheme.contrast.black
-                                    : colorTheme.contrast.white,
-                            opposite:
-                                mode === 'light'
-                                    ? colorTheme.contrast.black
-                                    : colorTheme.contrast.white,
-                        },
-                    },
-                    components: {
-                        MuiCssBaseline: {
-                            styleOverrides: `@font-face {${[
-                                `font-family: '${fontFamily}'`,
-                                'font-size: normal',
-                                'font-display: swap',
-                            ].join(';\n')}}`,
-                        },
-                    },
-                    breakpoints: {
-                        values: {
-                            xs: 0,
-                            sm: 500,
-                            xm: 700,
-                            md: 900,
-                            lg: 1200,
-                            xl: 1500,
-                        },
-                    },
-                })
-            ),
-        [mode]
-    );
+	const theme = React.useMemo(
+		() =>
+			responsiveFontSizes(
+				createTheme({
+					typography: {
+						fontFamily,
+					},
+					palette: {
+						mode,
+						background: {
+							default:
+								mode === 'dark'
+									? colorTheme.contrast.black
+									: colorTheme.contrast.white,
+						},
+						primary: {
+							main: colorTheme.blue.light,
+						},
+						secondary: {
+							main: colorTheme.green.dark,
+						},
+						custom: {
+							...colorTheme,
+							default:
+								mode === 'dark'
+									? colorTheme.contrast.black
+									: colorTheme.contrast.white,
+							opposite:
+								mode === 'light'
+									? colorTheme.contrast.black
+									: colorTheme.contrast.white,
+						},
+					},
+					components: {
+						MuiCssBaseline: {
+							styleOverrides: `@font-face {${[
+								`font-family: '${fontFamily}'`,
+								'font-size: normal',
+								'font-display: swap',
+							].join(';\n')}}`,
+						},
+					},
+					breakpoints: {
+						values: {
+							xs: 0,
+							sm: 500,
+							xm: 700,
+							md: 900,
+							lg: 1200,
+							xl: 1500,
+						},
+					},
+				})
+			),
+		[mode]
+	);
 
-    return (
-        <ThemeProvider theme={theme}>
-            <ErrorBoundary>
-                <main>
-                    <Layout
-                        isDarkMode={mode === 'dark'}
-                        setMode={() =>
-                            setMode((mode) =>
-                                mode === 'dark' ? 'light' : 'dark'
-                            )
-                        }
-                    >
-                        <props.Component {...props.pageProps} />
-                    </Layout>
-                </main>
-            </ErrorBoundary>
-        </ThemeProvider>
-    );
+	return (
+		<ThemeProvider theme={theme}>
+			<ErrorBoundary>
+				<main>
+					<Layout
+						isDarkMode={mode === 'dark'}
+						setMode={() =>
+							setMode((mode) =>
+								mode === 'dark' ? 'light' : 'dark'
+							)
+						}
+					>
+						<props.Component {...props.pageProps} />
+					</Layout>
+				</main>
+			</ErrorBoundary>
+		</ThemeProvider>
+	);
 };
 
 export default App;
