@@ -89,7 +89,7 @@ format-generate-config:
 	pnpm prettier-config-generate
 
 format:
-	pnpm prettier --ignore-path .gitignore --$(type) **/**/*.{mjs,tsx,ts,json,md}
+	pnpm prettier --$(type) .
 
 format-check:
 	make format type=check
