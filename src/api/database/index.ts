@@ -43,9 +43,12 @@ export default class Database {
 	}
 
 	// testing purpose only
-	readonly close = async () => (await this.client).disconnect();
-	readonly clearCollections = async () =>
-		await this.getContactFormMessage().deleteMany({});
+	readonly close = async () => {
+		return (await this.client).disconnect();
+	};
+	readonly clearCollections = async () => {
+		return await this.getContactFormMessage().deleteMany({});
+	};
 	readonly getAllContactFormMessages = async () => {
 		try {
 			const contactFormMessage = this.getContactFormMessage();
@@ -86,11 +89,12 @@ export default class Database {
 		}
 	};
 
-	private readonly getContactFormMessage = () =>
-		mongoose.model(
+	private readonly getContactFormMessage = () => {
+		return mongoose.model(
 			this.collections.contactFormMessage,
 			contactFormMessageSchema
 		);
+	};
 
 	readonly insertContactFormMessage = async (
 		formMessage: ContactFormMessage

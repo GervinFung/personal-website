@@ -60,13 +60,14 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 	const database = await Database.instance();
 	const insertResult = await database
 		.insertContactFormMessage(values)
-		.then(() => responseSucceed)
-		.catch(
-			() =>
-				({
-					type: 'failed',
-				}) as const
-		);
+		.then(() => {
+			return responseSucceed;
+		})
+		.catch(() => {
+			return {
+				type: 'failed',
+			} as const;
+		});
 	response
 		.status(insertResult.type === 'succeed' ? 200 : 500)
 		.json(insertResult);

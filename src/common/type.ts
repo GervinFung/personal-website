@@ -24,7 +24,9 @@ const guard = <T, Err extends Error>({
 	throw error;
 };
 
-const nullableToUndefinable = <T>(t: T | null): T | undefined => t ?? undefined;
+const nullableToUndefinable = <T>(t: T | null): T | undefined => {
+	return t ?? undefined;
+};
 
 export { guard, nullableToUndefinable };
 

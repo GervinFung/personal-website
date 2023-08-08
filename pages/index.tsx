@@ -8,19 +8,21 @@ import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import Link from 'next/link';
 
-const Content = (props: TypographyProps) => (
-	<Typography
-		{...props}
-		variant="subtitle1"
-		sx={{
-			mt: 3,
-			textAlign: 'justify',
-			color: 'text.secondary',
-			whiteSpace: 'pre-wrap',
-			...props.sx,
-		}}
-	/>
-);
+const Content = (props: TypographyProps) => {
+	return (
+		<Typography
+			{...props}
+			variant="subtitle1"
+			sx={{
+				mt: 3,
+				textAlign: 'justify',
+				color: 'text.secondary',
+				whiteSpace: 'pre-wrap',
+				...props.sx,
+			}}
+		/>
+	);
+};
 
 const Index: NextPage = () => {
 	const [time, setTime] = React.useState(Date.now());
@@ -28,8 +30,12 @@ const Index: NextPage = () => {
 	const breakPoint = useBreakpoint();
 
 	React.useEffect(() => {
-		const timer = setInterval(() => setTime(Date.now()), 1000);
-		return () => clearInterval(timer);
+		const timer = setInterval(() => {
+			return setTime(Date.now());
+		}, 1000);
+		return () => {
+			return clearInterval(timer);
+		};
 	}, []);
 
 	const isDay = () => {
@@ -49,13 +55,15 @@ const Index: NextPage = () => {
 					variant={
 						!breakPoint ? 'h2' : breakPoint === 'xs' ? 'h1' : 'h2'
 					}
-					sx={({ palette }) => ({
-						mb: '16px',
-						textShadow: [
-							`4px 1px ${palette.custom.striking.green}`,
-							`-4px 1px ${palette.custom.striking.red}`,
-						].join(' ,'),
-					})}
+					sx={({ palette }) => {
+						return {
+							mb: '16px',
+							textShadow: [
+								`4px 1px ${palette.custom.striking.green}`,
+								`-4px 1px ${palette.custom.striking.red}`,
+							].join(' ,'),
+						};
+					}}
 				>
 					GERVIN
 				</Typography>

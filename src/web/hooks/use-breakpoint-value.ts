@@ -14,8 +14,12 @@ const useBreakpoint = () => {
 	};
 
 	const validBreakpoints = Object.entries(matches)
-		.filter(([_, isMatch]) => isMatch)
-		.map(([key]) => key as Breakpoint);
+		.filter(([_, isMatch]) => {
+			return isMatch;
+		})
+		.map(([key]) => {
+			return key as Breakpoint;
+		});
 
 	return validBreakpoints.at(-1);
 };

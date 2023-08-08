@@ -23,14 +23,16 @@ describe('UI screenshot test', () => {
 			expect.extend({ toMatchImageSnapshot });
 
 			it.each(
-				(['pc', 'tablet', 'mobile'] as const).flatMap((platform) =>
-					(['home', 'projects', 'contact', 'error'] as const).map(
-						(link) => ({
+				(['pc', 'tablet', 'mobile'] as const).flatMap((platform) => {
+					return (
+						['home', 'projects', 'contact', 'error'] as const
+					).map((link) => {
+						return {
 							platform,
 							link,
-						})
-					)
-				)
+						};
+					});
+				})
 			)(
 				'should detect that layout of $link looks decent on $platform',
 				async ({ link, platform }) => {

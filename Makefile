@@ -86,7 +86,6 @@ dev:
 
 ## format
 format-generate-config:
-
 	pnpm prettier-config-generate
 
 format:

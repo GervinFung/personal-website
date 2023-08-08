@@ -15,19 +15,18 @@ describe('Effect', () => {
 
 			expect(lastItem?.content === content).toBe(lastItem?.isSame);
 			expect(
-				listOfRandomStrings.filter(
-					(string) =>
+				listOfRandomStrings.filter((string) => {
+					return (
 						!string.isSame &&
-						string.content
-							.split('')
-							.every((character) =>
-								alphabetList.includes(character)
-							)
-				)
+						string.content.split('').every((character) => {
+							return alphabetList.includes(character);
+						})
+					);
+				})
 			).toEqual(
-				listOfRandomStrings.filter(
-					(_, index, { length }) => index + 1 < length
-				)
+				listOfRandomStrings.filter((_, index, { length }) => {
+					return index + 1 < length;
+				})
 			);
 		});
 	});

@@ -34,10 +34,9 @@ const getWebSnapshot = async (
 		{ name: 'prefers-color-scheme', value: param.mode },
 	]);
 
-	await page.evaluate(
-		(mode) => localStorage.setItem('mode', mode),
-		param.mode
-	);
+	await page.evaluate((mode) => {
+		return localStorage.setItem('mode', mode);
+	}, param.mode);
 
 	await page.reload({
 		waitUntil: 'networkidle0',
@@ -47,23 +46,29 @@ const getWebSnapshot = async (
 		window.scrollTo(0, window.document.body.scrollHeight);
 	});
 
-	const allImagesLoadResult = await page.evaluate(() =>
-		Promise.all<'completed' | 'loaded' | 'failed'>(
+	const allImagesLoadResult = await page.evaluate(() => {
+		return Promise.all<'completed' | 'loaded' | 'failed'>(
 			Array.from(document.querySelectorAll('img')).map((image) => {
 				if (image.complete) {
 					return Promise.resolve('completed');
 				}
 				return new Promise((resolve) => {
-					image.addEventListener('load', () => resolve('loaded'));
-					image.addEventListener('error', () => resolve('failed'));
+					image.addEventListener('load', () => {
+						return resolve('loaded');
+					});
+					image.addEventListener('error', () => {
+						return resolve('failed');
+					});
 				});
 			})
-		)
-	);
+		);
+	});
 
 	if (
 		allImagesLoadResult.length !==
-		allImagesLoadResult.filter((result) => result !== 'failed').length
+		allImagesLoadResult.filter((result) => {
+			return result !== 'failed';
+		}).length
 	) {
 		throw new Error('There are images that failed to load');
 	}

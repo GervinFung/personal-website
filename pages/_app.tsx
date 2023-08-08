@@ -34,62 +34,60 @@ const App = (props: AppProps) => {
 		localStorage.setItem(modeKey, mode);
 	}, [mode]);
 
-	const theme = React.useMemo(
-		() =>
-			responsiveFontSizes(
-				createTheme({
-					typography: {
-						fontFamily,
+	const theme = React.useMemo(() => {
+		return responsiveFontSizes(
+			createTheme({
+				typography: {
+					fontFamily,
+				},
+				palette: {
+					mode,
+					background: {
+						default:
+							mode === 'dark'
+								? colorTheme.contrast.black
+								: colorTheme.contrast.white,
 					},
-					palette: {
-						mode,
-						background: {
-							default:
-								mode === 'dark'
-									? colorTheme.contrast.black
-									: colorTheme.contrast.white,
-						},
-						primary: {
-							main: colorTheme.blue.light,
-						},
-						secondary: {
-							main: colorTheme.green.dark,
-						},
-						custom: {
-							...colorTheme,
-							default:
-								mode === 'dark'
-									? colorTheme.contrast.black
-									: colorTheme.contrast.white,
-							opposite:
-								mode === 'light'
-									? colorTheme.contrast.black
-									: colorTheme.contrast.white,
-						},
+					primary: {
+						main: colorTheme.blue.light,
 					},
-					components: {
-						MuiCssBaseline: {
-							styleOverrides: `@font-face {${[
-								`font-family: '${fontFamily}'`,
-								'font-size: normal',
-								'font-display: swap',
-							].join(';\n')}}`,
-						},
+					secondary: {
+						main: colorTheme.green.dark,
 					},
-					breakpoints: {
-						values: {
-							xs: 0,
-							sm: 500,
-							xm: 700,
-							md: 900,
-							lg: 1200,
-							xl: 1500,
-						},
+					custom: {
+						...colorTheme,
+						default:
+							mode === 'dark'
+								? colorTheme.contrast.black
+								: colorTheme.contrast.white,
+						opposite:
+							mode === 'light'
+								? colorTheme.contrast.black
+								: colorTheme.contrast.white,
 					},
-				})
-			),
-		[mode]
-	);
+				},
+				components: {
+					MuiCssBaseline: {
+						styleOverrides: `@font-face {${[
+							`font-family: '${fontFamily}'`,
+							'font-size: normal',
+							'font-display: swap',
+						].join(';\n')}}`,
+					},
+				},
+				breakpoints: {
+					values: {
+						xs: 0,
+						sm: 500,
+						xm: 700,
+						md: 900,
+						lg: 1200,
+						xl: 1500,
+					},
+				},
+			})
+		);
+	}, [mode]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -97,11 +95,11 @@ const App = (props: AppProps) => {
 				<main>
 					<Layout
 						isDarkMode={mode === 'dark'}
-						setMode={() =>
-							setMode((mode) =>
-								mode === 'dark' ? 'light' : 'dark'
-							)
-						}
+						setMode={() => {
+							return setMode((mode) => {
+								return mode === 'dark' ? 'light' : 'dark';
+							});
+						}}
 					>
 						<props.Component {...props.pageProps} />
 					</Layout>

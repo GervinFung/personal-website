@@ -3,9 +3,13 @@ import child from 'child_process';
 export default class Server {
 	private constructor(private readonly port: number) {}
 
-	static readonly of = (port: number) => new this(port);
+	static readonly of = (port: number) => {
+		return new this(port);
+	};
 
-	readonly getPort = () => this.port;
+	readonly getPort = () => {
+		return this.port;
+	};
 
 	readonly kill = () => {
 		child.exec(`kill $(lsof -t -i:${this.port})`);
@@ -14,7 +18,9 @@ export default class Server {
 	readonly start = async () => {
 		const server = child
 			.exec(`make start arguments="-p ${this.port}"`)
-			.on('spawn', () => console.log('spawned server'))
+			.on('spawn', () => {
+				return console.log('spawned server');
+			})
 			.on('message', console.log)
 			.on('error', console.error)
 			.on('kill', () => {

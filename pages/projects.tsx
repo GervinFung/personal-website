@@ -242,88 +242,90 @@ const projects = [
 	},
 ];
 
-const Item = (project: (typeof projects)[0]['projects'][0]) => (
-	<Card
-		variant="outlined"
-		sx={{
-			borderTopRightRadius: 'none',
-			borderTopLeftRadius: 'none',
-			backgroundColor: 'transparent',
-		}}
-	>
-		<CardActionArea
+const Item = (project: (typeof projects)[0]['projects'][0]) => {
+	return (
+		<Card
+			variant="outlined"
 			sx={{
-				'&:hover > a > div > div > div > h6': {
-					color: 'text.primary',
-				},
-				'&:hover > a > div > div > div > p': {
-					color: 'text.secondary',
-				},
+				borderTopRightRadius: 'none',
+				borderTopLeftRadius: 'none',
+				backgroundColor: 'transparent',
 			}}
 		>
-			<Link
-				key={project.name}
-				href={project.githubLink}
-				target="_blank"
-				rel="noopener noreferrer"
-				underline="none"
+			<CardActionArea
+				sx={{
+					'&:hover > a > div > div > div > h6': {
+						color: 'text.primary',
+					},
+					'&:hover > a > div > div > div > p': {
+						color: 'text.secondary',
+					},
+				}}
 			>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						gridGap: 8,
-					}}
+				<Link
+					key={project.name}
+					href={project.githubLink}
+					target="_blank"
+					rel="noopener noreferrer"
+					underline="none"
 				>
-					<Box>
-						<Box
-							key={project.name}
-							alt={project.name}
-							loading="lazy"
-							component="img"
-							src={`/images/projects/${
-								project.imagePath ?? 'utari/background'
-							}.png`}
-							sx={{
-								width: '100%',
-								display: 'block',
-							}}
-						/>
-					</Box>
 					<Box
 						sx={{
-							p: 2,
+							display: 'flex',
+							flexDirection: 'column',
+							gridGap: 8,
 						}}
 					>
 						<Box>
-							<Typography
-								variant="h6"
+							<Box
+								key={project.name}
+								alt={project.name}
+								loading="lazy"
+								component="img"
+								src={`/images/projects/${
+									project.imagePath ?? 'utari/background'
+								}.png`}
 								sx={{
-									color: 'text.secondary',
-									fontWeight: 500,
+									width: '100%',
+									display: 'block',
 								}}
-							>
-								{project.name}
-							</Typography>
+							/>
 						</Box>
-						<Box>
-							<Typography
-								sx={{
-									color: 'text.disabled',
-									fontSize: '0.9em',
-									boxSizing: 'border-box',
-									wordBreak: 'break-word',
-								}}
-							>
-								{project.description}
-							</Typography>
+						<Box
+							sx={{
+								p: 2,
+							}}
+						>
+							<Box>
+								<Typography
+									variant="h6"
+									sx={{
+										color: 'text.secondary',
+										fontWeight: 500,
+									}}
+								>
+									{project.name}
+								</Typography>
+							</Box>
+							<Box>
+								<Typography
+									sx={{
+										color: 'text.disabled',
+										fontSize: '0.9em',
+										boxSizing: 'border-box',
+										wordBreak: 'break-word',
+									}}
+								>
+									{project.description}
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
-				</Box>
-			</Link>
-		</CardActionArea>
-	</Card>
-);
+				</Link>
+			</CardActionArea>
+		</Card>
+	);
+};
 
 const Projects: NextPage = () => {
 	const breakPoint = useBreakpoint();
@@ -342,51 +344,59 @@ const Projects: NextPage = () => {
 						width: consts.width.projects[breakPoint ?? 'xl'],
 					}}
 				>
-					{projects.map((subProjects) => (
-						<Box key={subProjects.category}>
-							<Box
-								key={subProjects.category}
-								sx={{
-									display: 'grid',
-									gridGap: 48,
-								}}
-							>
+					{projects.map((subProjects) => {
+						return (
+							<Box key={subProjects.category}>
 								<Box
+									key={subProjects.category}
 									sx={{
 										display: 'grid',
-										placeItems: 'center',
+										gridGap: 48,
 									}}
 								>
-									<Typography
-										variant="h3"
-										sx={{ fontWeight: 700 }}
-									>
-										{subProjects.category}
-									</Typography>
-								</Box>
-								<Box>
-									<Grid
-										container
-										spacing={4}
+									<Box
 										sx={{
-											autoRows: '1fr',
+											display: 'grid',
+											placeItems: 'center',
 										}}
 									>
-										{subProjects.projects.map((project) => (
-											<Grid
-												item
-												key={project.name}
-												xm={12}
-												md={6}
-											>
-												<Item {...project} />
-											</Grid>
-										))}
-									</Grid>
+										<Typography
+											variant="h3"
+											sx={{ fontWeight: 700 }}
+										>
+											{subProjects.category}
+										</Typography>
+									</Box>
+									<Box>
+										<Grid
+											container
+											spacing={4}
+											sx={{
+												autoRows: '1fr',
+											}}
+										>
+											{subProjects.projects.map(
+												(project) => {
+													return (
+														<Grid
+															item
+															key={project.name}
+															xm={12}
+															md={6}
+														>
+															<Item
+																{...project}
+															/>
+														</Grid>
+													);
+												}
+											)}
+										</Grid>
+									</Box>
 								</Box>
 							</Box>
-						</Box>
-					))}
+						);
+					})}
 				</Stack>
 			</Holder>
 		</>

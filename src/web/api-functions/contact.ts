@@ -8,19 +8,22 @@ const sendMessage = (
 		message: string;
 		isHoneyPot?: true;
 	}>
-) =>
-	axios
+) => {
+	return axios
 		.post(`${process.env.NEXT_PUBLIC_ORIGIN}/api/contact`, values, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		})
-		.then(({ data }) => data as Data)
+		.then(({ data }) => {
+			return data as Data;
+		})
 		.catch((error) => {
 			console.error(error);
 			throw new Error(
 				`Oops! I can't send your email as there is an issue`
 			);
 		});
+};
 
 export { sendMessage };

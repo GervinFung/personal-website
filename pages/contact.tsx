@@ -93,7 +93,9 @@ const Contact: NextPage = () => {
 	const messageFailedMessage =
 		'Please ensure that each field is filled in correctly';
 
-	const setMessageResultToUndefined = () => setMessageResult(undefined);
+	const setMessageResultToUndefined = () => {
+		return setMessageResult(undefined);
+	};
 
 	React.useEffect(() => {
 		const { current } = hiddenLabel;
@@ -110,7 +112,9 @@ const Contact: NextPage = () => {
 			return;
 		}
 		const timer = setTimeout(setMessageResultToUndefined, 3000);
-		return () => clearTimeout(timer);
+		return () => {
+			return clearTimeout(timer);
+		};
 	}, [messageResult]);
 
 	return (
@@ -123,15 +127,17 @@ const Contact: NextPage = () => {
 			<Holder>
 				<Section
 					elevation={0}
-					sx={({ palette }) => ({
-						borderRadius: 0,
-						boxShadow: [
-							`-5px 5px ${palette.custom.striking.green}`,
-							`5px -5px ${palette.custom.striking.red}`,
-						].join(' ,'),
-						width: consts.width.others[breakPoint ?? 'xl'],
-						backgroundColor: 'background.default',
-					})}
+					sx={({ palette }) => {
+						return {
+							borderRadius: 0,
+							boxShadow: [
+								`-5px 5px ${palette.custom.striking.green}`,
+								`5px -5px ${palette.custom.striking.red}`,
+							].join(' ,'),
+							width: consts.width.others[breakPoint ?? 'xl'],
+							backgroundColor: 'background.default',
+						};
+					}}
 				>
 					{messageResult?.status !== 'failed' ? null : (
 						<Error onClose={setMessageResultToUndefined}>
@@ -203,9 +209,9 @@ const Contact: NextPage = () => {
 									autoComplete="off"
 									value={honeyPot}
 									name={faxClassName}
-									onChange={(event) =>
-										setHoneyPot(event.target.value)
-									}
+									onChange={(event) => {
+										return setHoneyPot(event.target.value);
+									}}
 								/>
 							</label>
 							<TextFieldInput
@@ -219,12 +225,14 @@ const Contact: NextPage = () => {
 										: contactInfoParseResult.name.reason
 								}
 								placeholder="What did your mom call you"
-								setValue={(name) =>
-									setContactInfo((prev) => ({
-										...prev,
-										name,
-									}))
-								}
+								setValue={(name) => {
+									return setContactInfo((prev) => {
+										return {
+											...prev,
+											name,
+										};
+									});
+								}}
 							/>
 							<TextFieldInput
 								id="email"
@@ -237,12 +245,14 @@ const Contact: NextPage = () => {
 										: contactInfoParseResult.email.reason
 								}
 								placeholder="Where can I email you back"
-								setValue={(email) =>
-									setContactInfo((prev) => ({
-										...prev,
-										email,
-									}))
-								}
+								setValue={(email) => {
+									return setContactInfo((prev) => {
+										return {
+											...prev,
+											email,
+										};
+									});
+								}}
 							/>
 							<TextFieldInput
 								multiline
@@ -256,12 +266,14 @@ const Contact: NextPage = () => {
 										: contactInfoParseResult.message.reason
 								}
 								placeholder="Remember, short & sweet please"
-								setValue={(message) =>
-									setContactInfo((prev) => ({
-										...prev,
-										message,
-									}))
-								}
+								setValue={(message) => {
+									return setContactInfo((prev) => {
+										return {
+											...prev,
+											message,
+										};
+									});
+								}}
 							/>
 							<Box
 								sx={{
@@ -274,31 +286,34 @@ const Contact: NextPage = () => {
 								<Button
 									disableElevation
 									variant="contained"
-									sx={({ palette }) => ({
-										width: 'fit-content',
-										color: 'custom.striking.red',
-										border:
-											palette.mode === 'dark'
-												? 'none'
-												: `1px solid ${palette.custom.striking.red}`,
-										backgroundColor:
-											'custom.contrast.white',
-										background: [
-											`linear-gradient(to right`,
-											`${palette.custom.striking.red} 50%`,
-											`${palette.custom.contrast.white} 50%)`,
-										].join(','),
-										backgroundSize: '300% 100%',
-										backgroundPosition: 'right bottom',
-										transition: 'all 0.2s ease-out',
-										fontSize: '1em',
-										'&:hover': {
-											color: 'custom.contrast.white',
+									sx={({ palette }) => {
+										return {
+											width: 'fit-content',
+											color: 'custom.striking.red',
+											border:
+												palette.mode === 'dark'
+													? 'none'
+													: `1px solid ${palette.custom.striking.red}`,
 											backgroundColor:
-												'custom.striking.red',
-											backgroundPosition: 'left bottom',
-										},
-									})}
+												'custom.contrast.white',
+											background: [
+												`linear-gradient(to right`,
+												`${palette.custom.striking.red} 50%`,
+												`${palette.custom.contrast.white} 50%)`,
+											].join(','),
+											backgroundSize: '300% 100%',
+											backgroundPosition: 'right bottom',
+											transition: 'all 0.2s ease-out',
+											fontSize: '1em',
+											'&:hover': {
+												color: 'custom.contrast.white',
+												backgroundColor:
+													'custom.striking.red',
+												backgroundPosition:
+													'left bottom',
+											},
+										};
+									}}
 									onClick={(event) => {
 										event.preventDefault();
 										const { status, ...values } =

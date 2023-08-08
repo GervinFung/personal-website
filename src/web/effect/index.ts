@@ -1,16 +1,16 @@
-const scrambleAndShowBase =
-	(listOfCharacters: string) =>
-	({
+const scrambleAndShowBase = (listOfCharacters: string) => {
+	return ({
 		count,
 		content,
 	}: Readonly<{
 		count: number;
 		content: string;
 	}>) => {
-		const generateWord = () =>
-			listOfCharacters.charAt(
+		const generateWord = () => {
+			return listOfCharacters.charAt(
 				Math.floor(Math.random() * listOfCharacters.length)
 			);
+		};
 
 		return Array.from(
 			{
@@ -36,6 +36,7 @@ const scrambleAndShowBase =
 			isSame: true,
 		});
 	};
+};
 
 type Param = Parameters<ReturnType<typeof scrambleAndShowBase>>[0];
 

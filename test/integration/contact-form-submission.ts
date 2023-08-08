@@ -2,8 +2,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import Database from '../../src/api/database';
 import { sendMessage } from '../../src/web/api-functions/contact';
 
-const testContactFormSubmissionPost = () =>
-	describe('Api contact submission post test', () => {
+const testContactFormSubmissionPost = () => {
+	return describe('Api contact submission post test', () => {
 		const dummy = {
 			name: 'Pepper Potts',
 			email: 'pepperpottsishot@mail.com',
@@ -97,5 +97,6 @@ const testContactFormSubmissionPost = () =>
 			}
 		);
 	});
+};
 
 export default testContactFormSubmissionPost;

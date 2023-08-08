@@ -35,17 +35,23 @@ const useWordScramble = (
 			words.at(result.current.index)?.isSame
 	);
 
-	const setPreviousResult = (previous: Result) =>
-		setResult((result) => ({
-			...result,
-			previous,
-		}));
+	const setPreviousResult = (previous: Result) => {
+		return setResult((result) => {
+			return {
+				...result,
+				previous,
+			};
+		});
+	};
 
-	const setCurrentResult = (current: Result) =>
-		setResult((result) => ({
-			...result,
-			current,
-		}));
+	const setCurrentResult = (current: Result) => {
+		return setResult((result) => {
+			return {
+				...result,
+				current,
+			};
+		});
+	};
 
 	const changeWord = () => {
 		const timer = setTimeout(() => {
@@ -63,7 +69,9 @@ const useWordScramble = (
 				};
 			});
 		}, props.timeOut);
-		return () => clearTimeout(timer);
+		return () => {
+			return clearTimeout(timer);
+		};
 	};
 
 	React.useEffect(() => {
@@ -93,20 +101,25 @@ const useWordScramble = (
 
 	return {
 		...result,
-		started: () => result.current.status !== 'started',
-		word: () =>
-			result.current.status !== 'started'
+		started: () => {
+			return result.current.status !== 'started';
+		},
+		word: () => {
+			return result.current.status !== 'started'
 				? props.content
-				: words.at(result.current.index)?.content ?? props.content,
-		stop: () =>
-			setPreviousResult({
+				: words.at(result.current.index)?.content ?? props.content;
+		},
+		stop: () => {
+			return setPreviousResult({
 				status: 'not-started',
-			}),
-		start: () =>
-			setPreviousResult({
+			});
+		},
+		start: () => {
+			return setPreviousResult({
 				status: 'started',
 				index: 0,
-			}),
+			});
+		},
 	};
 };
 
