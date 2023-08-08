@@ -30,18 +30,21 @@ jobs:
             - name: Install Depedencies
               run: make install
 
-            - name: Run Linter
+            - name: Generate Env Type Definitions
+              run: make generate-environment-type-definition
+
+            - name: Lint Code
               run: make lint
 
-            - name: Run Typecheck
+            - name: Typecheck Code
               run: make typecheck
 
-            - name: Run Format Check
+            - name: Check Format Code
               run: make format-check
 
-            - name: Run Tests
+            - name: Unit test & API test
               # running test will also execute `build`
               run: make test
 
-            - name: Run Code Generation
+            - name: Generate sitemap and webmanifest
               run: make generate
