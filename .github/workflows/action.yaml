@@ -2,17 +2,6 @@ name: my-web-ci-cd
 
 on: [push, pull_request]
 
-env:
-    ORIGIN: http://0.0.0.0:8080
-    NEXT_PUBLIC_ORIGIN: http://0.0.0.0:8080
-    NEXT_PUBLIC_NODE_ENV: test
-    MONGO_DB: test-my-web
-    MONGO_COLLECTION_CONTACT_FORM_MESSAEG: contact-form-message
-    MONGO_ADDRESS: localhost
-    MONGO_PORT: 27017
-    MONGO_USER: runner
-    MONGO_PASSWORD: mongodb
-
 jobs:
     all:
         runs-on: ubuntu-latest
