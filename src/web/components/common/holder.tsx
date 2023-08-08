@@ -25,12 +25,12 @@ const Holder = (
             ref={holderRef}
             {...{
                 ...rest,
-                sx: (theme: Theme) => ({
+                sx: (theme: Theme) => {return {
                     ...sx,
                     ...(typeof props.sx === 'function'
                         ? props.sx(theme)
                         : props.sx),
-                }),
+                };},
             }}
             component="div"
         />

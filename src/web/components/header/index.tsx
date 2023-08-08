@@ -33,7 +33,7 @@ const SocialButton = (
         href: string;
         children: React.ReactNode;
     }>
-) => (
+) => {return (
     <MuiLink.default
         href={props.href}
         target="_blank"
@@ -48,7 +48,7 @@ const SocialButton = (
     >
         {props.children}
     </MuiLink.default>
-);
+);};
 
 const CustomLink = (
     props: Readonly<{
@@ -78,7 +78,7 @@ const CustomLink = (
                     }}
                 >
                     <Typography
-                        sx={({ palette }) => ({
+                        sx={({ palette }) => {return {
                             fontWeight: props.isActive ? 'bolder' : undefined,
                             color: !props.isActive
                                 ? palette.text.secondary
@@ -86,7 +86,7 @@ const CustomLink = (
                             '&:hover': {
                                 color: palette.custom.opposite,
                             },
-                        })}
+                        };}}
                     >
                         {wordScramble.word()}
                     </Typography>
@@ -213,11 +213,11 @@ const Header = (
                         showLabels
                         value={
                             ids
-                                .map((id, index) => ({
+                                .map((id, index) => {return {
                                     id,
                                     index: !index ? undefined : index - 1,
-                                }))
-                                .find(({ id }) => id === route)?.index
+                                };})
+                                .find(({ id }) => {return id === route;})?.index
                         }
                         sx={{
                             width: '100%',
@@ -226,11 +226,11 @@ const Header = (
                         }}
                         onChange={(_, value) => {
                             const open = (link: string) =>
-                                window.open(
+                                {return window.open(
                                     link,
                                     '_blank',
                                     'noopener noreferrer'
-                                );
+                                );};
                             if (value === 2) {
                                 return open(links.github);
                             }
@@ -248,22 +248,22 @@ const Header = (
                         <BottomNavigationAction
                             label="Projects"
                             icon={<EssentialIcons.Projects dontUseLink />}
-                            sx={({ palette }) => ({
+                            sx={({ palette }) => {return {
                                 color:
                                     route === ids[1]
                                         ? `${palette.text.primary} !important`
                                         : undefined,
-                            })}
+                            };}}
                         />
                         <BottomNavigationAction
                             label="Contact"
                             icon={<EssentialIcons.Contact dontUseLink />}
-                            sx={({ palette }) => ({
+                            sx={({ palette }) => {return {
                                 color:
                                     route === ids[2]
                                         ? `${palette.text.primary} !important`
                                         : undefined,
-                            })}
+                            };}}
                         />
                         <BottomNavigationAction
                             label="Github"
@@ -350,14 +350,14 @@ const Header = (
                                         alignItems: 'center',
                                     }}
                                 >
-                                    {ids.map((id) => (
+                                    {ids.map((id) => {return (
                                         <CustomLink
                                             id={id}
                                             key={id}
                                             isActive={(route || 'home') === id}
                                             shouldUseIcon={allShouldUseIcon}
                                         />
-                                    ))}
+                                    );})}
                                 </Box>
                             </Box>
                         )}

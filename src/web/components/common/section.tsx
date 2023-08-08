@@ -22,12 +22,12 @@ const Section = (
             {...{
                 ...props,
                 elevation: props.elevation ?? 1,
-                sx: (theme: Theme) => ({
+                sx: (theme: Theme) => {return {
                     ...sx,
                     ...(typeof props.sx === 'function'
                         ? props.sx(theme)
                         : props.sx),
-                }),
+                };},
             }}
         />
     );

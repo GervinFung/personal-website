@@ -21,7 +21,7 @@ const MarginTopBox = (
         shouldNotMarginTop?: true;
         children: React.ReactNode;
     }>
-) => (
+) => {return (
     <Box
         sx={{
             m: 0,
@@ -32,7 +32,7 @@ const MarginTopBox = (
     >
         {props.children}
     </Box>
-);
+);};
 
 const ClickRefresh = (
     props: Readonly<{
@@ -40,11 +40,11 @@ const ClickRefresh = (
         refresh: () => void;
         timeToChange: number;
     }>
-) => (
+) => {return (
     <SecondaryMainButton
         title={props.title}
         onClick={props.refresh}
-        sx={({ palette }) => ({
+        sx={({ palette }) => {return {
             fontWeight: 600,
             backgroundColor: 'custom.blue.dark',
             background: [
@@ -58,9 +58,9 @@ const ClickRefresh = (
             '&:hover': {
                 backgroundPosition: 'left !important',
             },
-        })}
+        };}}
     />
-);
+);};
 
 const ErrorContainer = (
     props: Readonly<{
@@ -85,10 +85,10 @@ const ErrorContainer = (
             return;
         }
         const goTo = setTimeout(
-            () => setCountDown((countDown) => countDown - 1),
+            () => {return setCountDown((countDown) => {return countDown - 1;});},
             1000
         );
-        return () => clearTimeout(goTo);
+        return () => {return clearTimeout(goTo);};
     }, [countDown]);
 
     return (
@@ -120,7 +120,7 @@ const ErrorContainer = (
                     </Typography>
                 </MarginTopBox>
                 <MarginTopBox>
-                    {props.messages.map((message, index) => (
+                    {props.messages.map((message, index) => {return (
                         <Typography
                             key={message}
                             variant={!index ? 'h3' : 'inherit'}
@@ -132,7 +132,7 @@ const ErrorContainer = (
                         >
                             {message}
                         </Typography>
-                    ))}
+                    );})}
                 </MarginTopBox>
                 <MarginTopBox>
                     <Typography>
@@ -171,7 +171,7 @@ const ErrorContainer = (
                                     <ClickRefresh
                                         timeToChange={timeToChange}
                                         title="RELOAD"
-                                        refresh={() => router.reload()}
+                                        refresh={() => {return router.reload();}}
                                     />{' '}
                                 </Box>
                                 Now
@@ -188,7 +188,7 @@ const ErrorContainer = (
                                     <ClickRefresh
                                         timeToChange={timeToChange}
                                         title="HOME"
-                                        refresh={() => router.replace(home)}
+                                        refresh={() => {return router.replace(home);}}
                                     />{' '}
                                 </Link>
                                 Immediately

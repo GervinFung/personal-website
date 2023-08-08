@@ -6,14 +6,14 @@ const Schema = () => {
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
-        itemListElement: (['home', 'résumé'] as const).map((name, index) => ({
+        itemListElement: (['home', 'résumé'] as const).map((name, index) => {return {
             name,
             '@type': 'ListItem',
             position: index + 1,
             item: `${links.domain}/${
                 name === 'home' ? '' : name === 'résumé' ? 'resume' : name
             }`,
-        })),
+        };}),
     };
 
     return (

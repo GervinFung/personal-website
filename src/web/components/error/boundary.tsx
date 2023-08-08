@@ -23,10 +23,10 @@ class ErrorBoundary extends React.Component<
         closedAlert: false,
     };
 
-    static getDerivedStateFromError = (error: Error): State => ({
+    static getDerivedStateFromError = (error: Error): State => {return {
         error,
         closedAlert: false,
-    });
+    };};
 
     componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) => {
         console.error({ error, errorInfo });
@@ -34,7 +34,7 @@ class ErrorBoundary extends React.Component<
     };
 
     render = (): JSX.Element | React.ReactNode =>
-        !this.state.error ? (
+        {return !this.state.error ? (
             this.props.children
         ) : (
             <Layout>
@@ -42,7 +42,7 @@ class ErrorBoundary extends React.Component<
                     <title>Error</title>
                 </Head>
                 {this.state.closedAlert ? null : (
-                    <Error onClose={() => this.setState({ closedAlert: true })}>
+                    <Error onClose={() => {return this.setState({ closedAlert: true });}}>
                         {this.state.error.message}
                     </Error>
                 )}
@@ -57,7 +57,7 @@ class ErrorBoundary extends React.Component<
                     ]}
                 />
             </Layout>
-        );
+        );};
 }
 
 export default withRouter(ErrorBoundary);

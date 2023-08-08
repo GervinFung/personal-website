@@ -15,7 +15,7 @@ const SecondaryMainButton = (
             disableElevation
             onClick={props.onClick}
             variant="contained"
-            sx={(theme) => ({
+            sx={(theme) => {return {
                 width: 'fit-content',
                 color: 'custom.contrast.white',
                 backgroundColor: 'secondary.main',
@@ -30,7 +30,7 @@ const SecondaryMainButton = (
                     : 'width' in sx
                     ? sx
                     : undefined),
-            })}
+            };}}
         >
             {props.title}
         </Button>

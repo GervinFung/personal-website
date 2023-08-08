@@ -8,7 +8,7 @@ const Layout = (
     props: Readonly<
         { children: React.ReactNode } & Parameters<typeof Header>[0]
     >
-) => (
+) => {return (
     <>
         <Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
         <CssBaseline />
@@ -34,6 +34,6 @@ const Layout = (
         {props.children}
         <Footer />
     </>
-);
+);};
 
 export default Layout;
