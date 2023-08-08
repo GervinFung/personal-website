@@ -5,10 +5,9 @@ const mongodbConfig = {
 		environment === 'testing' || environment === 'development'
 			? undefined
 			: process.env.MONGO_SRV,
-	port:
-		environment === 'staging' || environment === 'production'
-			? undefined
-			: process.env.MONGO_PORT,
+	port: !(environment === 'testing' || environment === 'development')
+		? undefined
+		: process.env.MONGO_PORT,
 	dbName: process.env.MONGO_DB,
 	address: process.env.MONGO_ADDRESS,
 	collections: {
