@@ -5,15 +5,16 @@ import Header from '../header';
 import Footer from '../footer';
 
 const Layout = (
-    props: Readonly<
-        { children: React.ReactNode } & Parameters<typeof Header>[0]
-    >
-) => {return (
-    <>
-        <Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
-        <CssBaseline />
-        <GlobalStyles
-            styles={`
+	props: Readonly<
+		{ children: React.ReactNode } & Parameters<typeof Header>[0]
+	>
+) => {
+	return (
+		<>
+			<Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
+			<CssBaseline />
+			<GlobalStyles
+				styles={`
                 * {
                     scroll-behavior: smooth !important;
                 }
@@ -30,10 +31,11 @@ const Layout = (
                     background-color: gray;
                 }
           `}
-        />
-        {props.children}
-        <Footer />
-    </>
-);};
+			/>
+			{props.children}
+			<Footer />
+		</>
+	);
+};
 
 export default Layout;
