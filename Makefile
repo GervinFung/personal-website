@@ -29,7 +29,7 @@ generate-sitemap:
 
 ## env
 generate-environment-type-definition:
-	pnm vite-node script/env/type-def.ts
+	pnpm vite-node script/env/type-def.ts
 
 copy-env:
 	pnpm vite-node script/env/copy.ts ${arguments}
