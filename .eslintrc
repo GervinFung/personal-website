@@ -1,11 +1,14 @@
 {
-    "extends": [
-        "@poolofdeath20/eslint-config/node",
-        "@poolofdeath20/eslint-config/react"
-    ],
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    }
+	"extends": [
+		"@poolofdeath20/eslint-config/node",
+		"@poolofdeath20/eslint-config/react"
+	],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"rules": {
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
+	}
 }

@@ -9,7 +9,7 @@ next-env.d.ts
 script/**/*.generated.*
 script/**/*.webp
 src/web/data/projects.ts
-public/files/GervinFungDaXuen-Résumé.pdf
+.prettierrc
 
 # production
 build

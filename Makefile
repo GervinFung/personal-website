@@ -85,18 +85,22 @@ dev:
 	pnppm next dev
 
 ## format
-prettify:
+format-generate-config:
+
+	pnpm prettier-config-generate
+
+format:
 	pnpm prettier --ignore-path .gitignore --$(type) **/*.{mjs,tsx,ts,json,md}
 
 format-check:
-	make prettify type=check
+	make format type=check
 
 format-write:
-	make prettify type=write
+	make format type=write
 
 ## lint
 lint:
-	pnpm eslint src test -f='stylish' --color && pnpm knip
+	pnpm eslint --ignore-path .gitignore **/*.{mjs,tsx,ts} --color && pnpm knip
 
 ## typecheck
 typecheck:
