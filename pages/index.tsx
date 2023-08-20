@@ -3,12 +3,33 @@ import type { NextPage } from 'next';
 import Seo from '../src/web/components/seo';
 import Typography, { type TypographyProps } from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import type { SxProps, Theme } from '@mui/material/styles';
 import Holder from '../src/web/components/common/holder';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import Link from 'next/link';
 
-const Content = (props: TypographyProps) => {
+const Content = (
+	props: TypographyProps &
+		Readonly<{
+			delay: number;
+		}>
+) => {
+	const [show, setState] = React.useState(false);
+
+	React.useEffect(() => {
+		setState(true);
+	}, []);
+
+	const animation: SxProps<Theme> | undefined =
+		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+			? undefined
+			: {
+					transition: 'all 1s',
+					transitionDelay: `${props.delay}00ms`,
+					opacity: show ? 1 : 0,
+			  };
+
 	return (
 		<Typography
 			{...props}
@@ -18,7 +39,7 @@ const Content = (props: TypographyProps) => {
 				textAlign: 'justify',
 				color: 'text.secondary',
 				whiteSpace: 'pre-wrap',
-				...props.sx,
+				...animation,
 			}}
 		/>
 	);
@@ -68,18 +89,18 @@ const Index: NextPage = () => {
 					GERVIN
 				</Typography>
 				<Holder sx={{ width: consts.width.others[breakPoint ?? 'xl'] }}>
-					<Content sx={{ color: 'text.primary', mt: 3 }}>
+					<Content delay={1} sx={{ color: 'text.primary', mt: 3 }}>
 						{isDay() ? 'Bonjour' : 'Bonsoir'}! Je vous remercie de
 						votre visite!
 					</Content>
-					<Content>
+					<Content delay={2}>
 						I am Gervin Fung Da Xuen, and I am not French. I build
 						software both for fun and for a living. I am passionate
 						about open-source software, and I build websites,
 						desktop applications, mobile applications, and
 						development tools
 					</Content>
-					<Content>
+					<Content delay={4}>
 						I have been coding since 2021, and it all started when I
 						wanted to make a Chess game with Java Swing and then
 						with the LibGDX framework. Later, during an intern
@@ -88,7 +109,7 @@ const Index: NextPage = () => {
 						After some time, I began using Rust to create terminal
 						applications
 					</Content>
-					<Content>
+					<Content delay={6}>
 						TypeScript, Java, and Rust are my primary languages in
 						software engineering, although I believe I am capable of
 						using other languages as well, aside from PHP. My
@@ -96,7 +117,7 @@ const Index: NextPage = () => {
 						mobile applications, and development tools. You can find
 						my full projects list{' '}
 						<Box
-							style={{
+							sx={{
 								display: 'inline-block',
 							}}
 						>
@@ -117,7 +138,7 @@ const Index: NextPage = () => {
 							</Link>
 						</Box>
 					</Content>
-					<Content>
+					<Content delay={8}>
 						Outside of programming, I enjoy reading interesting
 						articles, working out, and playing video games with my
 						friends.

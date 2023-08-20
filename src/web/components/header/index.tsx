@@ -249,11 +249,12 @@ const Header = (
 								return open(links.linkedin);
 							}
 							const id = ids.at(value + 1);
-							if (id) {
-								return router.push(id, undefined, {
-									shallow: true,
-								});
+							if (!id) {
+								return;
 							}
+							return router.push(id, undefined, {
+								shallow: true,
+							});
 						}}
 					>
 						<BottomNavigationAction

@@ -87,7 +87,7 @@ const ErrorContainer = (
 		if (!countDown) {
 			props.type === 'reload' ? router.reload() : router.replace(home);
 		}
-		if (process.env.NEXT_PUBLIC_NODE_ENV === 'test') {
+		if (process.env.NEXT_PUBLIC_NODE_ENV === 'testing') {
 			return;
 		}
 		const goTo = setTimeout(() => {

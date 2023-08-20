@@ -10,7 +10,6 @@ import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
-import '../src/web/typing/mui.d.ts';
 
 const App = (props: AppProps) => {
 	const { fontFamily } = consts;
@@ -96,7 +95,7 @@ const App = (props: AppProps) => {
 					<Layout
 						isDarkMode={mode === 'dark'}
 						setMode={() => {
-							return setMode((mode) => {
+							 setMode((mode) => {
 								return mode === 'dark' ? 'light' : 'dark';
 							});
 						}}

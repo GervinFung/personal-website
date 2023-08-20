@@ -5,6 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import type { SxProps, Theme } from '@mui/material/styles';
 import { ContactMessageParser } from '../src/common/contact';
 import Holder from '../src/web/components/common/holder';
 import Section from '../src/web/components/common/section';
@@ -24,9 +25,26 @@ const TextFieldInput = (
 		placeholder: string;
 		type: 'text' | 'email';
 		setValue: (_: string) => void;
+		delay: number;
 	}>
 ) => {
 	const { setValue, ...rest } = props;
+
+	const [show, setState] = React.useState(false);
+
+	React.useEffect(() => {
+		setState(true);
+	}, []);
+
+	const animation: SxProps<Theme> | undefined =
+		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+			? undefined
+			: {
+					transition: 'all 1s',
+					transitionDelay: `${props.delay}00ms`,
+					opacity: show ? 1 : 0,
+			  };
+
 	return (
 		<TextField
 			{...rest}
@@ -43,6 +61,7 @@ const TextFieldInput = (
 			sx={{
 				zIndex: 0,
 				backgroundColor: 'background.default',
+				...animation,
 			}}
 			onChange={(event) => {
 				event.persist();
@@ -50,6 +69,49 @@ const TextFieldInput = (
 				setValue(value);
 			}}
 		/>
+	);
+};
+
+const HoneyPot = (
+	props: Readonly<{
+		value: string;
+		setValue: (value: string) => void;
+	}>
+) => {
+	const hiddenLabel =
+		React.useRef() as React.MutableRefObject<HTMLLabelElement>;
+
+	const faxClassName = 'fax';
+
+	React.useEffect(() => {
+		const { current } = hiddenLabel;
+		if (current) {
+			current.style.setProperty('visibility', 'hidden');
+			current.style.setProperty('display', 'none');
+			current.style.setProperty('opacity', '0');
+			current.style.setProperty('z-index', '-1');
+		}
+	}, []);
+
+	return (
+		<label
+			tabIndex={-1}
+			ref={hiddenLabel}
+			htmlFor={faxClassName}
+			className={faxClassName}
+		>
+			<input
+				tabIndex={-1}
+				type="text"
+				id={faxClassName}
+				autoComplete="off"
+				value={props.value}
+				name={faxClassName}
+				onChange={(event) => {
+					props.setValue(event.target.value);
+				}}
+			/>
+		</label>
 	);
 };
 
@@ -83,11 +145,22 @@ const Contact: NextPage = () => {
 			  }
 	);
 
-	const breakPoint = useBreakpoint();
+	const [show, setState] = React.useState(false);
 
-	const hiddenLabel =
-		React.useRef() as React.MutableRefObject<HTMLLabelElement>;
-	const faxClassName = 'fax';
+	React.useEffect(() => {
+		setState(true);
+	}, []);
+
+	const animation: SxProps<Theme> | undefined =
+		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+			? undefined
+			: {
+					transition: 'all 1s',
+					transitionDelay: '200ms',
+					opacity: show ? 1 : 0,
+			  };
+
+	const breakPoint = useBreakpoint();
 
 	const messageSentOutMessage = 'Your message has been successfully sent!';
 	const messageFailedMessage =
@@ -98,20 +171,12 @@ const Contact: NextPage = () => {
 	};
 
 	React.useEffect(() => {
-		const { current } = hiddenLabel;
-		if (current) {
-			current.style.setProperty('visibility', 'hidden');
-			current.style.setProperty('display', 'none');
-			current.style.setProperty('opacity', '0');
-			current.style.setProperty('z-index', '-1');
-		}
-	}, []);
-
-	React.useEffect(() => {
 		if (!messageResult || messageResult?.status === 'sending') {
 			return;
 		}
+
 		const timer = setTimeout(setMessageResultToUndefined, 3000);
+
 		return () => {
 			return clearTimeout(timer);
 		};
@@ -124,7 +189,7 @@ const Contact: NextPage = () => {
 				keywords={['Personal Website', 'Contact Page']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organizations on Github"
 			/>
-			<Holder>
+			<Holder sx={animation}>
 				<Section
 					elevation={0}
 					sx={({ palette }) => {
@@ -196,25 +261,9 @@ const Contact: NextPage = () => {
 								gridGap: 16,
 							}}
 						>
-							<label
-								tabIndex={-1}
-								ref={hiddenLabel}
-								htmlFor={faxClassName}
-								className={faxClassName}
-							>
-								<input
-									tabIndex={-1}
-									type="text"
-									id={faxClassName}
-									autoComplete="off"
-									value={honeyPot}
-									name={faxClassName}
-									onChange={(event) => {
-										return setHoneyPot(event.target.value);
-									}}
-								/>
-							</label>
+							<HoneyPot value={honeyPot} setValue={setHoneyPot} />
 							<TextFieldInput
+								delay={2}
 								id="name"
 								type="text"
 								value={contactInfo.name}
@@ -235,6 +284,7 @@ const Contact: NextPage = () => {
 								}}
 							/>
 							<TextFieldInput
+								delay={4}
 								id="email"
 								type="email"
 								value={contactInfo.email}
@@ -255,6 +305,7 @@ const Contact: NextPage = () => {
 								}}
 							/>
 							<TextFieldInput
+								delay={6}
 								multiline
 								id="message"
 								type="text"

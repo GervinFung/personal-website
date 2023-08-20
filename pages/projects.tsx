@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
+import type { SxProps, Theme } from '@mui/material/styles';
 import Seo from '../src/web/components/seo';
 import Holder from '../src/web/components/common/holder';
 import consts from '../src/web/const';
@@ -242,7 +243,27 @@ const projects = [
 	},
 ];
 
-const Item = (project: (typeof projects)[0]['projects'][0]) => {
+const Item = (
+	project: (typeof projects)[0]['projects'][0] &
+		Readonly<{
+			delay: number;
+		}>
+) => {
+	const [show, setState] = React.useState(false);
+
+	React.useEffect(() => {
+		setState(true);
+	}, []);
+
+	const animation: SxProps<Theme> | undefined =
+		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+			? undefined
+			: {
+					transition: 'all 1s',
+					transitionDelay: `${project.delay}00ms`,
+					opacity: show ? 1 : 0,
+			  };
+
 	return (
 		<Card
 			variant="outlined"
@@ -250,6 +271,7 @@ const Item = (project: (typeof projects)[0]['projects'][0]) => {
 				borderTopRightRadius: 'none',
 				borderTopLeftRadius: 'none',
 				backgroundColor: 'transparent',
+				...animation,
 			}}
 		>
 			<CardActionArea
@@ -344,7 +366,7 @@ const Projects: NextPage = () => {
 						width: consts.width.projects[breakPoint ?? 'xl'],
 					}}
 				>
-					{projects.map((subProjects) => {
+					{projects.map((subProjects, projectIndex) => {
 						return (
 							<Box key={subProjects.category}>
 								<Box
@@ -358,6 +380,7 @@ const Projects: NextPage = () => {
 										sx={{
 											display: 'grid',
 											placeItems: 'center',
+											transition: 'all 1s',
 										}}
 									>
 										<Typography
@@ -376,15 +399,22 @@ const Projects: NextPage = () => {
 											}}
 										>
 											{subProjects.projects.map(
-												(project) => {
+												(project, index) => {
+													const delay =
+														(index +
+															1 +
+															projectIndex) *
+														2;
+
 													return (
 														<Grid
 															item
 															key={project.name}
 															xm={12}
-															md={6}
+															md={4}
 														>
 															<Item
+																delay={delay}
 																{...project}
 															/>
 														</Grid>

@@ -6,12 +6,14 @@ import Footer from '../footer';
 
 const Layout = (
 	props: Readonly<
-		{ children: React.ReactNode } & Parameters<typeof Header>[0]
+		{ children?: React.ReactNode } & Partial<Parameters<typeof Header>[0]>
 	>
 ) => {
 	return (
 		<>
-			<Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
+			{!(props.setMode && props.isDarkMode !== undefined) ? null : (
+				<Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
+			)}
 			<CssBaseline />
 			<GlobalStyles
 				styles={`
@@ -32,7 +34,7 @@ const Layout = (
                 }
           `}
 			/>
-			{props.children}
+			{props?.children}
 			<Footer />
 		</>
 	);

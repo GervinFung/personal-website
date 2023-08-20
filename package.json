@@ -1,5 +1,5 @@
 {
-	"name": "my-web",
+	"name": "personal-website",
 	"version": "0.0.0",
 	"author": "Gervin Fung",
 	"private": true,
@@ -26,6 +26,7 @@
 		"@poolofdeath20/prettier-config-generator": "^0.0.1",
 		"@types/cors": "^2.8.13",
 		"@types/jest-image-snapshot": "^6.2.0",
+		"@types/node": "20.5.1",
 		"@types/react": "^18.2.19",
 		"@types/react-dom": "^18.2.7",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",

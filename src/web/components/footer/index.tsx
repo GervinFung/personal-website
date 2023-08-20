@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Holder from '../common/holder';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import type { SxProps, Theme } from '@mui/material/styles';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 
 const Footer = () => {
@@ -10,12 +11,29 @@ const Footer = () => {
 
 	const isMobile = breakPoint === 'xs';
 
+	const [show, setState] = React.useState(false);
+
+	React.useEffect(() => {
+		setState(true);
+	}, []);
+
+	const animation: SxProps<Theme> | undefined =
+		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+			? undefined
+			: {
+					transition: 'all 1s',
+					transitionDelay: '200ms',
+					opacity: show ? 1 : 0,
+					transform: show ? 'translateY(0)' : 'translateY(-100%)',
+			  };
+
 	return (
 		<Holder
 			sx={{
 				m: 0,
 				mt: 8,
 				mb: isMobile ? 8 : 0,
+				...animation,
 			}}
 		>
 			<Box

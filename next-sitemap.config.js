@@ -1,5 +1,5 @@
-const url = process.env.NEXT_PUBLIC_ORIGIN;
 const process = require('process');
+const url = process.env.NEXT_PUBLIC_ORIGIN;
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {

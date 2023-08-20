@@ -82,7 +82,7 @@ start:
 
 ## dev
 dev:
-	pnppm next dev
+	pnpm next dev
 
 ## format
 format-generate-config:
@@ -103,10 +103,7 @@ lint:
 
 ## typecheck
 typecheck:
-	pnpm tsc -p tsconfig.json $(arguments) 
-
-typecheck-watch:
-	make typecheck arguments=--w
+	pnpm tsc -p tsconfig.json --noEmit $(arguments)
 
 ## test
 test-type:
