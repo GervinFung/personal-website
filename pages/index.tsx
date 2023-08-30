@@ -25,7 +25,7 @@ const Content = (
 		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
 			? undefined
 			: {
-					transition: 'all 1s',
+					transition: 'opacity 1s',
 					transitionDelay: `${props.delay}00ms`,
 					opacity: show ? 1 : 0,
 			  };

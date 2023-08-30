@@ -259,7 +259,7 @@ const Item = (
 		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
 			? undefined
 			: {
-					transition: 'all 1s',
+					transition: 'opacity 1s',
 					transitionDelay: `${project.delay}00ms`,
 					opacity: show ? 1 : 0,
 			  };
@@ -380,7 +380,6 @@ const Projects: NextPage = () => {
 										sx={{
 											display: 'grid',
 											placeItems: 'center',
-											transition: 'all 1s',
 										}}
 									>
 										<Typography

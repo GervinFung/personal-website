@@ -10,16 +10,18 @@ import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
+import type { Mode } from '../src/web/components/header';
 
 const App = (props: AppProps) => {
 	const { fontFamily } = consts;
 
 	const modeKey = 'mode';
 
-	const [mode, setMode] = React.useState('dark' as 'dark' | 'light');
+	const [mode, setMode] = React.useState('dark' as Mode);
 
 	React.useEffect(() => {
 		const value = localStorage.getItem(modeKey);
+
 		setMode(
 			value === 'dark' || value === 'light'
 				? value
@@ -92,14 +94,7 @@ const App = (props: AppProps) => {
 		<ThemeProvider theme={theme}>
 			<ErrorBoundary>
 				<main>
-					<Layout
-						isDarkMode={mode === 'dark'}
-						setMode={() => {
-							 setMode((mode) => {
-								return mode === 'dark' ? 'light' : 'dark';
-							});
-						}}
-					>
+					<Layout isDarkMode={mode === 'dark'} setMode={setMode}>
 						<props.Component {...props.pageProps} />
 					</Layout>
 				</main>

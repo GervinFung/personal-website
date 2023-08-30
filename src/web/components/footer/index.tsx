@@ -21,7 +21,7 @@ const Footer = () => {
 		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
 			? undefined
 			: {
-					transition: 'all 1s',
+					transition: 'opacity 1s, transform 1s',
 					transitionDelay: '200ms',
 					opacity: show ? 1 : 0,
 					transform: show ? 'translateY(0)' : 'translateY(-100%)',

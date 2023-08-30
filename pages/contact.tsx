@@ -40,7 +40,7 @@ const TextFieldInput = (
 		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
 			? undefined
 			: {
-					transition: 'all 1s',
+					transition: 'opacity 1s',
 					transitionDelay: `${props.delay}00ms`,
 					opacity: show ? 1 : 0,
 			  };
@@ -155,7 +155,7 @@ const Contact: NextPage = () => {
 		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
 			? undefined
 			: {
-					transition: 'all 1s',
+					transition: 'opacity 1s',
 					transitionDelay: '200ms',
 					opacity: show ? 1 : 0,
 			  };
@@ -178,7 +178,7 @@ const Contact: NextPage = () => {
 		const timer = setTimeout(setMessageResultToUndefined, 3000);
 
 		return () => {
-			return clearTimeout(timer);
+			clearTimeout(timer);
 		};
 	}, [messageResult]);
 
@@ -275,7 +275,7 @@ const Contact: NextPage = () => {
 								}
 								placeholder="What did your mom call you"
 								setValue={(name) => {
-									return setContactInfo((prev) => {
+									setContactInfo((prev) => {
 										return {
 											...prev,
 											name,
@@ -296,7 +296,7 @@ const Contact: NextPage = () => {
 								}
 								placeholder="Where can I email you back"
 								setValue={(email) => {
-									return setContactInfo((prev) => {
+									setContactInfo((prev) => {
 										return {
 											...prev,
 											email,
@@ -318,7 +318,7 @@ const Contact: NextPage = () => {
 								}
 								placeholder="Remember, short & sweet please"
 								setValue={(message) => {
-									return setContactInfo((prev) => {
+									setContactInfo((prev) => {
 										return {
 											...prev,
 											message,

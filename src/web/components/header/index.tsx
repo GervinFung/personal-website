@@ -11,6 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import DevicesIcon from '@mui/icons-material/Devices';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -23,10 +24,14 @@ import { capitalize } from '../../utils';
 import links from '../../links';
 import '../../../../env.d.ts';
 import consts from '../../const';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const ids = ['home', 'projects', 'contact'] as const;
 
 type Id = (typeof ids)[number];
+
+type Mode = 'dark' | 'light';
 
 const SocialButton = (
 	props: Readonly<{
@@ -186,10 +191,110 @@ const EssentialIcons = {
 	},
 };
 
+const ThemeMenu = (props: Parameters<typeof Header>[0]) => {
+	const [anchorElement, setAnchorElement] = React.useState(
+		undefined as undefined | HTMLElement
+	);
+
+	const onCloseAnchorElement = (mode: Mode) => {
+		return () => {
+			props.setMode(mode);
+			setAnchorElement(undefined);
+		};
+	};
+
+	const LightIcon = () => {
+		return (
+			<LightModeIcon
+				sx={{
+					color: 'text.secondary',
+				}}
+			/>
+		);
+	};
+
+	const DarkIcon = () => {
+		return (
+			<DarkModeIcon
+				sx={{
+					color: 'text.secondary',
+				}}
+			/>
+		);
+	};
+
+	return (
+		<>
+			<IconButton
+				onClick={(event) => {
+					setAnchorElement(event.currentTarget);
+				}}
+			>
+				{!props.isDarkMode ? <LightIcon /> : <DarkIcon />}
+			</IconButton>
+			<Menu
+				open={Boolean(anchorElement)}
+				anchorEl={anchorElement}
+				onClose={onCloseAnchorElement}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right',
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'right',
+				}}
+			>
+				<MenuItem
+					onClick={onCloseAnchorElement('light')}
+					sx={{
+						whiteSpace: 'pre-wrap',
+						gap: 3,
+					}}
+				>
+					<LightIcon />
+					<Typography>Light</Typography>
+				</MenuItem>
+				<MenuItem
+					onClick={onCloseAnchorElement('dark')}
+					sx={{
+						whiteSpace: 'pre-wrap',
+						gap: 3,
+					}}
+				>
+					<DarkIcon />
+					<Typography>Dark</Typography>
+				</MenuItem>
+				<MenuItem
+					onClick={onCloseAnchorElement(
+						typeof window === 'undefined'
+							? 'dark'
+							: window.matchMedia('(prefers-color-scheme: dark)')
+									.matches
+							? 'dark'
+							: 'light'
+					)}
+					sx={{
+						whiteSpace: 'pre-wrap',
+						gap: 3,
+					}}
+				>
+					<DevicesIcon
+						sx={{
+							color: 'text.secondary',
+						}}
+					/>
+					<Typography>System</Typography>
+				</MenuItem>
+			</Menu>
+		</>
+	);
+};
+
 const Header = (
 	props: Readonly<{
 		isDarkMode: boolean;
-		setMode: () => void;
+		setMode: (mode: Mode) => void;
 	}>
 ) => {
 	const router = useRouter();
@@ -232,7 +337,6 @@ const Header = (
 						sx={{
 							width: '100%',
 							backgroundColor: 'transparent',
-							backdropFilter: 'blur(50px)',
 						}}
 						onChange={(_, value) => {
 							const open = (link: string) => {
@@ -339,21 +443,7 @@ const Header = (
 						</Box>
 						{!shouldUseBottonNavigation ? null : (
 							<Box>
-								<IconButton onClick={props.setMode}>
-									{props.isDarkMode ? (
-										<LightModeIcon
-											sx={{
-												color: 'text.secondary',
-											}}
-										/>
-									) : (
-										<DarkModeIcon
-											sx={{
-												color: 'text.secondary',
-											}}
-										/>
-									)}
-								</IconButton>
+								<ThemeMenu {...props} />
 							</Box>
 						)}
 						{shouldUseBottonNavigation ? null : (
@@ -409,21 +499,7 @@ const Header = (
 											/>
 										</IconButton>
 									</SocialButton>
-									<IconButton onClick={props.setMode}>
-										{props.isDarkMode ? (
-											<LightModeIcon
-												sx={{
-													color: 'text.secondary',
-												}}
-											/>
-										) : (
-											<DarkModeIcon
-												sx={{
-													color: 'text.secondary',
-												}}
-											/>
-										)}
-									</IconButton>
+									<ThemeMenu {...props} />
 								</Box>
 							</Box>
 						)}
@@ -433,5 +509,7 @@ const Header = (
 		</Holder>
 	);
 };
+
+export type { Mode };
 
 export default Header;
