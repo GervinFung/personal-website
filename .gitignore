@@ -18,8 +18,8 @@ cache
 
 # local env files
 .env
-.env.productions
-.env.staging
+env/production
+env/staging
 env.d.ts
 
 # vercel

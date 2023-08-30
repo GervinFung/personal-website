@@ -337,6 +337,7 @@ const Header = (
 						sx={{
 							width: '100%',
 							backgroundColor: 'transparent',
+							backdropFilter: 'blur(50px)',
 						}}
 						onChange={(_, value) => {
 							const open = (link: string) => {

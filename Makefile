@@ -41,7 +41,7 @@ copy-env-staging:
 	make copy-env arguments="-- --staging"
 
 copy-env-production:
-	make copy-env arguments="-- --productions"
+	make copy-env arguments="-- --production"
 
 copy-env-testing:
 	make copy-env arguments="-- --testing"
