@@ -13,8 +13,6 @@ import '../src/web/css/font.css';
 import type { Mode } from '../src/web/components/header';
 
 const App = (props: AppProps) => {
-	const { fontFamily } = consts;
-
 	const modeKey = 'mode';
 
 	const [mode, setMode] = React.useState('dark' as Mode);
@@ -36,6 +34,8 @@ const App = (props: AppProps) => {
 	}, [mode]);
 
 	const theme = React.useMemo(() => {
+		const { fontFamily } = consts;
+
 		return responsiveFontSizes(
 			createTheme({
 				typography: {

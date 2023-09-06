@@ -7,11 +7,11 @@ const Schema = () => {
 		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
 		itemListElement: (['home', 'projects', 'contact'] as const).map(
-			(name, index) => {
+			(name) => {
 				return {
 					name,
 					'@type': 'ListItem',
-					position: index + 1,
+					position: 1,
 					item: `${links.domain}/${name === 'home' ? '' : name}`,
 				};
 			}
@@ -20,6 +20,7 @@ const Schema = () => {
 
 	return (
 		<Script
+			id="breadcrumb-list"
 			type="application/ld+json"
 			dangerouslySetInnerHTML={{
 				__html: JSON.stringify(structuredData, undefined, 4),

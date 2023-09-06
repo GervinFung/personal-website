@@ -20,6 +20,7 @@ const config: KnipConfig = {
 		'next-sitemap',
 		'prettier',
 		'gen-env-type-def',
+		'eslint-config-next',
 		'@poolofdeath20/prettier-config-generator',
 		'eslint',
 	],

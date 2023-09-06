@@ -98,6 +98,7 @@ const ErrorContainer = (
 		return () => {
 			return clearTimeout(goTo);
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [countDown]);
 
 	return (

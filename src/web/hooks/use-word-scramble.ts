@@ -88,15 +88,18 @@ const useWordScramble = (
 					if (words.at(current.index)?.isSame) {
 						setCurrentResult(previous);
 					} else {
-						changeWord();
+						return changeWord();
 					}
 				}
 			}
 		}
+		return;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [result.previous.status]);
 
 	React.useEffect(() => {
-		changeWord();
+		return changeWord();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [result.current.status === 'started' && result.current.index]);
 
 	return {
