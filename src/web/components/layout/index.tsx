@@ -1,4 +1,5 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Header from '../header';
@@ -34,7 +35,14 @@ const Layout = (
                 }
           `}
 			/>
-			{props?.children}
+			<Box
+				sx={{
+					mt: 8,
+					width: '100%',
+				}}
+			>
+				{props?.children}
+			</Box>
 			<Footer />
 		</>
 	);

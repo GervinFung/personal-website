@@ -235,7 +235,9 @@ const ThemeMenu = (props: Parameters<typeof Header>[0]) => {
 			<Menu
 				open={Boolean(anchorElement)}
 				anchorEl={anchorElement}
-				onClose={onCloseAnchorElement}
+				onClose={() => {
+					setAnchorElement(undefined);
+				}}
 				anchorOrigin={{
 					vertical: 'bottom',
 					horizontal: 'right',
@@ -337,7 +339,7 @@ const Header = (
 						sx={{
 							width: '100%',
 							backgroundColor: 'transparent',
-							backdropFilter: 'blur(50px)',
+							backdropFilter: 'blur(250px)',
 						}}
 						onChange={(_, value) => {
 							const open = (link: string) => {
@@ -409,7 +411,7 @@ const Header = (
 						backgroundColor: 'transparent',
 						display: 'grid',
 						placeItems: 'center',
-						backdropFilter: 'blur(50px)',
+						backdropFilter: 'blur(250px)',
 					}}
 				>
 					<Toolbar
