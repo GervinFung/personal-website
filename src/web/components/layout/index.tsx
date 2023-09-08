@@ -37,7 +37,7 @@ const Layout = (
 			/>
 			<Box
 				sx={{
-					mt: 8,
+					mt: 4,
 					width: '100%',
 				}}
 			>
