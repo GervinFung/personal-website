@@ -2,7 +2,8 @@ import { genEnvTypeDef } from 'gen-env-type-def';
 
 genEnvTypeDef([
 	{
-		inDir: '.',
+		inDir: 'config',
 		envType: 'process.env',
+		outDir: '.',
 	},
 ]);

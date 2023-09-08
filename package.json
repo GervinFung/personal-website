@@ -36,7 +36,7 @@
 		"eslint-config-next": "^13.4.19",
 		"eslint-plugin-jsx-a11y": "^6.7.1",
 		"eslint-plugin-react": "^7.33.2",
-		"gen-env-type-def": "^0.0.3",
+		"gen-env-type-def": "^0.0.4",
 		"jest-image-snapshot": "^6.2.0",
 		"knip": "^2.21.2",
 		"next-sitemap": "^4.2.2",
