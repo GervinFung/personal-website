@@ -24,8 +24,14 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'pnpm'
 
+            - name: Install Docker
+              run: make install-docker
+
             - name: Install MongoDB
-              uses: supercharge/mongodb-github-action@1.8.0
+              run: make install-mongo
+
+            - name: Start MongoDB
+              run: make start-mongo
 
             - name: Install Depedencies
               run: make install

@@ -5,7 +5,7 @@ const main = () => {
 	const environment = (process.argv.at(2) ?? '').replace(/-/g, '');
 	console.log({ environment });
 	if (!ci.isCI) {
-		childProcess.execSync(`cp env/${environment} .env`, {
+		childProcess.execSync(`cp config/.env.${environment} .env`, {
 			stdio: 'inherit',
 		});
 	}
