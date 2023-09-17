@@ -197,7 +197,7 @@ const ThemeMenu = () => {
 
 	const themeContext = React.useContext(ThemeContext);
 
-	const onCloseAnchorElement = (mode: Mode) => {
+	const onChooseTheme = (mode: Mode) => {
 		return () => {
 			themeContext.setMode(mode);
 			setAnchorElement(undefined);
@@ -249,7 +249,7 @@ const ThemeMenu = () => {
 				}}
 			>
 				<MenuItem
-					onClick={onCloseAnchorElement('light')}
+					onClick={onChooseTheme('light')}
 					sx={{
 						whiteSpace: 'pre-wrap',
 						gap: 3,
@@ -259,7 +259,7 @@ const ThemeMenu = () => {
 					<Typography>Light</Typography>
 				</MenuItem>
 				<MenuItem
-					onClick={onCloseAnchorElement('dark')}
+					onClick={onChooseTheme('dark')}
 					sx={{
 						whiteSpace: 'pre-wrap',
 						gap: 3,
@@ -269,7 +269,7 @@ const ThemeMenu = () => {
 					<Typography>Dark</Typography>
 				</MenuItem>
 				<MenuItem
-					onClick={onCloseAnchorElement(
+					onClick={onChooseTheme(
 						typeof window === 'undefined'
 							? 'dark'
 							: window.matchMedia('(prefers-color-scheme: dark)')

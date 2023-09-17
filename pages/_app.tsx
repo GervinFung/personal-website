@@ -15,21 +15,21 @@ import { ThemeContext, type Mode } from '../src/web/context/theme';
 const App = (props: AppProps) => {
 	const modeKey = 'mode';
 
-	const [mode, setMode] = React.useState<Mode>(() => {
-		if (typeof window === 'undefined') {
-			return 'dark';
-		}
+	const [mode, setMode] = React.useState('dark' as Mode);
 
+	React.useEffect(() => {
 		const value = localStorage.getItem(modeKey);
 
 		if (value === 'dark' || value === 'light') {
-			return value;
+			return setMode(value);
 		}
 
-		return window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
-	});
+		setMode(
+			window.matchMedia('(prefers-color-scheme: dark)').matches
+				? 'dark'
+				: 'light'
+		);
+	}, []);
 
 	React.useEffect(() => {
 		localStorage.setItem(modeKey, mode);
