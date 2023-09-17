@@ -22,9 +22,11 @@ const App = (props: AppProps) => {
 
 		const value = localStorage.getItem(modeKey);
 
-		return value === 'dark' || value === 'light'
-			? value
-			: window.matchMedia('(prefers-color-scheme: dark)').matches
+		if (value === 'dark' || value === 'light') {
+			return value;
+		}
+
+		return window.matchMedia('(prefers-color-scheme: dark)').matches
 			? 'dark'
 			: 'light';
 	});
