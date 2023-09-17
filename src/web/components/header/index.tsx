@@ -26,12 +26,11 @@ import '../../../../env.d.ts';
 import consts from '../../const';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { ThemeContext, type Mode } from '../../context/theme';
 
 const ids = ['home', 'projects', 'contact'] as const;
 
 type Id = (typeof ids)[number];
-
-type Mode = 'dark' | 'light';
 
 const SocialButton = (
 	props: Readonly<{
@@ -191,14 +190,16 @@ const EssentialIcons = {
 	},
 };
 
-const ThemeMenu = (props: Parameters<typeof Header>[0]) => {
+const ThemeMenu = () => {
 	const [anchorElement, setAnchorElement] = React.useState(
 		undefined as undefined | HTMLElement
 	);
 
+	const themeContext = React.useContext(ThemeContext);
+
 	const onCloseAnchorElement = (mode: Mode) => {
 		return () => {
-			props.setMode(mode);
+			themeContext.setMode(mode);
 			setAnchorElement(undefined);
 		};
 	};
@@ -224,13 +225,13 @@ const ThemeMenu = (props: Parameters<typeof Header>[0]) => {
 	};
 
 	return (
-		<>
+		<React.Fragment>
 			<IconButton
 				onClick={(event) => {
 					setAnchorElement(event.currentTarget);
 				}}
 			>
-				{!props.isDarkMode ? <LightIcon /> : <DarkIcon />}
+				{themeContext.mode === 'dark' ? <DarkIcon /> : <LightIcon />}
 			</IconButton>
 			<Menu
 				open={Boolean(anchorElement)}
@@ -289,16 +290,11 @@ const ThemeMenu = (props: Parameters<typeof Header>[0]) => {
 					<Typography>System</Typography>
 				</MenuItem>
 			</Menu>
-		</>
+		</React.Fragment>
 	);
 };
 
-const Header = (
-	props: Readonly<{
-		isDarkMode: boolean;
-		setMode: (mode: Mode) => void;
-	}>
-) => {
+const Header = () => {
 	const router = useRouter();
 	const route = router.route.replace('/', '');
 
@@ -446,7 +442,7 @@ const Header = (
 						</Box>
 						{!shouldUseBottonNavigation ? null : (
 							<Box>
-								<ThemeMenu {...props} />
+								<ThemeMenu />
 							</Box>
 						)}
 						{shouldUseBottonNavigation ? null : (
@@ -486,10 +482,10 @@ const Header = (
 									}}
 								>
 									{!allShouldUseIcon ? null : (
-										<>
+										<React.Fragment>
 											<EssentialIcons.Projects />
 											<EssentialIcons.Contact />
-										</>
+										</React.Fragment>
 									)}
 									<EssentialIcons.Github />
 									<EssentialIcons.LinkedIn />
@@ -502,7 +498,7 @@ const Header = (
 											/>
 										</IconButton>
 									</SocialButton>
-									<ThemeMenu {...props} />
+									<ThemeMenu />
 								</Box>
 							</Box>
 						)}

@@ -10,24 +10,24 @@ import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
-import type { Mode } from '../src/web/components/header';
+import { ThemeContext, type Mode } from '../src/web/context/theme';
 
 const App = (props: AppProps) => {
 	const modeKey = 'mode';
 
-	const [mode, setMode] = React.useState('dark' as Mode);
+	const [mode, setMode] = React.useState<Mode>(() => {
+		if (typeof window === 'undefined') {
+			return 'dark';
+		}
 
-	React.useEffect(() => {
 		const value = localStorage.getItem(modeKey);
 
-		setMode(
-			value === 'dark' || value === 'light'
-				? value
-				: window.matchMedia('(prefers-color-scheme: dark)').matches
-				? 'dark'
-				: 'light'
-		);
-	}, []);
+		return value === 'dark' || value === 'light'
+			? value
+			: window.matchMedia('(prefers-color-scheme: dark)').matches
+			? 'dark'
+			: 'light';
+	});
 
 	React.useEffect(() => {
 		localStorage.setItem(modeKey, mode);
@@ -91,15 +91,22 @@ const App = (props: AppProps) => {
 	}, [mode]);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<ErrorBoundary>
-				<main>
-					<Layout isDarkMode={mode === 'dark'} setMode={setMode}>
-						<props.Component {...props.pageProps} />
-					</Layout>
-				</main>
-			</ErrorBoundary>
-		</ThemeProvider>
+		<ThemeContext.Provider
+			value={{
+				mode,
+				setMode,
+			}}
+		>
+			<ThemeProvider theme={theme}>
+				<ErrorBoundary>
+					<main>
+						<Layout>
+							<props.Component {...props.pageProps} />
+						</Layout>
+					</main>
+				</ErrorBoundary>
+			</ThemeProvider>
+		</ThemeContext.Provider>
 	);
 };
 
