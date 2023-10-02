@@ -1,10 +1,6 @@
 .PHONY: build test
 MAKEFLAGS += --silent
 
-## docker setup ubuntu
-install-docker:
-	sh script/docker/install.sh
-
 ## install
 install:
 	pnpm i
