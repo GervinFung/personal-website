@@ -6,6 +6,7 @@ import { ContactMessageParser } from '../../src/common/contact';
 
 const contact: EndPointFunc<Data> = async (request, response) => {
 	await cors<Data>()(request, response);
+
 	if (request.method !== 'POST') {
 		return response.status(404).json('Only accept POST request');
 	}

@@ -18,12 +18,6 @@ start-mongo:
 stop-mongo:
 	docker-compose down mongodb
 
-migrate-mongo:
-	mongosh < script/mongo-setup/document.js
-
-echo-mongo:
-	echo 'db.runCommand("ping").ok' | mongosh --quiet
-
 ## telemetry
 opt-out-telemetry:
 	pnpm next telemetry disable
