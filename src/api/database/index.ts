@@ -19,8 +19,8 @@ export default class Database {
 			environment === 'testing' || environment === 'development';
 
 		const url = isLocal
-			? `mongodb+srv://${config.auth.user}:${config.auth.password}@${config.address}/${config.database}?authSource=admin&retryWrites=true&w=majority`
-			: `mongodb://${config.auth.user}:${config.auth.password}@${config.address}:${config.port}/${config.database}?authSource=admin&retryWrites=true&w=majority`;
+			? `mongodb://${config.auth.user}:${config.auth.password}@${config.address}:${config.port}/${config.database}?authSource=admin&retryWrites=true&w=majority`
+			: `mongodb+srv://${config.auth.user}:${config.auth.password}@${config.address}/${config.database}?authSource=admin&retryWrites=true&w=majority`;
 
 		return new this(url, config.collections);
 	};
