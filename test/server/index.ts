@@ -12,7 +12,7 @@ export default class Server {
 	};
 
 	readonly kill = () => {
-		child.exec(`kill $(lsof -t -i:${this.port})`);
+		child.execSync(`kill $(lsof -t -i:${this.port})`);
 	};
 
 	readonly start = async () => {
