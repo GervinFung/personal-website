@@ -2,7 +2,7 @@ import React, { type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import useTheme from '@mui/material/styles/useTheme';
+import { useTheme } from '@mui/material/styles';
 import Header from '../header';
 import Footer from '../footer';
 import BackToTop from '../button/back-to-top';
