@@ -29,7 +29,7 @@
 		"@poolofdeath20/tsconfig": "^0.0.0",
 		"@types/cors": "^2.8.17",
 		"@types/jest-image-snapshot": "^6.4.0",
-		"@types/node": "20.12.2",
+		"@types/node": "20.12.7",
 		"@types/react": "^18.2.79",
 		"@types/react-dom": "^18.2.25",
 		"@typescript-eslint/eslint-plugin": "^7.7.1",
