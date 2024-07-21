@@ -30,7 +30,7 @@
 		"@poolofdeath20/tsconfig": "^0.1.0",
 		"@types/cors": "^2.8.17",
 		"@types/jest-image-snapshot": "^6.4.0",
-		"@types/node": "20.14.9",
+		"@types/node": "20.14.11",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
 		"@typescript-eslint/eslint-plugin": "^7.16.1",
@@ -47,7 +47,7 @@
 		"prettier": "^3.3.3",
 		"puppeteer": "^22.13.1",
 		"typescript": "^5.5.3",
-		"vite-node": "^1.6.0",
-		"vitest": "^1.6.0"
+		"vite-node": "^2.0.3",
+		"vitest": "^2.0.3"
 	}
 }
