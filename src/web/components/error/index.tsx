@@ -1,12 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
+import type { Children } from '../../type/react';
+
+import { keyframes } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { keyframes } from '@emotion/react';
-import Title from '../common/title';
+import React from 'react';
+
 import { SecondaryMainButton } from '../common/button';
-import type { Children } from '../../type/react';
+import Title from '../common/title';
+
 
 const chargeHomeButton = keyframes`
     0% {
@@ -87,7 +90,11 @@ const ErrorContainer = (
 
 	React.useEffect(() => {
 		if (!countDown) {
-			props.type === 'reload' ? router.reload() : router.replace(home);
+			if (props.type === 'reload') {
+				router.reload();
+			} else {
+				void router.replace(home);
+			}
 		}
 		if (process.env.NEXT_PUBLIC_NODE_ENV === 'testing') {
 			return;
@@ -100,7 +107,6 @@ const ErrorContainer = (
 		return () => {
 			return clearTimeout(goTo);
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [countDown]);
 
 	return (
@@ -207,7 +213,7 @@ const ErrorContainer = (
 										timeToChange={timeToChange}
 										title="HOME"
 										refresh={() => {
-											return router.replace(home);
+											void router.replace(home);
 										}}
 									/>{' '}
 								</Link>

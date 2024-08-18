@@ -1,6 +1,8 @@
-import React from 'react';
-import Button, { type ButtonProps } from '@mui/material/Button';
+import type { ButtonProps } from '@mui/material/Button';
 import type { Theme, SxProps } from '@mui/material/styles';
+
+import Button from '@mui/material/Button';
+import React from 'react';
 
 const SecondaryMainButton = (
 	props: Readonly<{

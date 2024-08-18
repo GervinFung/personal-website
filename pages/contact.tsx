@@ -1,20 +1,25 @@
-import React from 'react';
+import type { SxProps, Theme } from '@mui/material/styles';
 import type { NextPage } from 'next';
+
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import type { SxProps, Theme } from '@mui/material/styles';
 import { capitalize, isTruthy } from '@poolofdeath20/util';
+import React from 'react';
+
 import { ContactMessageParser } from '../src/common/contact';
+import {
+	sendMessage,
+	SendMessageError,
+} from '../src/web/api-functions/contact';
+import { Error, Success, Info } from '../src/web/components/common/alert';
 import Holder from '../src/web/components/common/holder';
 import Section from '../src/web/components/common/section';
-import { sendMessage } from '../src/web/api-functions/contact';
-import { Error, Success, Info } from '../src/web/components/common/alert';
+import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
-import Seo from '../src/web/components/seo';
 
 const TextFieldInput = (
 	props: Readonly<{
@@ -394,14 +399,15 @@ const Contact: NextPage = () => {
 										})
 											.then((result) => {
 												switch (result.type) {
-													case 'input':
+													case 'input': {
 														return setMessageResult(
 															{
 																status: 'failed',
 																reason: messageFailedMessage,
 															}
 														);
-													case 'succeed':
+													}
+													case 'succeed': {
 														setContactInfo(
 															emptyContactInfo
 														);
@@ -412,12 +418,24 @@ const Contact: NextPage = () => {
 																	messageSentOutMessage,
 															}
 														);
+													}
 												}
 											})
 											.catch((message) => {
+												if (
+													!(
+														message instanceof
+														SendMessageError
+													)
+												) {
+													throw new TypeError(
+														'Message is not an instance of Error'
+													);
+												}
+
 												setMessageResult({
 													status: 'failed',
-													reason: message,
+													reason: message.message,
 												});
 											});
 									}}

@@ -1,8 +1,9 @@
-import React from 'react';
+import type { Children } from '../../type/react';
+
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
-import type { Children } from '../../type/react';
+import React from 'react';
 
 type AlertProps = Readonly<
 	Children & {

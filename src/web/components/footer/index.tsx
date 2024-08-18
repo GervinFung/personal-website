@@ -1,11 +1,13 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import Holder from '../common/holder';
+import type { SxProps, Theme } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import type { SxProps, Theme } from '@mui/material/styles';
-import useBreakpoint from '../../hooks/use-breakpoint-value';
+import Typography from '@mui/material/Typography';
 import { isFalse } from '@poolofdeath20/util';
+import React from 'react';
+
+import useBreakpoint from '../../hooks/use-breakpoint-value';
+import Holder from '../common/holder';
 
 const Footer = () => {
 	const breakPoint = useBreakpoint();

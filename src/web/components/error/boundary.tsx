@@ -1,11 +1,16 @@
-import React from 'react';
+import type { Children } from '../../type/react';
+import type { NextRouter } from 'next/router';
+
 import Head from 'next/head';
 import { withRouter } from 'next/router';
-import type { NextRouter } from 'next/router';
-import Layout from '../layout';
-import ErrorContainer from './';
+import React from 'react';
+
+
 import { Error } from '../common/alert';
-import type { Children } from '../../type/react';
+import Layout from '../layout';
+
+import ErrorContainer from '.';
+
 
 type State = Readonly<{
 	closedAlert: boolean;

@@ -1,8 +1,10 @@
-import React from 'react';
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+
+import React from 'react';
+
 import ErrorContainer from '../src/web/components/error';
 
-const getServerSideProps = async (
+const getServerSideProps = (
 	context: Parameters<GetServerSideProps>[number]
 ) => {
 	return {

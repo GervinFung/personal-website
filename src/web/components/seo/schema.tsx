@@ -1,5 +1,6 @@
-import React from 'react';
 import Script from 'next/script';
+import React from 'react';
+
 import links from '../../links';
 
 const Schema = () => {

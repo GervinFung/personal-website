@@ -1,13 +1,16 @@
-import React from 'react';
-import type { NextPage } from 'next';
-import Seo from '../src/web/components/seo';
-import Typography, { type TypographyProps } from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
+import type { TypographyProps } from '@mui/material/Typography';
+import type { NextPage } from 'next';
+
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import React from 'react';
+
 import Holder from '../src/web/components/common/holder';
+import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
-import Link from 'next/link';
 
 const Content = (
 	props: TypographyProps &

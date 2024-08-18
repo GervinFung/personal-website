@@ -1,7 +1,9 @@
-import React from 'react';
 import { DefaultSeo } from 'next-seo';
-import Schema from './schema';
+import React from 'react';
+
 import { colorTheme } from '../../theme';
+
+import Schema from './schema';
 
 const Seo = (
 	props: Readonly<{
