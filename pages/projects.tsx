@@ -59,8 +59,8 @@ const Item = (
 		>
 			<ExternalLink
 				href={project.githubLink}
-				target="_blank"
 				rel="external nofollow noopener noreferrer"
+				target="_blank"
 				underline="none"
 			>
 				<Box
@@ -74,6 +74,7 @@ const Item = (
 					<Box>
 						<project.icon.Component
 							size={32}
+							// eslint-disable-next-line react/forbid-component-props
 							style={{
 								color:
 									isWhite && palette.mode === 'light'
@@ -118,10 +119,10 @@ const Projects: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				url="/projects"
-				title="Projects"
-				keywords={['Personal Website']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
+				keywords={['Personal Website']}
+				title="Projects"
+				url="/projects"
 			/>
 			<Holder>
 				<Stack
@@ -174,9 +175,9 @@ const Projects: NextPage = () => {
 														<Grid
 															item
 															key={project.name}
-															xs={12}
-															xm={6}
 															lg={4}
+															xm={6}
+															xs={12}
 														>
 															<Item
 																delay={delay}

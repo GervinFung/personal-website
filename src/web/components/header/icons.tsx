@@ -63,9 +63,7 @@ const SocialButton = (
 		<ExternalLink
 			aria-label={props['aria-label']}
 			href={props.href}
-			target="_blank"
 			rel="external nofollow noopener noreferrer"
-			underline="none"
 			sx={{
 				display: 'flex',
 				alignItems: 'center',
@@ -74,6 +72,8 @@ const SocialButton = (
 				whiteSpace: 'pre-wrap',
 				gap: 2,
 			}}
+			target="_blank"
+			underline="none"
 		>
 			{props.children}
 		</ExternalLink>

@@ -9,7 +9,7 @@ const Title = (
 ) => {
 	return (
 		<Head>
-			<meta charSet="utf-8" name="description" content={props.content} />
+			<meta charSet="utf-8" content={props.content} name="description" />
 			{/* ref: https://github.com/vercel/next.js/discussions/38256#discussioncomment-3070196 */}
 			<title>{props.title}</title>
 		</Head>

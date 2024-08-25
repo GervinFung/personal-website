@@ -21,11 +21,11 @@ const Schema = () => {
 
 	return (
 		<Script
-			id="breadcrumb-list"
-			type="application/ld+json"
 			dangerouslySetInnerHTML={{
 				__html: JSON.stringify(structuredData, undefined, 4),
 			}}
+			id="breadcrumb-list"
+			type="application/ld+json"
 		/>
 	);
 };

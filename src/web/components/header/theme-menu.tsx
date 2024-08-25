@@ -15,13 +15,15 @@ import React from 'react';
 import { ThemeContext } from '../../context/theme';
 
 const useAnchorElement = () => {
-	const [get, set] = React.useState(undefined as undefined | HTMLElement);
+	const [element, setElement] = React.useState(
+		undefined as undefined | HTMLElement
+	);
 
 	const clear = () => {
-		set(undefined);
+		setElement(undefined);
 	};
 
-	return [get, set, clear] as const;
+	return [element, setElement, clear] as const;
 };
 
 const Item = (
@@ -43,28 +45,27 @@ const Item = (
 	);
 };
 
-	const LightIcon = () => {
-		return (
-			<LightModeIcon
-				aria-label="light mode icon"
-				sx={{
-					color: 'text.secondary',
-				}}
-			/>
-		);
-	};
+const LightIcon = () => {
+	return (
+		<LightModeIcon
+			aria-label="light mode icon"
+			sx={{
+				color: 'text.secondary',
+			}}
+		/>
+	);
+};
 
-	const DarkIcon = () => {
-		return (
-			<DarkModeIcon
-				aria-label="dark mode icon"
-				sx={{
-					color: 'text.secondary',
-				}}
-			/>
-		);
-	};
-
+const DarkIcon = () => {
+	return (
+		<DarkModeIcon
+			aria-label="dark mode icon"
+			sx={{
+				color: 'text.secondary',
+			}}
+		/>
+	);
+};
 
 const ThemeMenu = () => {
 	const [get, set, clear] = useAnchorElement();
@@ -89,17 +90,13 @@ const ThemeMenu = () => {
 				{themeContext.mode === 'dark' ? <DarkIcon /> : <LightIcon />}
 			</IconButton>
 			<Menu
-				open={isTruthy(get)}
-				onClose={clear}
 				anchorEl={get}
 				anchorOrigin={{
 					vertical: 'bottom',
 					horizontal: 'right',
 				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-				}}
+				onClose={clear}
+				open={isTruthy(get)}
 				sx={({ palette }) => {
 					const value = palette.mode === 'dark' ? 0.1 : 0.2;
 
@@ -110,6 +107,10 @@ const ThemeMenu = () => {
 							border: `1px solid ${alpha(palette.custom.opposite, value)}`,
 						},
 					};
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'right',
 				}}
 			>
 				<Item onClick={onChooseTheme('light')}>

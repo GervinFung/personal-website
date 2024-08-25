@@ -5,31 +5,23 @@ import Head from 'next/head';
 import { withRouter } from 'next/router';
 import React from 'react';
 
-
 import { Error } from '../common/alert';
 import Layout from '../layout';
 
 import ErrorContainer from '.';
 
+type Props = Readonly<
+	Children & {
+		router: NextRouter;
+	}
+>;
 
 type State = Readonly<{
 	closedAlert: boolean;
 	error: Error | undefined;
 }>;
 
-class ErrorBoundary extends React.Component<
-	Readonly<
-		Children & {
-			router: NextRouter;
-		}
-	>,
-	State
-> {
-	override state: State = {
-		error: undefined,
-		closedAlert: false,
-	};
-
+class ErrorBoundary extends React.Component<Props, State> {
 	static getDerivedStateFromError = (error: Error): State => {
 		return {
 			error,
@@ -37,12 +29,25 @@ class ErrorBoundary extends React.Component<
 		};
 	};
 
-	override componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) => {
-		console.error({ error, errorInfo });
-		this.setState({ error });
-	};
+	constructor(props: Props) {
+		super(props);
+		this.state = {
+			error: undefined,
+			closedAlert: false,
+		};
+	}
 
-	override render = () => {
+	override shouldComponentUpdate(_: Props, nextState: State) {
+		return nextState.error?.message !== this.state.error?.message;
+	}
+
+	override componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+		console.error({ error, errorInfo });
+		// eslint-disable-next-line react/no-set-state
+		this.setState({ error });
+	}
+
+	override render() {
 		return !this.state.error ? (
 			this.props.children
 		) : (
@@ -53,6 +58,7 @@ class ErrorBoundary extends React.Component<
 				{this.state.closedAlert ? null : (
 					<Error
 						onClose={() => {
+							// eslint-disable-next-line react/no-set-state
 							this.setState({ closedAlert: true });
 						}}
 					>
@@ -60,7 +66,6 @@ class ErrorBoundary extends React.Component<
 					</Error>
 				)}
 				<ErrorContainer
-					type="reload"
 					messages={[
 						'Oops! Seems like there is a problem',
 						'There are mysteries to the universe we are never meant to solve',
@@ -68,10 +73,11 @@ class ErrorBoundary extends React.Component<
 						'The answer is carried inside',
 						'Meanwhile, click the button below',
 					]}
+					type="reload"
 				/>
 			</Layout>
 		);
-	};
+	}
 }
 
 export default withRouter(ErrorBoundary);

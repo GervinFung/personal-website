@@ -35,10 +35,10 @@ const TextFieldInput = (
 ) => {
 	const { setValue, ...rest } = props;
 
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -53,25 +53,25 @@ const TextFieldInput = (
 	return (
 		<TextField
 			{...rest}
-			required
+			InputLabelProps={{ required: false }}
 			autoComplete="off"
 			error={isTruthy(props.error)}
 			helperText={props.error}
-			label={capitalize(props.id)}
-			rows={props.multiline ? 8 : 0}
-			InputLabelProps={{ required: false }}
 			inputProps={{
 				spellCheck: 'false',
 			}}
-			sx={{
-				zIndex: 0,
-				backgroundColor: 'background.default',
-				...animation,
-			}}
+			label={capitalize(props.id)}
 			onChange={(event) => {
 				event.persist();
 				const { value } = event.target;
 				setValue(value);
+			}}
+			required
+			rows={props.multiline ? 8 : 0}
+			sx={{
+				zIndex: 0,
+				backgroundColor: 'background.default',
+				...animation,
 			}}
 		/>
 	);
@@ -100,21 +100,21 @@ const HoneyPot = (
 
 	return (
 		<label
-			tabIndex={-1}
-			ref={hiddenLabel}
-			htmlFor={faxClassName}
 			className={faxClassName}
+			htmlFor={faxClassName}
+			ref={hiddenLabel}
+			tabIndex={-1}
 		>
 			<input
-				tabIndex={-1}
-				type="text"
-				id={faxClassName}
 				autoComplete="off"
-				value={props.value}
+				id={faxClassName}
 				name={faxClassName}
 				onChange={(event) => {
 					props.setValue(event.target.value);
 				}}
+				tabIndex={-1}
+				type="text"
+				value={props.value}
 			/>
 		</label>
 	);
@@ -150,10 +150,10 @@ const Contact: NextPage = () => {
 			  }
 	);
 
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -190,10 +190,10 @@ const Contact: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				url="contact"
-				title="Contact"
-				keywords={['Personal Website', 'Contact Page']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organizations on Github"
+				keywords={['Personal Website', 'Contact Page']}
+				title="Contact"
+				url="contact"
 			/>
 			<Holder sx={animation}>
 				<Section
@@ -267,18 +267,16 @@ const Contact: NextPage = () => {
 								gridGap: 16,
 							}}
 						>
-							<HoneyPot value={honeyPot} setValue={setHoneyPot} />
+							<HoneyPot setValue={setHoneyPot} value={honeyPot} />
 							<TextFieldInput
 								delay={2}
-								id="name"
-								type="text"
-								value={contactInfo.name}
 								error={
 									contactInfoParseResult?.name.status !==
 									'error'
 										? undefined
 										: contactInfoParseResult.name.reason
 								}
+								id="name"
 								placeholder="What did your mom call you"
 								setValue={(name) => {
 									setContactInfo((prev) => {
@@ -288,18 +286,18 @@ const Contact: NextPage = () => {
 										};
 									});
 								}}
+								type="text"
+								value={contactInfo.name}
 							/>
 							<TextFieldInput
 								delay={4}
-								id="email"
-								type="email"
-								value={contactInfo.email}
 								error={
 									contactInfoParseResult?.email.status !==
 									'error'
 										? undefined
 										: contactInfoParseResult.email.reason
 								}
+								id="email"
 								placeholder="Where can I email you back"
 								setValue={(email) => {
 									setContactInfo((prev) => {
@@ -309,19 +307,19 @@ const Contact: NextPage = () => {
 										};
 									});
 								}}
+								type="email"
+								value={contactInfo.email}
 							/>
 							<TextFieldInput
 								delay={6}
-								multiline
-								id="message"
-								type="text"
-								value={contactInfo.message}
 								error={
 									contactInfoParseResult?.message.status !==
 									'error'
 										? undefined
 										: contactInfoParseResult.message.reason
 								}
+								id="message"
+								multiline
 								placeholder="Remember, short & sweet please"
 								setValue={(message) => {
 									setContactInfo((prev) => {
@@ -331,6 +329,8 @@ const Contact: NextPage = () => {
 										};
 									});
 								}}
+								type="text"
+								value={contactInfo.message}
 							/>
 							<Box
 								sx={{
@@ -342,35 +342,6 @@ const Contact: NextPage = () => {
 							>
 								<Button
 									disableElevation
-									variant="contained"
-									sx={({ palette }) => {
-										return {
-											width: 'fit-content',
-											color: 'custom.striking.red',
-											border:
-												palette.mode === 'dark'
-													? 'none'
-													: `1px solid ${palette.custom.striking.red}`,
-											backgroundColor:
-												'custom.contrast.white',
-											background: [
-												`linear-gradient(to right`,
-												`${palette.custom.striking.red} 50%`,
-												`${palette.custom.contrast.white} 50%)`,
-											].join(','),
-											backgroundSize: '300% 100%',
-											backgroundPosition: 'right bottom',
-											transition: 'all 0.2s ease-out',
-											fontSize: '1em',
-											'&:hover': {
-												color: 'custom.contrast.white',
-												backgroundColor:
-													'custom.striking.red',
-												backgroundPosition:
-													'left bottom',
-											},
-										};
-									}}
 									onClick={(event) => {
 										event.preventDefault();
 										const { status, ...values } =
@@ -439,6 +410,35 @@ const Contact: NextPage = () => {
 												});
 											});
 									}}
+									sx={({ palette }) => {
+										return {
+											width: 'fit-content',
+											color: 'custom.striking.red',
+											border:
+												palette.mode === 'dark'
+													? 'none'
+													: `1px solid ${palette.custom.striking.red}`,
+											backgroundColor:
+												'custom.contrast.white',
+											background: [
+												`linear-gradient(to right`,
+												`${palette.custom.striking.red} 50%`,
+												`${palette.custom.contrast.white} 50%)`,
+											].join(','),
+											backgroundSize: '300% 100%',
+											backgroundPosition: 'right bottom',
+											transition: 'all 0.2s ease-out',
+											fontSize: '1em',
+											'&:hover': {
+												color: 'custom.contrast.white',
+												backgroundColor:
+													'custom.striking.red',
+												backgroundPosition:
+													'left bottom',
+											},
+										};
+									}}
+									variant="contained"
 								>
 									SEND
 								</Button>

@@ -10,7 +10,6 @@ import React from 'react';
 import { SecondaryMainButton } from '../common/button';
 import Title from '../common/title';
 
-
 const chargeHomeButton = keyframes`
     0% {
         background-position: 100% 0%;
@@ -44,14 +43,13 @@ const MarginTopBox = (
 const ClickRefresh = (
 	props: Readonly<{
 		title: string;
-		refresh: () => void;
+		onRefresh: () => void;
 		timeToChange: number;
 	}>
 ) => {
 	return (
 		<SecondaryMainButton
-			title={props.title}
-			onClick={props.refresh}
+			onClick={props.onRefresh}
 			sx={({ palette }) => {
 				return {
 					fontWeight: 600,
@@ -69,6 +67,7 @@ const ClickRefresh = (
 					},
 				};
 			}}
+			title={props.title}
 		/>
 	);
 };
@@ -119,8 +118,8 @@ const ErrorContainer = (
 			}}
 		>
 			<Title
-				title={`${props.statusCode ?? ''} Error`}
 				content="You took the wrong turn and came here"
+				title={`${props.statusCode ?? ''} Error`}
 			/>
 			<Box
 				sx={{
@@ -129,10 +128,10 @@ const ErrorContainer = (
 			>
 				<MarginTopBox shouldNotMarginTop>
 					<Typography
-						variant="h1"
 						sx={{
 							fontWeight: 'bold',
 						}}
+						variant="h1"
 					>
 						{props.statusCode}
 					</Typography>
@@ -142,7 +141,6 @@ const ErrorContainer = (
 						return (
 							<Typography
 								key={message}
-								variant={!index ? 'h3' : 'inherit'}
 								sx={{
 									m: 0,
 									mb: index ? 1 : 6,
@@ -150,6 +148,7 @@ const ErrorContainer = (
 										? undefined
 										: 'text.secondary',
 								}}
+								variant={!index ? 'h3' : 'inherit'}
 							>
 								{message}
 							</Typography>
@@ -186,16 +185,16 @@ const ErrorContainer = (
 							<React.Fragment>
 								Quickly{' '}
 								<Box
-									style={{
+									sx={{
 										textDecoration: 'none',
 									}}
 								>
 									<ClickRefresh
-										timeToChange={timeToChange}
-										title="RELOAD"
-										refresh={() => {
+										onRefresh={() => {
 											return router.reload();
 										}}
+										timeToChange={timeToChange}
+										title="RELOAD"
 									/>{' '}
 								</Box>
 								Now
@@ -210,11 +209,11 @@ const ErrorContainer = (
 									}}
 								>
 									<ClickRefresh
-										timeToChange={timeToChange}
-										title="HOME"
-										refresh={() => {
+										onRefresh={() => {
 											void router.replace(home);
 										}}
+										timeToChange={timeToChange}
+										title="HOME"
 									/>{' '}
 								</Link>
 								Immediately

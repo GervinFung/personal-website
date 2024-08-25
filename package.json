@@ -44,6 +44,7 @@
 		"eslint-config-next": "^14.2.5",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jsx-a11y": "^6.9.0",
+		"eslint-plugin-react": "^7.35.0",
 		"gen-env-type-def": "^0.0.4",
 		"jest-image-snapshot": "^6.4.0",
 		"knip": "^5.26.0",

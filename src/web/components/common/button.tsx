@@ -16,7 +16,6 @@ const SecondaryMainButton = (
 		<Button
 			disableElevation
 			onClick={props.onClick}
-			variant="contained"
 			sx={(theme) => {
 				return {
 					width: 'fit-content',
@@ -35,6 +34,7 @@ const SecondaryMainButton = (
 								: undefined),
 				};
 			}}
+			variant="contained"
 		>
 			{props.title}
 		</Button>

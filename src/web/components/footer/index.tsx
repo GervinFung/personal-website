@@ -14,10 +14,10 @@ const Footer = () => {
 
 	const isMobile = breakPoint === 'xs';
 
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -61,7 +61,6 @@ const Footer = () => {
 					>
 						<Link
 							href="https://creativecommons.org/licenses/by-nc-sa/4.0"
-							target="_blank"
 							rel="external nofollow noopener noreferrer"
 							sx={{
 								textDecoration: 'underline',
@@ -72,6 +71,7 @@ const Footer = () => {
 									textDecorationColor: 'text.primary',
 								},
 							}}
+							target="_blank"
 						>
 							CC BY-NC-SA 4.0
 						</Link>{' '}

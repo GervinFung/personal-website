@@ -19,8 +19,6 @@ const Error = (
 ) => {
 	return (
 		<ErrorContainer
-			statusCode={serverProps.statusCode}
-			type={serverProps.statusCode === 404 ? 'replace' : 'reload'}
 			messages={[
 				'Oops! You seems lost',
 				'Yeah, I am as confused as you are',
@@ -28,6 +26,8 @@ const Error = (
 				'Luckily, unlike some other mistakes, this can be fixed',
 				`So let's get you...`,
 			]}
+			statusCode={serverProps.statusCode}
+			type={serverProps.statusCode === 404 ? 'replace' : 'reload'}
 		/>
 	);
 };

@@ -37,8 +37,8 @@ const Header = () => {
 				}}
 			>
 				<AppBar
-					position="fixed"
 					elevation={0}
+					position="fixed"
 					sx={({ palette }) => {
 						return {
 							backgroundColor: 'custom.default',
@@ -68,24 +68,24 @@ const Header = () => {
 							>
 								<Image
 									alt="logo"
+									height={36}
 									loading="lazy"
 									src="/images/icons/icon-72x72.png"
-									width={36}
-									height={36}
 									style={{
 										display: 'block',
 									}}
+									width={36}
 								/>
 							</Link>
 						</Box>
 						<Stack
+							alignContent="center"
 							direction="row"
+							justifyContent="flex-end"
 							spacing={{
 								xs: 1,
 								sm: 2,
 							}}
-							alignContent="center"
-							justifyContent="flex-end"
 						>
 							<Projects route={route} />
 							<Contact route={route} />

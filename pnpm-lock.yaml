@@ -108,6 +108,9 @@ importers:
       eslint-plugin-jsx-a11y:
         specifier: ^6.9.0
         version: 6.9.0(eslint@9.8.0)
+      eslint-plugin-react:
+        specifier: ^7.35.0
+        version: 7.35.0(eslint@9.8.0)
       gen-env-type-def:
         specifier: ^0.0.4
         version: 0.0.4
