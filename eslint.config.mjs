@@ -2,6 +2,8 @@ import process from 'process';
 
 import { fixupPluginRules, includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
+// @ts-expect-error: Missing types for '@next/eslint-plugin-next'
+import eslintPluginNext from '@next/eslint-plugin-next';
 // @ts-expect-error: Missing types for 'eslint-plugin-import'
 import eslintPluginImport from 'eslint-plugin-import';
 // @ts-expect-error: Missing types for 'eslint-plugin-react'
@@ -143,10 +145,14 @@ export default tseslint.config(
 			react: fixupPluginRules(eslintPluginReact),
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			'react-hooks': fixupPluginRules(eslintPluginReactHooks),
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			'@next/next': fixupPluginRules(eslintPluginNext),
 		},
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		rules: {
 			...base.rules,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			...eslintPluginNext.configs['core-web-vitals'].rules,
 			...{
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				...eslintPluginReact.configs.all.rules,
