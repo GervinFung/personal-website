@@ -95,17 +95,21 @@ const ErrorContainer = (
 				void router.replace(home);
 			}
 		}
+
 		if (process.env.NEXT_PUBLIC_NODE_ENV === 'testing') {
 			return;
 		}
+
 		const goTo = setTimeout(() => {
 			return setCountDown((countDown) => {
 				return countDown - 1;
 			});
 		}, 1000);
+
 		return () => {
 			return clearTimeout(goTo);
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [countDown]);
 
 	return (

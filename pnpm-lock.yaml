@@ -99,9 +99,6 @@ importers:
       eslint:
         specifier: ^9.8.0
         version: 9.8.0
-      eslint-config-next:
-        specifier: ^14.2.5
-        version: 14.2.5(eslint@9.8.0)(typescript@5.5.3)
       eslint-plugin-import:
         specifier: ^2.29.1
         version: 2.29.1(@typescript-eslint/parser@7.16.1(eslint@9.8.0)(typescript@5.5.3))(eslint@9.8.0)
@@ -111,6 +108,9 @@ importers:
       eslint-plugin-react:
         specifier: ^7.35.0
         version: 7.35.0(eslint@9.8.0)
+      eslint-plugin-react-hooks:
+        specifier: ^4.6.2
+        version: 4.6.2(eslint@9.8.0)
       gen-env-type-def:
         specifier: ^0.0.4
         version: 0.0.4
