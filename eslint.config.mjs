@@ -19,17 +19,6 @@ const importRules = Object.keys(eslintPluginImport.rules).reduce(
 	{}
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-const reactRules = Object.keys(eslintPluginReact.rules).reduce(
-	(rules, rule) => {
-		return {
-			...rules,
-			[`react/${rule}`]: 'error',
-		};
-	},
-	{}
-);
-
 export default tseslint.config(
 	includeIgnoreFile(`${process.cwd()}/.gitignore`),
 	eslint.configs.recommended,
@@ -61,9 +50,11 @@ export default tseslint.config(
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			react: fixupPluginRules(eslintPluginReact),
 		},
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		rules: {
 			...{
-				...reactRules,
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				...eslintPluginReact.configs.all.rules,
 				'react/jsx-filename-extension': [
 					'error',
 					{
