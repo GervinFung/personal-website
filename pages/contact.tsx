@@ -63,8 +63,7 @@ const TextFieldInput = (
 			label={capitalize(props.id)}
 			onChange={(event) => {
 				event.persist();
-				const { value } = event.target;
-				setValue(value);
+				setValue(event.target.value);
 			}}
 			required
 			rows={props.multiline ? 8 : 0}
@@ -83,40 +82,49 @@ const HoneyPot = (
 		setValue: (value: string) => void;
 	}>
 ) => {
-	const hiddenLabel =
-		React.useRef() as React.MutableRefObject<HTMLLabelElement>;
+	const hidden = {
+		label: React.useRef() as React.MutableRefObject<HTMLLabelElement>,
+		input: React.useRef() as React.MutableRefObject<HTMLInputElement>,
+	};
 
-	const faxClassName = 'fax';
+	const identifier = 'fax';
 
 	React.useEffect(() => {
-		const { current } = hiddenLabel;
-		if (current) {
-			current.style.setProperty('visibility', 'hidden');
-			current.style.setProperty('display', 'none');
-			current.style.setProperty('opacity', '0');
-			current.style.setProperty('z-index', '-1');
-		}
-	}, []);
+		const hideElement = (element?: HTMLElement) => {
+			element?.style.setProperty('visibility', 'hidden');
+			element?.style.setProperty('display', 'none');
+			element?.style.setProperty('opacity', '0');
+			element?.style.setProperty('z-index', '-1');
+		};
+
+		hideElement(hidden.label.current);
+		hideElement(hidden.input.current);
+	}, [hidden.label, hidden.input]);
 
 	return (
-		<label
-			className={faxClassName}
-			htmlFor={faxClassName}
-			ref={hiddenLabel}
-			tabIndex={-1}
-		>
+		<React.Fragment>
+			<label
+				className={identifier}
+				htmlFor={identifier}
+				ref={hidden.label}
+				tabIndex={-1}
+			>
+				Fax
+			</label>
 			<input
 				autoComplete="off"
-				id={faxClassName}
-				name={faxClassName}
+				className={identifier}
+				id={identifier}
+				name={identifier}
 				onChange={(event) => {
 					props.setValue(event.target.value);
 				}}
+				ref={hidden.input}
 				tabIndex={-1}
 				type="text"
 				value={props.value}
 			/>
-		</label>
+		</React.Fragment>
 	);
 };
 
@@ -137,17 +145,19 @@ const Contact: NextPage = () => {
 	const [messageResult, setMessageResult] = React.useState(
 		undefined as
 			| undefined
-			| {
-					status: 'sending';
-			  }
-			| {
-					status: 'failed';
-					reason: string;
-			  }
-			| {
-					status: 'succeed';
-					message: string;
-			  }
+			| Readonly<
+					| {
+							status: 'sending';
+					  }
+					| {
+							status: 'failed';
+							reason: string;
+					  }
+					| {
+							status: 'succeed';
+							message: string;
+					  }
+			  >
 	);
 
 	const [show, setShow] = React.useState(false);
