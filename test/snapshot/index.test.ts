@@ -21,7 +21,7 @@ describe('UI screenshot test', () => {
 		});
 	});
 
-	describe.each(['dark', 'light'] as const)(
+	describe.each(['light', 'dark'] as const)(
 		`Snapshot test of %s mode snapshot`,
 		(mode) => {
 			expect.extend({ toMatchImageSnapshot });
