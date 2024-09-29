@@ -173,11 +173,12 @@ const Projects: NextPage = () => {
 
 													return (
 														<Grid
-															item
 															key={project.name}
-															lg={4}
-															xm={6}
-															xs={12}
+															size={{
+																lg: 4,
+																xm: 6,
+																xs: 12,
+															}}
 														>
 															<Item
 																delay={delay}
