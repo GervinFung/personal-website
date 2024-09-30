@@ -1,5 +1,5 @@
-import type { Browser, Page } from 'puppeteer';
 import type { Argument } from '@poolofdeath20/util';
+import type { Browser, Page } from 'puppeteer';
 
 const setTheme = async (
 	props: Readonly<{
