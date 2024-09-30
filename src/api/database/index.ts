@@ -1,6 +1,5 @@
 import type { ObjectId } from 'mongoose';
 
-import ci from 'ci-info';
 import mongoose from 'mongoose';
 import { string, object, array, parse, custom } from 'valibot';
 
@@ -18,9 +17,8 @@ export default class Database {
 		const environment = process.env.NEXT_PUBLIC_NODE_ENV;
 
 		const isLocal =
-			ci.isCI ||
-			environment === 'testing' ||
-			environment === 'development';
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			environment === 'testing' || environment === 'development';
 
 		const url = isLocal
 			? `mongodb://${config.auth.user}:${config.auth.password}@${config.address}:${config.port}/${config.database}?authSource=admin&retryWrites=true&w=majority`
@@ -122,9 +120,7 @@ export default class Database {
 				result: 'succeed',
 				message: parse(
 					object({
-						_id: custom<ObjectId>((input) =>
-							mongoose.isValidObjectId(input)
-						),
+						_id: custom<ObjectId>(mongoose.isValidObjectId),
 						name: string(),
 						email: string(),
 						message: string(),
