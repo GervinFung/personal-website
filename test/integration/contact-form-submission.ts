@@ -18,8 +18,6 @@ const testContactFormSubmissionPost = () => {
 		it('should return success status if input passed the validation', async () => {
 			const response = await sendMessage(dummy);
 			expect(response.type).toBe('succeed');
-			const instance = Database.instance();
-			await instance.getAllContactFormMessages();
 		});
 
 		it('should return success status if honeypot is set, but do not insert into database', async () => {
