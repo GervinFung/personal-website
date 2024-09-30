@@ -26,6 +26,9 @@ importers:
       axios:
         specifier: ^1.7.7
         version: 1.7.7
+      ci-info:
+        specifier: ^4.0.0
+        version: 4.0.0
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -78,9 +81,6 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.0
-      ci-info:
-        specifier: ^4.0.0
-        version: 4.0.0
       gen-env-type-def:
         specifier: ^0.0.4
         version: 0.0.4
