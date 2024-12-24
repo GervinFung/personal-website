@@ -17,7 +17,6 @@ export default tseslint.config(
 	node,
 	{
 		...next,
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		rules: {
 			...next.rules,
 			'react/forbid-component-props': [
