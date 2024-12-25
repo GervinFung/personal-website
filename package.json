@@ -26,7 +26,7 @@
 	},
 	"devDependencies": {
 		"@ducanh2912/next-pwa": "^10.2.9",
-		"@poolofdeath20/eslint-config": "^0.4.1",
+		"@poolofdeath20/eslint-config": "^0.4.2",
 		"@poolofdeath20/prettier-config-generator": "^0.0.1",
 		"@poolofdeath20/tsconfig": "^0.1.1",
 		"@types/cors": "^2.8.17",
@@ -35,6 +35,7 @@
 		"@types/react": "^19.0.2",
 		"@types/react-dom": "^19.0.2",
 		"ci-info": "^4.1.0",
+		"eslint": "^9.17.0",
 		"gen-env-type-def": "^0.0.4",
 		"jest-image-snapshot": "^6.4.0",
 		"knip": "^5.41.1",
