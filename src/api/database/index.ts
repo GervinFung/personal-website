@@ -67,11 +67,9 @@ export default class Database {
 		try {
 			const contactFormMessage = this.getContactFormMessage();
 
-            const a=await contactFormMessage
-						.find({}, 'name email message')
-						.exec()
-
-            a.map(e=>e.)
+			const a = await contactFormMessage
+				.find({}, 'name email message')
+				.exec();
 
 			return {
 				result: 'succeed',
