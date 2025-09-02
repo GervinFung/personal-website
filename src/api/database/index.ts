@@ -67,6 +67,12 @@ export default class Database {
 		try {
 			const contactFormMessage = this.getContactFormMessage();
 
+            const a=await contactFormMessage
+						.find({}, 'name email message')
+						.exec()
+
+            a.map(e=>e.)
+
 			return {
 				result: 'succeed',
 				messages: parse(
@@ -78,14 +84,7 @@ export default class Database {
 						})
 					),
 					await contactFormMessage
-						.find(
-							{},
-							{
-								name: 1,
-								email: 1,
-								message: 1,
-							}
-						)
+						.find({}, 'name email message')
 						.exec()
 				),
 			} as const;
@@ -129,14 +128,7 @@ export default class Database {
 							{
 								_id: result._id,
 							},
-							{
-								projection: {
-									_id: 1,
-									name: 1,
-									email: 1,
-									message: 1,
-								},
-							}
+							'_id name email message'
 						)
 						.exec()
 				),
