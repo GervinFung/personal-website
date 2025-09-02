@@ -78,14 +78,7 @@ export default class Database {
 						})
 					),
 					await contactFormMessage
-						.find(
-							{},
-							{
-								name: 1,
-								email: 1,
-								message: 1,
-							}
-						)
+						.find({}, 'name email message')
 						.exec()
 				),
 			} as const;
@@ -129,14 +122,7 @@ export default class Database {
 							{
 								_id: result._id,
 							},
-							{
-								projection: {
-									_id: 1,
-									name: 1,
-									email: 1,
-									message: 1,
-								},
-							}
+							'_id name email message'
 						)
 						.exec()
 				),
