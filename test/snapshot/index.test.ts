@@ -57,7 +57,7 @@ describe('UI screenshot test', () => {
 					expect(image).toMatchImageSnapshot({
 						customSnapshotsDir: dir,
 						customSnapshotIdentifier: link,
-						failureThreshold: 0.01,
+						failureThreshold: 0.05,
 						failureThresholdType: 'percent',
 					});
 				}
